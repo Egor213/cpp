@@ -13,10 +13,8 @@ constexpr T factorial(T&& number)
 template <typename T = uint64_t>
 constexpr T factorial(T& number)
 {
-    if (!number)
-        return 1;
-    return factorial(number - 1) * number;
-} 
+   return factorial(static_cast<T&&>(number));
+}
 
 
 
