@@ -1,15 +1,29 @@
 cmake_minimum_required(VERSION 3.12)
 project(Fabric)
 
+
+
 set(FABR_SOURCES
+    JapaneseCar.cpp
+    JapaneseEngine.cpp
+    JapaneseFactory.cpp 
+    RussianCar.cpp 
+    RussianEngine.cpp
+    RussianFactory.cpp
     main.cpp
-    
 )
-
 set(FABR_HEADERS
-
-    
+    JapaneseCar.h
+    JapaneseEngine.h 
+    JapaneseFactory.h 
+    RussianCar.h 
+    RussianEngine.h 
+    RussianFactory.h
+    ICar.h 
+    IEngine.h 
+    IFactory.h
 )
+
 
 
 set(FABR_INCLUDE_DIRS "")  

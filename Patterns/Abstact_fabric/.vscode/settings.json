@@ -35,5 +35,9 @@
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
   "cmake.configureOnOpen": true,
-  "cmake.buildDirectory": "${workspaceFolder}/build"
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "files.associations": {
+    "*.cpp": "cpp",
+    "iostream": "cpp"
+  }
 }

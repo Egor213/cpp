@@ -1,2 +1,6 @@
 build/
 main
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Fabr
