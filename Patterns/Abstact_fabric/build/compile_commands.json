@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/build",
+  "command": "/usr/bin/g++-10   -g -o CMakeFiles/Fabr.dir/main.cpp.o -c /home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/main.cpp",
+  "file": "/home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/main.cpp",
+  "output": "CMakeFiles/Fabr.dir/main.cpp.o"
+}
+]
