@@ -1,4 +1,4 @@
 # Abstract Factory
 Паттерн абстрактная фабрика.
-![Пример изображения](abst_fabr.png)
-![Пример изображения](abst_fabr_2.png)
+![Пример изображения](image/abst_fabr.png)
+![Пример изображения](image/abst_fabr_2.png)
