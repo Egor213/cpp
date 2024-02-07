@@ -1,3 +1,0 @@
-/home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/build/CMakeFiles/Fabr.dir
-/home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/build/CMakeFiles/edit_cache.dir
-/home/egor/C++/CPP/cpp/Patterns/Abstact_fabric/build/CMakeFiles/rebuild_cache.dir
