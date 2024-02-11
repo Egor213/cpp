@@ -107,7 +107,7 @@ private:
         iteration++;
         std::cout << "Вызов бектрекинга номер: " << iteration << '\n';
         print_matrix();
-        std::cout << "\n";
+        std::cout << "\n"; 
 #endif
         if (current_count_square >= best_count_square || current_count_square >= max_count_square)
         {
@@ -137,10 +137,9 @@ private:
         {
             if (check_set_square(coords.first, coords.second, i))
             {
-                current_answer[current_count_square++] = {coords.first, coords.second, i};
+                current_answer[current_count_square] = {coords.first, coords.second, i};
                 set_square(coords.first, coords.second, i);
                 backtraking();
-                --current_count_square;
                 del_square(coords, i);
 #ifdef DEBUG
                 std::cout << "Удален квадрат: \n";
@@ -153,6 +152,7 @@ private:
 
     void del_square(std::pair<int, int> coords, int width)
     {
+        current_count_square--;
         for (int i = coords.first; i < coords.first + width; i++)
         {
             for (int j = coords.second; j < coords.second + width; j++)
@@ -199,13 +199,9 @@ private:
 
     int set_base_two()
     {
-        current_count_square = 1;
         set_square(0, 0, size / 2);
-        current_count_square++;
         set_square(size / 2, 0, size / 2);
-        current_count_square++;
         set_square(0, size / 2, size / 2);
-        current_count_square++;
         set_square(size / 2, size / 2, size / 2);
         best_answer.push_back({0, 0, size / 2});
         best_answer.push_back({size / 2, 0, size / 2});
@@ -220,17 +216,11 @@ private:
 
     int set_base_three()
     {
-        current_count_square = 1;
         set_square(0, 0, 2 * (size / 3));
-        current_count_square++;
         set_square(2 * (size / 3), 0, (size / 3));
-        current_count_square++;
         set_square(2 * (size / 3), (size / 3), (size / 3));
-        current_count_square++;
         set_square(0, 2 * (size / 3), (size / 3));
-        current_count_square++;
         set_square((size / 3), 2 * (size / 3), (size / 3));
-        current_count_square++;
         set_square(2 * (size / 3), 2 * (size / 3), (size / 3));
         best_count_square = current_count_square;
         best_answer.push_back({0, 0, 2 * (size / 3)});
@@ -289,16 +279,14 @@ private:
         current_answer[0] = {0, 0, (size + 1) / 2};
         current_answer[1] = {(size + 1) / 2, 0, (size - 1) / 2};
         current_answer[2] = {0, (size + 1) / 2, (size - 1) / 2};
-        current_count_square++;
         set_square(0, 0, (size + 1) / 2);
-        current_count_square++;
         set_square((size + 1) / 2, 0, (size - 1) / 2);
-        current_count_square++;
         set_square(0, (size + 1) / 2, (size - 1) / 2);
     }
 
     void set_square(int x, int y, int width)
     {
+        current_count_square++;
         for (int i = x; i < x + width; i++)
         {
             for (int j = y; j < y + width; j++)
@@ -320,8 +308,10 @@ int main()
 #endif
     std::cout << temp.best_count_square << '\n';
     temp.print_answer();
-    // temp.print_matrix();
-    // temp.print_best_matrix();
+#ifdef DEBUG
+     std::cout << "\nFinal matrix: \n"; 
+     temp.print_best_matrix();
+#endif
 
     return 0;
 }
