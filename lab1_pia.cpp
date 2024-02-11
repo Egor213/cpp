@@ -1,206 +1,330 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
-#include <deque>
 #include <algorithm>
-#include <climits>
 #include <cmath>
-class Square;
+#include <cstring>
+#define DEBU
 
-
-using Board = std::vector<Square>;
-constexpr int MAX_COUNT = 80;
-
-class Square
+struct Square
 {
-public:
     int x;
     int y;
     int size;
+};
+class Work
+{
+public:
+    int size;
+    int **matrix;
+    int **best_matrix;
+    int iteration = 0;
+
+    Square *best_answer = nullptr;
+    Square *current_answer = nullptr;
+    int max_count_square;
+    int current_count_square;
+    int best_count_square;
+    int bool_prime = false;
+    
 
 public:
-    Square(int x, int y, int size) : x(x), y(y), size(size){};
-};
-
-int base_two(int size, Board &board)
-{
-    board.push_back({0, 0, size / 2});
-    board.push_back({size / 2, 0, size / 2});
-    board.push_back({0, size / 2, size / 2});
-    board.push_back({size / 2, size / 2, size / 2});
-    return 4;
-}
-
-int base_three(int size, Board &board)
-{
-    board.push_back({0, 0, 2 * (size / 3)});
-    board.push_back({2 * (size / 3), 0, (size / 3)});
-    board.push_back({2 * (size / 3), (size / 3), (size / 3)});
-    board.push_back({0, 2 * (size / 3), (size / 3)});
-    board.push_back({(size / 3), 2 * (size / 3), (size / 3)});
-    board.push_back({2 * (size / 3), 2 * (size / 3), (size / 3)});
-    return 6;
-}
-
-int check_base_variant(int size, Board &board)
-{
-    if (size % 2 == 0)
+    Work(int size) : size(size), current_count_square(0), best_count_square(INT16_MAX)
     {
-        return base_two(size, board);
-    }
-    if (size % 3 == 0 && size != 3)
-    {
-        return base_three(size, board);
-    }
-    return 0;
-}
-
-// устанавливает 3 стандартных квадрата
-void set_base_square(int size, Board &board)
-{
-    board.push_back({0, 0, (size + 1) / 2});
-    board.push_back({(size + 1) / 2, 0, (size - 1) / 2});
-    board.push_back({0, (size + 1) / 2, (size - 1) / 2});
-}
-
-// Проверяет по координатам свободна ли клетка
-bool check_cell(const Board &board, int size, std::pair<int, int> coords)
-{
-    for (const auto &per : board)
-    {
-        if (coords.first >= per.x && coords.first < per.x + per.size && coords.second >= per.y && coords.second < per.y + per.size)
+        matrix = new int *[size];
+        for (int i = 0; i < size; i++)
         {
-            return false;
+            matrix[i] = new int[size]{};
+        }
+#ifdef DEBUG
+        best_matrix = new int *[size];
+        for (int i = 0; i < size; i++)
+        {
+            best_matrix[i] = new int[size]{};
+        }
+#endif
+
+
+        int check = check_base_variant();
+        if (!check)
+        {
+            solve();
+            backtraking();
         }
     }
-    return true;
-}
 
-// находит свободную клетку
-std::pair<int, int> get_free_cell(int size, const Board &board)
-{
-    for (int y = (size - 1) / 2; y < size; y++)
+    ~Work()
     {
-        for (int x = (size - 1) / 2; x < size; x++)
-        {
-            if (check_cell(board, size, std::make_pair(x, y)))
-            {
-                return std::make_pair(x, y);
-            }
-        }
+#ifdef DEBUG
+        for (int i = 0; i < size; i++)
+            delete[] best_matrix[i];
+        delete[] best_matrix;
+#endif
+        for (int i = 0; i < size; i++)
+            delete[] matrix[i];
+        delete[] matrix;
+        delete[] best_answer;
+        delete[] current_answer;
     }
-    return std::make_pair(-1, -1);
-}
-// проверяет можно ли добавить квадрат по заданным координатам
-bool can_add_square(std::pair<int, int> coords, int size_square, int size_board, const Board &board)
-{
-    if (coords.first + size_square > size_board || coords.second + size_square > size_board)
+
+    void solve()
     {
-        return false;
-    }
-    for (int i = coords.first; i < coords.first + size_square; i++)
-    {
-        for (int j = coords.second; j < coords.second + size_square; j++)
+        int temp = check_composite();
+        if (temp)
         {
-            if (!check_cell(board, size_board, std::make_pair(i, j)))
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-
-
-int is_composite(int size)
-{
-    for (int i = 2; i <= sqrt(size); i++)
-    {
-        if (size % i == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-int get_max_count_square(int size)
-{
-    int temp = is_composite(size);
-    if (temp)
-    {
-        int min_one = 6 * int(std::log2(3 * temp - 1)) - 9;
-        int min_two = 6 * int(std::log2(3 * (size / temp) - 1)) - 9;
-        return std::min({min_one, min_two});
-    }
-    return 6 * int(std::log2(3 * temp - 1)) - 9;
-}
-
-void backtracking(int size, Board& board)
-{
-    std::deque<Board> deque({board});
-    Board final_boards;
-    int max_count_square = get_max_count_square(size);
-    int best_result = INT32_MAX;
-    while (!deque.empty())
-    {
-        Board temp = deque.front();
-        deque.pop_front();  
-        if (temp.size() > max_count_square || temp.size() > best_result)
-        {
-            continue;
-        }
-        std::pair<int, int> free_cell = get_free_cell(size, temp);
-        if (free_cell.first == -1)
-        {
-            if (temp.size() < best_result)
-            {
-                best_result = temp.size();
-                final_boards = temp;
-            }
+            max_count_square = get_min_count_square(temp);
         }
         else
         {
-            for (int i = std::min({(size - 1) / 2, size - free_cell.first, size - free_cell.second}); i > 0; i--)
+            max_count_square = 6 * int(std::log2(3 * size - 1)) - 9;
+        }
+        best_answer = new Square[max_count_square]{};
+        current_answer = new Square[max_count_square]{};
+        if (check_prime())
+        {
+            bool_prime = true;
+            set_base_square();
+        }
+    }
+
+    int check_base_variant()
+    {
+        if (size % 2 == 0)
+        {
+            return set_base_two();
+        }
+        if (size % 3 == 0)
+        {
+            return set_base_three();
+        }
+        return 0;
+    }
+
+    void print_matrix()
+    {
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
             {
-                if (can_add_square(free_cell, i, size, temp))
+                std::cout << matrix[x][y] << ' ';
+            }
+            std::cout << '\n';
+        }
+    }
+#ifdef DEBUG
+    void print_best_matrix()
+    {
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                std::cout << best_matrix[x][y] << ' ';
+            }
+            std::cout << '\n';
+        }
+    }
+#endif
+
+    void print_answer()
+    {
+        for (int i = 0; i < best_count_square; i++)
+        {
+            std::cout << best_answer[i].x << ' ' << best_answer[i].y << ' ' << best_answer[i].size << '\n';
+        }
+    }
+
+private:
+    void backtraking()
+    {   
+#ifdef DEBUG
+        iteration++;
+        std::cout << "Вызов бектрекинга номер: " << iteration << '\n';
+        print_matrix();
+        std::cout << "\n";
+#endif
+        if (current_count_square >= best_count_square || current_count_square >= max_count_square)
+        {
+#ifdef DEBUG
+        std::cout << "Данная матрица не оптимальна\n\n";
+#endif
+            return;
+        }
+        auto coords = get_free_cell();
+        if (coords.first == -1)
+        {
+            if (current_count_square < best_count_square)
+            {
+#ifdef DEBUG
+                for(int i = 0; i < size; i++)
                 {
-                    Board new_temp = temp;
-                    new_temp.push_back({free_cell.first, free_cell.second, i});
-                    deque.push_back(new_temp);
+                    std::copy(matrix[i], matrix[i] + size, best_matrix[i]);
+                }
+                std::cout << "Установленая новая матрица: " << '\n';
+                print_best_matrix();
+                std::cout << '\n';
+#endif
+                best_count_square = current_count_square;
+                std::memcpy(best_answer, current_answer, sizeof(Square) * best_count_square);
+
+            }
+            return;
+        }
+
+        for (int i = std::min({size - 1, size - coords.first, size - coords.second}); i > 0; i--)
+        {
+            if (check_set_square(coords.first, coords.second, i))
+            {
+                current_answer[current_count_square++] = {coords.first, coords.second, i};
+                set_square(coords.first, coords.second, i);
+                backtraking();
+                --current_count_square;
+                del_square(coords, i);
+            }
+        }
+    }
+
+    void del_square(std::pair<int, int> coords, int width)
+    {
+        for (int i = coords.first; i < coords.first + width; i++)
+        {
+            for (int j = coords.second; j < coords.second + width; j++)
+            {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    std::pair<int, int> get_free_cell()
+    {
+        int temp = 0;
+        if (bool_prime)
+        {
+            temp = (size - 1) / 2;
+        }
+        for (int y = temp; y < size; y++)
+        {
+            for (int x = temp; x < size; x++)
+            {
+                if (matrix[x][y] == 0)
+                {
+                    return std::make_pair(x, y);
                 }
             }
-        }   
+        }
+        return std::make_pair(-1, -1);
     }
-    std::cout << best_result << '\n';
-    for (auto per : final_boards)
-        std::cout << per.x << ' ' << per.y << ' ' << per.size << '\n';
-}
+
+    bool check_set_square(int x, int y, int width)
+    {
+        for (int i = x; i < x + width; i++)
+        {
+            for (int j = y; j < y + width; j++)
+            {
+                if (matrix[i][j] != 0)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    int set_base_two()
+    {
+        set_square(0, 0, size / 2);
+        set_square(size / 2, 0, size / 2);
+        set_square(0, size / 2, size / 2);
+        set_square(size / 2, size / 2, size / 2);
+        best_count_square = 4;
+        best_answer = new Square[4];
+        best_answer[0] = Square{0, 0, size / 2};
+        best_answer[1] = Square{size / 2, 0, size / 2};
+        best_answer[2] = Square{0, size / 2, size / 2};
+        best_answer[3] = Square{size / 2, size / 2, size / 2};
+        return 4;
+    }
+
+    int set_base_three()
+    {
+
+        set_square(0, 0, 2 * (size / 3));
+        set_square(2 * (size / 3), 0, (size / 3));
+        set_square(2 * (size / 3), (size / 3), (size / 3));
+        set_square(0, 2 * (size / 3), (size / 3));
+        set_square((size / 3), 2 * (size / 3), (size / 3));
+        set_square(2 * (size / 3), 2 * (size / 3), (size / 3));
+        best_count_square = 6;
+        best_answer = new Square[6];
+        best_answer[0] = Square({0, 0, 2 * (size / 3)});
+        best_answer[1] = Square({2 * (size / 3), 0, (size / 3)});
+        best_answer[2] = Square({2 * (size / 3), (size / 3), (size / 3)});
+        best_answer[3] = Square({0, 2 * (size / 3), (size / 3)});
+        best_answer[4] = Square({(size / 3), 2 * (size / 3), (size / 3)});
+        best_answer[5] = Square({2 * (size / 3), 2 * (size / 3), (size / 3)});
+        return 6;
+    }
+
+    int check_composite()
+    {
+        for (int i = 2; i <= sqrt(size); i++)
+        {
+            if (size % i == 0)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    int get_min_count_square(int temp)
+    {
+        return std::min((6 * int(std::log2(3 * size - 1)) - 9), (6 * int(std::log2(3 * (size / temp) - 1)) - 9));
+    }
+
+    bool check_prime()
+    {
+        std::vector<int> temp({5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 47});
+        return std::find(temp.begin(), temp.end(), size) != temp.end();
+    }
+
+    void set_base_square()
+    {
+        current_answer[0] = {0, 0, (size + 1) / 2};
+        current_answer[1] = {(size + 1) / 2, 0, (size - 1) / 2};
+        current_answer[2] = {0, (size + 1) / 2, (size - 1) / 2};
+        current_count_square++;
+        set_square(0, 0, (size + 1) / 2);
+        current_count_square++;
+        set_square((size + 1) / 2, 0, (size - 1) / 2);
+        current_count_square++;
+        set_square(0, (size + 1) / 2, (size - 1) / 2);
+    }
+
+    void set_square(int x, int y, int width)
+    {
+        for (int i = x; i < x + width; i++)
+        {
+            for (int j = y; j < y + width; j++)
+            {
+                matrix[i][j] = current_count_square;
+            }
+        }
+    }
+};
 
 int main()
 {
     int size;
     std::cin >> size;
-
-    Board board;
-    board.reserve(MAX_COUNT);
-
-    auto check = check_base_variant(size, board);
-
-    if (!check)
-    {
-        set_base_square(size, board);
-        backtracking(size, board);
-    }
-    else
-    {
-        std::cout << check << '\n';
-        for (auto per : board)
-        {
-            std::cout << per.x << ' ' << per.y << ' ' << per.size << '\n';
-        }
-    }
+    auto start = clock();
+    Work temp(size);
+#ifdef CLOCK
+    std::cout << "Time to complite: " << (double)(clock() - start) / CLOCKS_PER_SEC << std::endl;
+#endif
+    std::cout << temp.best_count_square << '\n';
+    temp.print_answer();
+    // temp.print_matrix();
+    //temp.print_best_matrix();
 
     return 0;
 }
