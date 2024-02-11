@@ -4,7 +4,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-#define DEBU
+#define DEBUG
+#define CLOCK  
 
 struct Square
 {
@@ -20,13 +21,12 @@ public:
     int **best_matrix;
     int iteration = 0;
 
-    Square *best_answer = nullptr;
-    Square *current_answer = nullptr;
+    std::vector<Square> best_answer;
+    std::vector<Square> current_answer;
     int max_count_square;
     int current_count_square;
     int best_count_square;
     int bool_prime = false;
-    
 
 public:
     Work(int size) : size(size), current_count_square(0), best_count_square(INT16_MAX)
@@ -36,6 +36,7 @@ public:
         {
             matrix[i] = new int[size]{};
         }
+
 #ifdef DEBUG
         best_matrix = new int *[size];
         for (int i = 0; i < size; i++)
@@ -44,12 +45,12 @@ public:
         }
 #endif
 
-
         int check = check_base_variant();
         if (!check)
         {
             solve();
-            backtraking();
+            if (best_count_square == INT16_MAX)
+                backtraking();
         }
     }
 
@@ -63,8 +64,6 @@ public:
         for (int i = 0; i < size; i++)
             delete[] matrix[i];
         delete[] matrix;
-        delete[] best_answer;
-        delete[] current_answer;
     }
 
     void solve()
@@ -72,19 +71,20 @@ public:
         int temp = check_composite();
         if (temp)
         {
-            max_count_square = get_min_count_square(temp);
+            best_count_square = get_min_count_square(temp);
         }
         else
         {
             max_count_square = 6 * int(std::log2(3 * size - 1)) - 9;
-        }
-        best_answer = new Square[max_count_square]{};
-        current_answer = new Square[max_count_square]{};
+        
+        best_answer.resize(max_count_square);
+        current_answer.resize(max_count_square);
         if (check_prime())
         {
             bool_prime = true;
             set_base_square();
         }
+        }   
     }
 
     int check_base_variant()
@@ -135,17 +135,17 @@ public:
 
 private:
     void backtraking()
-    {   
+    {
 #ifdef DEBUG
         iteration++;
         std::cout << "Вызов бектрекинга номер: " << iteration << '\n';
         print_matrix();
-        std::cout << "\n";
+        std::cout << "\n"; 
 #endif
         if (current_count_square >= best_count_square || current_count_square >= max_count_square)
         {
 #ifdef DEBUG
-        std::cout << "Данная матрица не оптимальна\n\n";
+            std::cout << "Данная матрица не оптимальна\n\n";
 #endif
             return;
         }
@@ -155,17 +155,16 @@ private:
             if (current_count_square < best_count_square)
             {
 #ifdef DEBUG
-                for(int i = 0; i < size; i++)
+                for (int i = 0; i < size; i++)
                 {
                     std::copy(matrix[i], matrix[i] + size, best_matrix[i]);
                 }
                 std::cout << "Установленая новая матрица: " << '\n';
                 print_best_matrix();
-                std::cout << '\n';
+                std::cout << '\n'; 
 #endif
                 best_count_square = current_count_square;
-                std::memcpy(best_answer, current_answer, sizeof(Square) * best_count_square);
-
+                best_answer = current_answer;
             }
             return;
         }
@@ -179,6 +178,11 @@ private:
                 backtraking();
                 --current_count_square;
                 del_square(coords, i);
+#ifdef DEBUG
+                std::cout << "Удален квадрат: \n";
+                print_matrix();
+                std::cout << "\n";  
+#endif
             }
         }
     }
@@ -231,36 +235,57 @@ private:
 
     int set_base_two()
     {
+        current_count_square = 1;
         set_square(0, 0, size / 2);
+        current_count_square++;
         set_square(size / 2, 0, size / 2);
+        current_count_square++;
         set_square(0, size / 2, size / 2);
+        current_count_square++;
         set_square(size / 2, size / 2, size / 2);
-        best_count_square = 4;
-        best_answer = new Square[4];
+        best_answer.resize(4);
         best_answer[0] = Square{0, 0, size / 2};
         best_answer[1] = Square{size / 2, 0, size / 2};
         best_answer[2] = Square{0, size / 2, size / 2};
         best_answer[3] = Square{size / 2, size / 2, size / 2};
+#ifdef DEBUG
+        for (int i = 0; i < size; i++)
+        {
+            std::copy(matrix[i], matrix[i] + size, best_matrix[i]);
+        }
+#endif
+        best_count_square = current_count_square;
         return 4;
     }
 
     int set_base_three()
     {
-
+        current_count_square = 1;
         set_square(0, 0, 2 * (size / 3));
+        current_count_square++;
         set_square(2 * (size / 3), 0, (size / 3));
+        current_count_square++;
         set_square(2 * (size / 3), (size / 3), (size / 3));
+        current_count_square++;
         set_square(0, 2 * (size / 3), (size / 3));
+        current_count_square++;
         set_square((size / 3), 2 * (size / 3), (size / 3));
+        current_count_square++;
         set_square(2 * (size / 3), 2 * (size / 3), (size / 3));
-        best_count_square = 6;
-        best_answer = new Square[6];
+        best_count_square = current_count_square;
+        best_answer.resize(6);
         best_answer[0] = Square({0, 0, 2 * (size / 3)});
         best_answer[1] = Square({2 * (size / 3), 0, (size / 3)});
         best_answer[2] = Square({2 * (size / 3), (size / 3), (size / 3)});
         best_answer[3] = Square({0, 2 * (size / 3), (size / 3)});
         best_answer[4] = Square({(size / 3), 2 * (size / 3), (size / 3)});
         best_answer[5] = Square({2 * (size / 3), 2 * (size / 3), (size / 3)});
+#ifdef DEBUG
+        for (int i = 0; i < size; i++)
+        {
+            std::copy(matrix[i], matrix[i] + size, best_matrix[i]);
+        }
+#endif
         return 6;
     }
 
@@ -278,7 +303,33 @@ private:
 
     int get_min_count_square(int temp)
     {
-        return std::min((6 * int(std::log2(3 * size - 1)) - 9), (6 * int(std::log2(3 * (size / temp) - 1)) - 9));
+       
+        Work temp1(temp);
+        
+        best_count_square = 0;
+        for (auto& per : temp1.best_answer)
+        {
+            best_count_square++;
+            per.x *= size / temp;
+            per.y *= size / temp;
+            per.size *= size / temp;
+            for (int i = per.x; i < per.x + per.size; i++)
+            {
+                for (int j = per.y; j < per.y + per.size; j++)
+                {
+                    matrix[i][j] = best_count_square;
+                }
+            }
+        }
+#ifdef DEBUG
+        for (int i = 0; i < size; i++)
+        {
+            std::copy(matrix[i], matrix[i] + size, best_matrix[i]);
+        }
+#endif
+        best_answer = temp1.best_answer;
+        return temp1.best_count_square;
+
     }
 
     bool check_prime()
