@@ -5,7 +5,7 @@
 #include <cmath>
 #include <cstring>
 #define DEBU
-#define CLOCK
+#define CLOC
 
 struct Square
 {
@@ -271,7 +271,8 @@ private:
         best_matrix = matrix;
 #endif
         best_answer = temp1.best_answer;
-        return temp1.best_count_square;
+        best_count_square = temp1.best_count_square;
+        return 1;
 }
 
     void set_base_square()
