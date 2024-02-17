@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
-#define DEBU
-#define CLOC
 
 struct Square
 {
@@ -32,39 +30,27 @@ public:
     Work(int size) : size(size), current_count_square(0), best_count_square(INT16_MAX),
                      matrix(size, std::vector<int>(size, 0)), best_matrix(size, std::vector<int>(size, 0))
     {
-        int check = check_base_variant();
-        if (!check)
+
+        int temp = check_composite();
+        if (temp)
+        {
+            set_base_composite(temp);
+        }
+        else
         {
             default_work();
             backtraking();
         }
+            
     }
 
     void default_work()
     {
-        max_count_square = 6 * int(std::log2(3 * size - 1)) - 9;
+        max_count_square = size * 2;
         best_answer.resize(max_count_square);
         current_answer.resize(max_count_square);
         bool_prime = true;
         set_base_square();
-    }
-
-    int check_base_variant()
-    {
-        if (size % 2 == 0)
-        {
-            return set_base_two();
-        }
-        if (size % 3 == 0)
-        {
-            return set_base_three();
-        }
-        int temp = check_composite();
-        if (temp)
-        {
-            return set_base_composite(temp);
-        }
-        return 0;
     }
 
     void print_matrix()
@@ -78,19 +64,6 @@ public:
             std::cout << '\n';
         }
     }
-#ifdef DEBUG
-    void print_best_matrix()
-    {
-        for (int y = 0; y < size; y++)
-        {
-            for (int x = 0; x < size; x++)
-            {
-                std::cout << best_matrix[x][y] << ' ';
-            }
-            std::cout << '\n';
-        }
-    }
-#endif
 
     void print_answer()
     {
@@ -103,17 +76,8 @@ public:
 private:
     void backtraking()
     {
-#ifdef DEBUG
-        iteration++;
-        std::cout << "Вызов бектрекинга номер: " << iteration << '\n';
-        print_matrix();
-        std::cout << "\n"; 
-#endif
-        if (current_count_square >= best_count_square || current_count_square >= max_count_square)
+        if (current_count_square >= best_count_square || current_count_square > max_count_square)
         {
-#ifdef DEBUG
-            std::cout << "Данная матрица не оптимальна\n\n";
-#endif
             return;
         }
         auto coords = get_free_cell();
@@ -121,12 +85,6 @@ private:
         {
             if (current_count_square < best_count_square)
             {
-#ifdef DEBUG
-                best_matrix = matrix;
-                std::cout << "Установленая новая матрица: " << '\n';
-                print_best_matrix();
-                std::cout << '\n';
-#endif
                 best_count_square = current_count_square;
                 best_answer = current_answer;
             }
@@ -141,11 +99,6 @@ private:
                 set_square(coords.first, coords.second, i);
                 backtraking();
                 del_square(coords, i);
-#ifdef DEBUG
-                std::cout << "Удален квадрат: \n";
-                print_matrix();
-                std::cout << "\n";
-#endif
             }
         }
     }
@@ -197,44 +150,6 @@ private:
         return true;
     }
 
-    int set_base_two()
-    {
-        set_square(0, 0, size / 2);
-        set_square(size / 2, 0, size / 2);
-        set_square(0, size / 2, size / 2);
-        set_square(size / 2, size / 2, size / 2);
-        best_answer.push_back({0, 0, size / 2});
-        best_answer.push_back({size / 2, 0, size / 2});
-        best_answer.push_back({0, size / 2, size / 2});
-        best_answer.push_back({size / 2, size / 2, size / 2});
-#ifdef DEBUG
-        best_matrix = matrix;
-#endif
-        best_count_square = current_count_square;
-        return 4;
-    }
-
-    int set_base_three()
-    {
-        set_square(0, 0, 2 * (size / 3));
-        set_square(2 * (size / 3), 0, (size / 3));
-        set_square(2 * (size / 3), (size / 3), (size / 3));
-        set_square(0, 2 * (size / 3), (size / 3));
-        set_square((size / 3), 2 * (size / 3), (size / 3));
-        set_square(2 * (size / 3), 2 * (size / 3), (size / 3));
-        best_count_square = current_count_square;
-        best_answer.push_back({0, 0, 2 * (size / 3)});
-        best_answer.push_back({2 * (size / 3), 0, (size / 3)});
-        best_answer.push_back({2 * (size / 3), (size / 3), (size / 3)});
-        best_answer.push_back({0, 2 * (size / 3), (size / 3)});
-        best_answer.push_back({(size / 3), 2 * (size / 3), (size / 3)});
-        best_answer.push_back({2 * (size / 3), 2 * (size / 3), (size / 3)});
-#ifdef DEBUG
-        best_matrix = matrix;
-#endif
-        return 6;
-    }
-
     int check_composite()
     {
         for (int i = 2; i <= sqrt(size); i++)
@@ -267,9 +182,6 @@ private:
                 }
             }
         }
-#ifdef DEBUG
-        best_matrix = matrix;
-#endif
         best_answer = temp1.best_answer;
         best_count_square = temp1.best_count_square;
         return 1;
@@ -277,12 +189,13 @@ private:
 
     void set_base_square()
     {
+        int place_size = std::ceil((size - 1) / 2.0);
         current_answer[0] = {0, 0, (size + 1) / 2};
-        current_answer[1] = {(size + 1) / 2, 0, (size - 1) / 2};
-        current_answer[2] = {0, (size + 1) / 2, (size - 1) / 2};
+        current_answer[1] = {(size + 1) / 2, 0, place_size};
+        current_answer[2] = {0, (size + 1) / 2, place_size};
         set_square(0, 0, (size + 1) / 2);
-        set_square((size + 1) / 2, 0, (size - 1) / 2);
-        set_square(0, (size + 1) / 2, (size - 1) / 2);
+        set_square((size + 1) / 2, 0, place_size);
+        set_square(0, (size + 1) / 2, place_size);
     }
 
     void set_square(int x, int y, int width)
@@ -304,15 +217,8 @@ int main()
     std::cin >> size;
     auto start = clock();
     Work temp(size);
-#ifdef CLOCK
-    std::cout << "Time to complite: " << (double)(clock() - start) / CLOCKS_PER_SEC << std::endl;
-#endif
     std::cout << temp.best_count_square << '\n';
     temp.print_answer();
-#ifdef DEBUG
-     std::cout << "\nFinal matrix: \n"; 
-     temp.print_best_matrix();
-#endif
 
     return 0;
 }
