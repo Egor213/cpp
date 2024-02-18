@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <set>
 
-class Node;
+struct Node;
 
 using ld = long double;
 using Graph = std::map<char, std::vector<Node>>;
@@ -15,6 +15,7 @@ struct Node
 {
     char to;
     ld weight;
+    Node(char to, ld weight) : to(to), weight(weight) {}
 };
 
 Graph read_graph()
