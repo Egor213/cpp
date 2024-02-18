@@ -30,7 +30,7 @@ Graph read_graph()
     return graph;
 }
 
-void print(Graph graph)
+void print(const Graph& graph)
 {
     for (const auto &node : graph)
     {
@@ -41,7 +41,7 @@ void print(Graph graph)
     }
 }
 
-char get_min_way(std::vector<Node> ways, std::set<char> visited_nodes)
+char get_min_way(const std::vector<Node>& ways, const std::set<char>& visited_nodes)
 {
     ld min = INT16_MAX;
     char node = '-';
@@ -57,7 +57,7 @@ char get_min_way(std::vector<Node> ways, std::set<char> visited_nodes)
     return node;
 }
 
-std::string get_way(Graph &graph, char from, const char to)
+std::string get_way(Graph &graph, const char from, const char to)
 {
     std::set<char> visited_nodes({from});
     std::string answer(1, from);
