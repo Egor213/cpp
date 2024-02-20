@@ -17,14 +17,11 @@ public:
     int size;
     std::vector<std::vector<int>> matrix;
     std::vector<std::vector<int>> best_matrix;
-    int iteration = 0;
-
     std::vector<Square> best_answer;
     std::vector<Square> current_answer;
     int max_count_square;
     int current_count_square;
     int best_count_square;
-    int bool_prime = false;
 
 public:
     Work(int size) : size(size), current_count_square(0), best_count_square(INT16_MAX),
@@ -41,35 +38,14 @@ public:
             default_work();
             backtraking();
         }
-            
-    }
-
-    void default_work()
-    {
-        max_count_square = size * 2;
-        best_answer.resize(max_count_square);
-        current_answer.resize(max_count_square);
-        bool_prime = true;
-        set_base_square();
-    }
-
-    void print_matrix()
-    {
-        for (int y = 0; y < size; y++)
-        {
-            for (int x = 0; x < size; x++)
-            {
-                std::cout << matrix[x][y] << ' ';
-            }
-            std::cout << '\n';
-        }
     }
 
     void print_answer()
     {
         for (int i = 0; i < best_count_square; i++)
         {
-            std::cout << best_answer[i].x << ' ' << best_answer[i].y << ' ' << best_answer[i].size << '\n';
+            std::cout << best_answer[i].x << ' ' << best_answer[i].y
+                      << ' ' << best_answer[i].size << '\n';
         }
     }
 
@@ -115,16 +91,19 @@ private:
         }
     }
 
+    void default_work()
+    {
+        max_count_square = size * 2;
+        best_answer.resize(max_count_square);
+        current_answer.resize(max_count_square);
+        set_base_square();
+    }
+
     std::pair<int, int> get_free_cell()
     {
-        int temp = 0;
-        if (bool_prime)
+        for (int y = (size - 1) / 2; y < size; y++)
         {
-            temp = (size - 1) / 2;
-        }
-        for (int y = temp; y < size; y++)
-        {
-            for (int x = temp; x < size; x++)
+            for (int x = (size - 1) / 2; x < size; x++)
             {
                 if (matrix[x][y] == 0)
                 {
@@ -162,40 +141,30 @@ private:
         return 0;
     }
 
-    int set_base_composite(int temp)
+    void set_base_composite(int temp)
     {
-
         Work temp1(temp);
-
-        best_count_square = 0;
         for (auto &per : temp1.best_answer)
         {
-            best_count_square++;
             per.x *= size / temp;
             per.y *= size / temp;
             per.size *= size / temp;
-            for (int i = per.x; i < per.x + per.size; i++)
-            {
-                for (int j = per.y; j < per.y + per.size; j++)
-                {
-                    matrix[i][j] = best_count_square;
-                }
-            }
+            set_square(per.x, per.y, per.size);
         }
         best_answer = temp1.best_answer;
         best_count_square = temp1.best_count_square;
-        return 1;
-}
+    }
 
     void set_base_square()
     {
         int place_size = std::ceil((size - 1) / 2.0);
-        current_answer[0] = {0, 0, (size + 1) / 2};
-        current_answer[1] = {(size + 1) / 2, 0, place_size};
-        current_answer[2] = {0, (size + 1) / 2, place_size};
-        set_square(0, 0, (size + 1) / 2);
-        set_square((size + 1) / 2, 0, place_size);
-        set_square(0, (size + 1) / 2, place_size);
+        int place_first_square = (size + 1) / 2;
+        current_answer[0] = {0, 0, place_first_square};
+        current_answer[1] = {place_first_square, 0, place_size};
+        current_answer[2] = {0, place_first_square, place_size};
+        set_square(0, 0, place_first_square);
+        set_square(place_first_square, 0, place_size);
+        set_square(0, place_first_square, place_size);
     }
 
     void set_square(int x, int y, int width)
@@ -215,10 +184,8 @@ int main()
 {
     int size;
     std::cin >> size;
-    auto start = clock();
     Work temp(size);
     std::cout << temp.best_count_square << '\n';
     temp.print_answer();
-
     return 0;
 }
