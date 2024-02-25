@@ -1560,7 +1560,7 @@ Script started, output log file is 'termlog.log'.
 [?2004l
 exit
 Script done.
---------22:08:22-------- $ ls
+--------22:08:22-------- $ ls						       - выводит содержимое текущей директории              
 a.out
 file_name.c
 file_name.out
@@ -1576,7 +1576,7 @@ test1
 try.txt
 two
 two.c
---------22:08:27-------- $ cat termlog.log
+--------22:08:27-------- $ cat termlog.log			               - выводит содержимое файла termlog.log                 									
 Script started on 2024-02-24 22:07:59+03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="-1" LINES="-1"]
 [?2004h]0;egor@egor-Katana-GF76-12UC: ~/OC[01;32megor@egor-Katana-GF76-12UC[00m:[01;34m~/OC[00m$ date
 [?2004l
