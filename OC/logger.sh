@@ -1,17 +1,18 @@
-#!/bin/bash 
-temp=$1
-logfile="/home/egor/OC/$temp"
+#!/bin/bash                                                         
+                                                                    #указываем интерпретатор 
+temp=$1                                                             #переменная для считывания названия файла для логгирования
+logfile="/home/egor/OC/$temp"                                       #записываем полный путь, чтобы при переходе в другие директории файл логов оставлся по прежнему пути
 
-dopwritter=$2
-username="$USER"
-hostname="$HOSTNAME"
+dopwritter=$2                                                       #переменная для флага --dop
+username="$USER"                                                    #переменная для сохранения имени пользователя
+hostname="$HOSTNAME"                                                #переменная для сохранения хостового имени (используется для идентификации устройства в сети)
 
 
-if [[ $dopwritter == "--dop" ]]; then
-    echo "Continue work: $(date)" >> "$logfile"
+if [[ $dopwritter == "--dop" ]]; then                               #проверяем условие установлен ли флаг --dop, чтобы дописывать логи в файл, а не создавать новый
+    echo "Continue work: $(date)" >> "$logfile"                     #записываем в лог файл запись о продолжении работы и устанавливаем дату с помощью $(date)
 else
-    >"$logfile"
-    echo "Started work: $(date)" >> "$logfile"
+    >"$logfile"                                                     #создаем файл с именем, которое находится в переменной logfile
+    echo "Started work: $(date)" >> "$logfile"                      #записываем в лог файл запись о начале работы и устанавливаем дату с помощью $(date)
 fi
 
 
