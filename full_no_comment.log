@@ -1564,3 +1564,62 @@ exit
 
 Script done on 2024-02-24 22:08:14+03:00 [COMMAND_EXIT_CODE="0"]
 Work is finished: Сб 24 фев 2024 22:09:00 MSK
+Started work: Пн 26 фев 2024 19:19:38 MSK
+--------19:20:12-------- $ gcc -g main.c
+--------19:20:19-------- $ gdb ./a.out
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./a.out...
+[?2004h(gdb) break main
+[?2004l
+Breakpoint 1 at 0x1173: file main.c, line 12.
+[?2004h(gdb) run
+[?2004l
+Starting program: /home/egor/OC/a.out 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at main.c:12
+12	    int a = 10;
+[?2004h[?2004l
+[?2004h(gdb) step
+[?2004l
+13	    int b = 2;
+[?2004h[?2004l
+[?2004h(gdb) print [K[K[K[K[K[Kster[Kp
+[?2004l
+14	    int c = foo(a,b);
+[?2004h[?2004l
+[?2004h(gdb) next
+[?2004l
+15	    printf("result sum: %i\n", c);
+[?2004h[?2004l
+[?2004h(gdb) print c
+[?2004l
+$1 = 12
+[?2004h(gdb) nexte[K
+[?2004l
+17	    return 0;
+[?2004h[?2004l
+[?2004h(gdb) quit
+[?2004l
+[?2004hA debugging session is active.
+
+	Inferior 1 [process 25180] will be killed.
+
+Quit anyway? (y or n) y
+[?2004l
+Work is finished: Пн 26 фев 2024 19:20:48 MSK
