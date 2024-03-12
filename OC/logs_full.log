@@ -1,3 +1,36 @@
+Архитектура:             x86_64
+  CPU op-mode(s):        32-bit, 64-bit
+  Address sizes:         39 bits physical, 48 bits virtual
+  Порядок байт:          Little Endian
+CPU(s):                  12
+  On-line CPU(s) list:   0-11
+ID прроизводителя:       GenuineIntel
+  Имя модели:            12th Gen Intel(R) Core(TM) i5-12450H
+    Семейство ЦПУ:       6
+    Модель:              154
+    Потоков на ядро:     2
+    Ядер на сокет:       8
+    Сокетов:             1
+    Степпинг:            3
+    CPU max MHz:         4400,0000
+    CPU min MHz:         400,0000
+    BogoMIPS:            4992.00
+Версия Linux ядра: 5.15.0-56-generic
+Время сборки ядра: Tue Nov 22 19:54:14 UTC 2022 
+Архитектура процессора:     x86_64 x86_64 x86_64 
+Тип операционной системы: GNU/Linux 
+Distributor ID:	Linuxmint
+Description:	Linux Mint 21.1
+Release:	21.1
+Codename:	vera
+HOME_URL="https://www.linuxmint.com/"
+SUPPORT_URL="https://forums.linuxmint.com/"
+BUG_REPORT_URL="http://linuxmint-troubleshooting-guide.readthedocs.io/en/latest/"
+PRIVACY_POLICY_URL="https://www.linuxmint.com/"
+
+
+
+
 Started work: Пт 16 фев 2024 18:36:15 MSK
 --------18:36:17-------- $ man date                                            - данная команда используется для отображения руководства для различных программ.
 DATE(1)                          User Commands                         DATE(1) 
