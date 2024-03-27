@@ -57,7 +57,7 @@ private:
 public:
     HamiltonianСycle(const Graph &graph) : start_node('a'), graph(graph),
                                            best_cost(std::numeric_limits<double>::max()),
-                                           current_cost(0), visited_nodes{start_node}, 
+                                           current_cost(0), visited_nodes{start_node},
                                            current_path{start_node}, best_path{""} {}
 
     const std::string getCyclePath()
@@ -89,14 +89,24 @@ private:
         {
             if (!checkInCointeiner(visited_nodes, adjacent_edge.end_node))
             {
-                visited_nodes.push_back(current_node);
-                current_cost += adjacent_edge.weight;
-                current_path += adjacent_edge.end_node;
+                addAdjacentEdge(adjacent_edge, current_node);
                 backtracking(adjacent_edge.end_node);
-                current_cost -= adjacent_edge.weight;
-                current_path.pop_back();
+                deleteAdjacentEdge(adjacent_edge);
             }
         }
+    }
+
+    void addAdjacentEdge(const Edge &adjacent_edge, const char current_node)
+    {
+        visited_nodes.push_back(current_node);
+        current_cost += adjacent_edge.weight;
+        current_path += adjacent_edge.end_node;
+    }
+
+    void deleteAdjacentEdge(const Edge &adjacent_edge)
+    {
+        current_cost -= adjacent_edge.weight;
+        current_path.pop_back();
     }
 
     [[nodiscard]] const std::string getCorrectPath() const
