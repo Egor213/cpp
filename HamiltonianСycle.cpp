@@ -19,13 +19,7 @@ class Edge
 public:
     const char end_node;
     const ld weight;
-    Edge(const char end_node, const ld weight) : end_node(end_node), weight(weight) {}
-    /*     bool operator==(const Edge &other) const
-        {
-            return ((start_node == other.start_node && end_node == other.end_node) ||
-                    (start_node == other.end_node && end_node == other.start_node)) &&
-                   (weight == other.weight);
-        } */
+    explicit Edge(const char end_node, const ld weight) : end_node(end_node), weight(weight) {}
 };
 
 template <typename Descriptor = std::istream>
