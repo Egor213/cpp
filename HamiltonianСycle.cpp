@@ -63,7 +63,7 @@ public:
     const std::string getCyclePath()
     {
         backtracking(start_node);
-        return getCorrectPath();
+        return best_path;
     }
 
     const ld getCycleCost() const
@@ -109,20 +109,6 @@ private:
         current_path.pop_back();
     }
 
-    [[nodiscard]] const std::string getCorrectPath() const
-    {
-        if (checkCorrectPath())
-        {
-            return best_path;
-        }
-        return "Нет цикла!";
-    }
-
-    [[nodiscard]] const bool checkCorrectPath() const
-    {
-        return best_path.length() > 1;
-    }
-
     void processingFinish(const char node)
     {
         current_cost += getMinPath(node);
@@ -135,7 +121,7 @@ private:
 
     [[nodiscard]] const ld getMinPath(const char node)
     {
-        auto compare = [node](const Edge &first, const Edge &second)
+        auto compare = [](const Edge &first, const Edge &second)
         {
             return first.weight < second.weight;
         };
