@@ -8,6 +8,7 @@
 #include <iterator>
 #include <limits>
 #include <fstream>
+#include <chrono>
 
 struct Edge;
 
@@ -43,6 +44,10 @@ Graph readGraph(Descriptor &input = std::cin)
     return std::move(graph);
 }
 
+
+
+
+
 class HamiltonianСycle
 {
 private:
@@ -71,6 +76,7 @@ public:
         return best_cost;
     }
 
+
 private:
     void backtracking(const char current_node)
     {
@@ -85,48 +91,50 @@ private:
             return;
         }
 
-        for (const auto &adjacent_edge : graph.at(current_node))
+        for (const auto &[neighbour, weight] : graph.at(current_node))
         {
-            if (!checkInCointeiner(visited_nodes, adjacent_edge.end_node))
+            if (!checkInCointeiner(visited_nodes, neighbour))
             {
-                addAdjacentEdge(adjacent_edge, current_node);
-                backtracking(adjacent_edge.end_node);
-                deleteAdjacentEdge(adjacent_edge);
+                addAdjacentEdge(neighbour, weight, current_node);
+                backtracking(neighbour);
+                deleteAdjacentEdge(weight);
             }
         }
     }
 
-    void addAdjacentEdge(const Edge &adjacent_edge, const char current_node)
+    void addAdjacentEdge(const char node, const ld &weight, const char current_node)
     {
         visited_nodes.push_back(current_node);
-        current_cost += adjacent_edge.weight;
-        current_path += adjacent_edge.end_node;
+        current_cost += weight;
+        current_path += node;
     }
 
-    void deleteAdjacentEdge(const Edge &adjacent_edge)
+    void deleteAdjacentEdge(const ld &weight)
     {
-        current_cost -= adjacent_edge.weight;
+        visited_nodes.pop_back();
+        current_cost -= weight;
         current_path.pop_back();
     }
 
     void processingFinish(const char node)
     {
-        current_cost += getMinPath(node);
+        current_cost += getLastWeight(node);
         if (checkBestPath())
         {
             best_cost = current_cost;
             best_path = current_path;
         }
+        current_cost -= getLastWeight(node);
     }
 
-    [[nodiscard]] const ld getMinPath(const char node)
+    [[nodiscard]] const ld getLastWeight(const char last_node)
     {
-        auto compare = [](const Edge &first, const Edge &second)
+        auto compare = [&](const Edge& current_node)
         {
-            return first.weight < second.weight;
+            return current_node.end_node == start_node;
         };
-        auto min_edge_it = std::min_element(std::begin(graph.at(node)), std::end(graph.at(node)), compare);
-        return (*min_edge_it).weight;
+        auto last_weight_it = std::find_if(std::begin(graph.at(last_node)), std::end(graph.at(last_node)), compare);
+        return (*last_weight_it).weight;
     }
 
     [[nodiscard]] const bool checkBestPath() const noexcept
@@ -145,6 +153,9 @@ private:
         return std::find(std::begin(conteiner), std::end(conteiner), objeck) != std::end(conteiner);
     }
 };
+
+
+
 
 int main()
 {
