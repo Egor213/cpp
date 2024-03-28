@@ -44,11 +44,13 @@ Graph readGraph(Descriptor &input = std::cin)
     return std::move(graph);
 }
 
+template <typename Conteiner, typename Object>
+[[nodiscard]] const bool checkInCointeiner(const Conteiner &conteiner, const Object objeck)
+{
+    return std::find(std::begin(conteiner), std::end(conteiner), objeck) != std::end(conteiner);
+}
 
-
-
-
-class HamiltonianСycle
+class BranchesBoards
 {
 private:
     const char start_node;
@@ -60,22 +62,21 @@ private:
     const Graph &graph;
 
 public:
-    HamiltonianСycle(const Graph &graph) : start_node('a'), graph(graph),
-                                           best_cost(std::numeric_limits<double>::max()),
-                                           current_cost(0), visited_nodes{start_node},
-                                           current_path{start_node}, best_path{""} {}
+    explicit BranchesBoards(const Graph &graph) : start_node('a'), graph(graph),
+                                                  best_cost(std::numeric_limits<double>::max()),
+                                                  current_cost(0), visited_nodes{start_node},
+                                                  current_path{start_node}, best_path{""} {}
 
-    const std::string getCyclePath()
+    const std::string getHamiltonianCyclePath()
     {
         backtracking(start_node);
         return best_path;
     }
 
-    const ld getCycleCost() const
+    const ld getHamiltonianCycleCost() const
     {
         return best_cost;
     }
-
 
 private:
     void backtracking(const char current_node)
@@ -129,7 +130,7 @@ private:
 
     [[nodiscard]] const ld getLastWeight(const char last_node)
     {
-        auto compare = [&](const Edge& current_node)
+        auto compare = [&](const Edge &current_node)
         {
             return current_node.end_node == start_node;
         };
@@ -146,22 +147,84 @@ private:
     {
         return visited_nodes.size() == graph.size();
     }
+};
 
-    template <typename Conteiner, typename Object>
-    [[nodiscard]] const bool checkInCointeiner(const Conteiner &conteiner, const Object objeck) const
+class Greedy
+{
+private:
+    const char start_node;
+    ld cost_path;
+    std::deque<char> visited_nodes;
+    const Graph &graph;
+
+public:
+    explicit Greedy(const Graph &graph) : start_node('a'), graph(graph),
+                                          cost_path(0) {}
+
+    const std::string getHamiltonianCyclePath()
     {
-        return std::find(std::begin(conteiner), std::end(conteiner), objeck) != std::end(conteiner);
+        return createPath();
+    }
+
+    const ld getHamiltonianCycleCost() const
+    {
+        return cost_path;
+    }
+
+private:
+    [[nodiscard]] const std::string createPath()
+    {
+        std::string path{start_node};
+        char curr_node = start_node;
+        while (visited_nodes.size() != graph.size())
+        {
+            visited_nodes.push_back(curr_node);
+            const auto &[min_node, min_cost] = getMinWeight(curr_node);
+            cost_path += min_cost;
+            path += min_node;
+            curr_node = min_node;
+        }
+        return path;
+    }
+
+    [[nodiscard]] const ld getLastWeight(const char last_node)
+    {
+        auto compare = [&](const Edge &current_node)
+        {
+            return current_node.end_node == start_node;
+        };
+        auto last_weight_it = std::find_if(std::begin(graph.at(last_node)), std::end(graph.at(last_node)), compare);
+        return (*last_weight_it).weight;
+    }
+
+    [[nodiscard]] const Edge getMinWeight(const char node)
+    {
+        if (visited_nodes.size() == graph.size())
+        {
+            return Edge(' ', getLastWeight(node));
+        }
+        const auto compare = [&](const Edge &first, const Edge &second)
+        {
+            return first.weight < second.weight && !checkInCointeiner(visited_nodes, first.end_node);
+        };
+        auto min_node_it = std::min_element(graph.at(node).begin(), graph.at(node).end(), compare);
+        return *min_node_it;
     }
 };
 
-
-
+template <typename Output = std::ostream>
+void printAnswer(const Graph &graph, Output &out = std::cout)
+{
+    BranchesBoards temp(graph);
+    Greedy temp1(graph);
+    out << "Path: " << temp.getHamiltonianCyclePath() << "\nCost: " << temp.getHamiltonianCycleCost() << std::endl;
+    out << "Path: " << temp1.getHamiltonianCyclePath() << "\nCost: " << temp1.getHamiltonianCycleCost() << std::endl;
+}
 
 int main()
 {
     std::ifstream file("input.txt");
     Graph graph = readGraph(file);
-    HamiltonianСycle temp(graph);
-    std::cout << "Path: " << temp.getCyclePath() << "\nCost: " << temp.getCycleCost() << std::endl;
+    printAnswer(graph);
     return 0;
 }
