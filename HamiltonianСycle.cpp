@@ -178,13 +178,19 @@ private:
         char curr_node = start_node;
         while (visited_nodes.size() != graph.size())
         {
-            visited_nodes.push_back(curr_node);
-            const auto &[min_node, min_cost] = getMinWeight(curr_node);
-            cost_path += min_cost;
-            path += min_node;
-            curr_node = min_node;
+            processingNode(curr_node, path);
         }
+        path.pop_back();
         return path;
+    }
+
+    [[nodiscard]] void processingNode(char& curr_node, std::string& path)
+    {
+        visited_nodes.push_back(curr_node);
+        const auto &[min_node, min_cost] = getMinWeight(curr_node);
+        cost_path += min_cost;
+        path += min_node;
+        curr_node = min_node;
     }
 
     [[nodiscard]] const ld getLastWeight(const char last_node)
@@ -199,10 +205,6 @@ private:
 
     [[nodiscard]] const Edge getMinWeight(const char node)
     {
-        if (visited_nodes.size() == graph.size())
-        {
-            return Edge(' ', getLastWeight(node));
-        }
         const auto compare = [&](const Edge &first, const Edge &second)
         {
             return first.weight < second.weight && !checkInCointeiner(visited_nodes, first.end_node);
