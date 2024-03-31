@@ -176,15 +176,15 @@ private:
     {
         std::string path{start_node};
         char curr_node = start_node;
-        while (visited_nodes.size() != graph.size())
+        while (visited_nodes.size() + 1 != graph.size())
         {
             processingNode(curr_node, path);
         }
-        path.pop_back();
+        cost_path += getLastWeight(curr_node);
         return path;
     }
 
-    [[nodiscard]] void processingNode(char& curr_node, std::string& path)
+    void processingNode(char &curr_node, std::string &path)
     {
         visited_nodes.push_back(curr_node);
         const auto &[min_node, min_cost] = getMinWeight(curr_node);
@@ -203,14 +203,17 @@ private:
         return (*last_weight_it).weight;
     }
 
-    [[nodiscard]] const Edge getMinWeight(const char node)
+    [[nodiscard]] const std::pair<char, ld> getMinWeight(const char node)
     {
-        const auto compare = [&](const Edge &first, const Edge &second)
+        std::pair<char, ld> min_node = {-1, INT16_MAX};
+        for (const auto &[neighbour, weight] : graph.at(node))
         {
-            return first.weight < second.weight && !checkInCointeiner(visited_nodes, first.end_node);
-        };
-        auto min_node_it = std::min_element(graph.at(node).begin(), graph.at(node).end(), compare);
-        return *min_node_it;
+            if ((weight < min_node.second || !min_node.second) && !checkInCointeiner(visited_nodes, neighbour))
+            {
+                min_node = {neighbour, weight};
+            }
+        }
+        return min_node;
     }
 };
 
@@ -225,7 +228,7 @@ void printAnswer(const Graph &graph, Output &out = std::cout)
 
 int main()
 {
-    std::ifstream file("input.txt");
+    std::ifstream file("tests/test2.txt");
     Graph graph = readGraph(file);
     printAnswer(graph);
     return 0;
