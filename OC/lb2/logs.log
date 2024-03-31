@@ -1,0 +1,983 @@
+Архитектура:             x86_64
+  CPU op-mode(s):        32-bit, 64-bit
+  Address sizes:         39 bits physical, 48 bits virtual
+  Порядок байт:          Little Endian
+CPU(s):                  12
+  On-line CPU(s) list:   0-11
+ID прроизводителя:       GenuineIntel
+  Имя модели:            12th Gen Intel(R) Core(TM) i5-12450H
+    Семейство ЦПУ:       6
+    Модель:              154
+    Потоков на ядро:     2
+    Ядер на сокет:       8
+    Сокетов:             1
+    Степпинг:            3
+    CPU max MHz:         4400,0000
+    CPU min MHz:         400,0000
+    BogoMIPS:            4992.00
+Версия Linux ядра: 5.15.0-56-generic
+Время сборки ядра: Tue Nov 22 19:54:14 UTC 2022 
+Архитектура процессора:     x86_64
+Тип операционной системы: GNU/Linux 
+Distributor ID:	Linuxmint
+Description:	Linux Mint 21.1
+Release:	21.1
+Codename:	vera
+HOME_URL="https://www.linuxmint.com/"
+SUPPORT_URL="https://forums.linuxmint.com/"
+BUG_REPORT_URL="http://linuxmint-troubleshooting-guide.readthedocs.io/en/latest/"
+PRIVACY_POLICY_URL="https://www.linuxmint.com/"
+
+
+--------20:20:21-------- $ sudo ls -lR / 2>/dev/null | grep "^p" -m 1
+prw-------  1 root              root     0 мар 24 14:40 dmeventd-client
+--------20:21:06-------- $ sudo ls -lR / 2>/dev/null | grep "^l" -m 1
+lrwxrwxrwx   1 root root          7 фев  4  2023 bin -> usr/bin
+--------20:21:14-------- $ sudo ls -lR / 2>/dev/null | grep "^d" -m 1
+drwxr-xr-x   4 root root       4096 фев  4  2023 boot
+--------20:21:19-------- $ sudo ls -lR / 2>/dev/null | grep "^-" -m 1
+-rw-r--r--   1 root root          0 сен  1  2023 0
+--------20:21:21-------- $ sudo ls -lR / 2>/dev/null | grep "^s" -m 1
+srw-rw-rw-  1 root              root     0 мар 24 14:40 acpid.socket
+--------20:21:27-------- $ sudo ls -lR / 2>/dev/null | grep "^b" -m 1
+brw-rw----   1 root disk      7,     0 мар 24 14:40 loop0
+--------20:21:31-------- $ sudo ls -lR / 2>/dev/null | grep "^c" -m 1
+crw-------   1 root root     10,   123 мар 24 14:40 acpi_thermal_rel
+--------20:21:42-------- $ ls
+chestck_link
+cho
+hah.log
+logs.log
+myscript.sh
+symbol_link
+symbol_link2
+symbol_link3
+task1.sh
+task2.sh
+task3.sh
+task7.sh
+test_dir
+test.log
+test_size
+Отчет.odt
+Пустой документ
+--------20:22:02-------- $ sudo ./task1.sh 2>/dev/null
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+find: ‘/proc/25003’: Нет такого файла или каталога
+-r--r--r-- 1 root root 4096 мар 24 16:02 /sys/devices/LNXSYSTM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/0  ------>   /sys/devices/LNXSYSTM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/0
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+brw-rw---- 1 root disk 7, 0 мар 24 14:40 /dev/loop0  ------>   /dev/loop0
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+crw------- 1 root root 10, 123 мар 24 14:40 /dev/acpi_thermal_rel  ------>   /dev/acpi_thermal_rel
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+drwxr-xr-x 2 root root 0 мар 24 15:59 /sys/firmware/acpi/fpdt/boot  ------>   /sys/firmware/acpi/fpdt/boot
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+lrwxrwxrwx 1 root root 7 фев  4  2023 /bin -> usr/bin  ------>   /bin
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+prw------- 1 root root 0 мар 24 14:40 /run/dmeventd-client  ------>   /run/dmeventd-client
+find: ‘/run/user/1000/doc’: Отказано в доступе
+find: ‘/run/user/1000/gvfs’: Отказано в доступе
+srw-rw-rw- 1 root root 0 мар 24 14:40 /run/acpid.socket  ------>   /run/acpid.socket
+--------20:28:56-------- $ ls -i1
+4269307 chestck_link
+4317521 cho
+4253505 hah.log
+4254318 logs.log
+4267491 myscript.sh
+4253491 symbol_link
+4272901 symbol_link2
+4272280 symbol_link3
+4269302 task1.sh
+4271130 task2.sh
+4272254 task3.sh
+4272905 task7.sh
+4317316 test_dir
+4269307 test.log
+4317315 test_size
+4273031 Отчет.odt
+4272875 Пустой документ
+--------20:30:26-------- $ sudo ls -Rila / 2>/dev/null | grep "^4317521 "
+4317521 drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 .
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 ..
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 ..
+--------20:32:24-------- $ sudo find -inum 4317521 2>/dev/null
+./cho
+--------20:33:05-------- $  ./task2.sh cho
+4317521 drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 .
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 ..
+4317521 drwxrwxr-x 4 egor egor 4096 мар  9 16:17 ..
+/home/egor/OC/lb2/cho
+--------20:33:33-------- $ clear
+--------20:33:34-------- $ ln -s test.log symbol_link2
+--------20:33:35-------- $ ls -l
+итого 552
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 chestck_link
+drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+-rwxrwxr-x 1 egor egor    7573 фев 29 22:24 myscript.sh
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor       8 мар  9 17:37 symbol_link2 -> /home/egor/OC/lb2/test.log
+-rwxrwxr-x 1 egor egor    4072 мар  9 14:06 task1.sh
+-rwxrwxrwx 1 egor egor     686 мар 24 17:29 task2.sh
+-rwxrwxrwx 1 egor egor       0 мар 24 17:19 task3.sh
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 test.log
+-rw-rw-r-- 1 egor egor  530040 мар 24 20:33 Отчет.odt
+-rw-rw-r-- 1 egor egor      98 фев 29 21:54 ф.log
+--------20:33:36-------- $ cp -s test.log symbol_link3
+--------20:33:37-------- $ ls -l
+итого 616
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 chestck_link
+drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+-rwxrwxr-x 1 egor egor    7573 фев 29 22:24 myscript.sh
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+-rwxrwxr-x 1 egor egor    4072 мар  9 14:06 task1.sh
+-rwxrwxrwx 1 egor egor     780 мар 24 16:07 task2.sh
+-rwxrwxrwx 1 egor egor     842 мар 24 20:01 task3.sh
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 test.log
+-rw-rw-r-- 1 egor egor 2795769 мар 24 20:33 Отчет.odt
+--------20:33:38-------- $ ./task3.sh /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+Количество символьных ссылок: 3
+--------20:33:39-------- $sudo ls -lR / 2>/dev/null | grep " /home/egor/OC/lb2/test.log$" | grep ^l
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+--------20:33:43-------- $ ./task7_1.sh 4
+Стартовый размер каталога test_size
+12	test_size
+Размер после итерации 1 
+16	test_size
+Размер после итерации 2 
+20	test_size
+Размер после итерации 3 
+24	test_size
+Итоговый размер после цикла добавлений
+24	test_size
+--------20:33:45-------- $ ./task7.sh
+File is test_size
+Start size : 4096
+After add file and folder size : 12288
+After delete all file and folder size : 12288
+[H[2J[3J--------20:33:47-------- $ ls -l
+итого 2796
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 chestck_link
+drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+-rw-rw-r-- 1 egor root      57 мар 10 14:11 hah.log
+-rw-rw-r-- 1 egor egor    4132 мар 24 20:33 logs.log
+-rwxrwxr-x 1 egor egor    7573 фев 29 22:24 myscript.sh
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+-rwxrwxr-x 1 egor egor    4072 мар  9 14:06 task1.sh
+-rwxrwxrwx 1 egor egor     780 мар 24 16:07 task2.sh
+-rwxrwxrwx 1 egor egor     842 мар 24 20:01 task3.sh
+-rwxrwxrwx 1 egor egor     623 мар 10 15:40 task7.sh
+drwxrwxr-x 2 egor egor    4096 мар 24 20:06 test_dir
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 test.log
+drwxrwxr-x 2 egor egor   12288 мар 10 15:40 test_size
+-rw-rw-r-- 1 egor egor 2795769 мар 24 20:33 Отчет.odt
+-rw-rw-r-- 1 egor egor       0 мар  9 17:47 Пустой документ
+--------20:38:40-------- $ ./task3.sh /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+Количество символьных ссылок: 3
+--------20:41:32-------- $ sudo ls -lR / 2>/dev/null | grep " /home/egor/OC/lb2/test.log$" | grep ^l
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+--------20:50:28-------- $ find . -name logs.txt -type f -exec ls -l {} ;
+--------20:50:30-------- $find . -type f -exec ls -l {} \;
+-rwxrwxr-x 1 egor egor 7573 фев 29 22:24 ./myscript.sh
+-rw-rw-r-- 1 egor egor 23481 мар 31 20:59 ./logs.log
+-r-------- 1 root shadow 0 мар 10 17:39 ./test_dir_perm/file1.txt
+-rwxrwxrwx 1 user1 user1 17696 мар 25 13:49 ./test_dir_perm/a.out
+--w--w-r-- 1 egor egor 15 мар 11 00:09 ./test_dir_perm/file3.txt
+-rwxrwxrwx 1 user1 user1 360 мар 10 22:12 ./test_dir_perm/choo.cpp
+-rwxrwxr-x 1 user1 user1 17696 мар 25 13:51 ./test_dir_perm/a_copy.out
+-rw--w--w- 1 egor egor 13 мар 10 19:50 ./test_dir_perm/file2.txt
+-rw-rw-r-- 1 egor egor 0 мар 11 00:38 ./test_dir_perm/test.zip
+-rw-rw-r-- 1 egor egor 24 мар 11 00:53 ./test_dir_perm/test_custom_type.type
+-rw-rw-r-- 1 egor egor 3051021 мар 25 13:26 ./Отчет.odt
+-rw-rw-r-- 1 egor root 57 мар 10 14:11 ./hah.log
+-rw-r--r-- 1 egor egor 12288 мар 11 01:01 ./.ф.log.swp
+-rwxrwxrwx 1 egor egor 842 мар 24 20:01 ./task3.sh
+-rw-rw-r-- 1 egor egor 259 фев 29 21:53 ./.log
+-rw-rw-r-- 3 egor egor 3843 мар  8 15:09 ./test.log
+-rw-rw-r-- 1 egor egor 3843 мар  8 15:09 ./cho/test.log
+-rw-rw-r-- 1 egor egor 0 мар 10 00:42 ./cho/папка/TesT.log
+-rw-rw-r-- 1 egor egor 0 мар  9 16:15 ./cho/папка/f.a
+-rw-rw-r-- 3 egor egor 3843 мар  8 15:09 ./cho/che1
+-rw-rw-r-- 1 egor egor 3781 мар  9 16:17 ./cho/fafasd
+-rw-rw-r-- 1 egor egor 3843 мар  8 15:09 './cho/test (копия).log'
+-rwxrwxrwx 1 egor egor 780 мар 24 16:07 ./task2.sh
+-rw-rw-r-- 1 egor egor 7677 мар 24 23:32 ./logs1.log
+-rwxrwxrwx 1 egor egor 1322 мар 25 12:03 ./task7.sh
+-rw-rw-r-- 1 egor egor 0 мар  9 17:47 './Пустой документ'
+-rw-rw-r-- 1 egor egor 85 мар 31 21:01 './.~lock.Отчет (копия).odt#'
+-rwxrwxr-x 1 egor egor 737 мар 25 12:04 ./task7_1.sh
+-rwxrwxr-x 1 egor egor 4076 мар 25 12:59 ./task1.sh
+-rw-rw-r-- 3 egor egor 3843 мар  8 15:09 ./chestck_link
+-rw-rw-r-- 1 egor egor 893315 мар 31 21:01 './Отчет (копия).odt'
+--------20:50:46-------- $ find . -maxdepth 1 -type d -exec ls -ld {} \;
+drwxrwxr-x 5 egor egor 4096 мар 31 21:03 .
+drwxrwxrwx 2 egor egor 4096 мар 25 13:51 ./test_dir_perm
+drwxrwxr-x 2 egor egor 12288 мар 25 13:07 ./test_size
+drwxrwxr-x 4 egor egor 4096 мар 25 13:01 ./cho
+--------20:50:46-------- $ find . -name test.log -type f -exec ls -l {} ;
+--------20:58:08-------- $ find . -name test.log
+./test.log
+./cho/test.log
+--------20:58:26-------- $ find . -iname test.log
+./test.log
+./cho/test.log
+./cho/папка/TesT.log
+--------20:58:39-------- $ find . -type l
+./symbol_link
+./symbol_link3
+./symbol_link2
+--------21:01:06-------- $ find .
+.
+./myscript.sh
+./test_dir
+./test_dir/file1.txt
+./test_dir/a.out
+./test_dir/file3.txt
+./test_dir/choo.cpp
+./test_dir/file2.txt
+./test_dir/test.zip
+./test_dir/test_custom_type.type
+./symbol_link
+./logs.log
+./Отчет.odt
+./symbol_link3
+./hah.log
+./.ф.log.swp
+./task3.sh
+./.log
+./test.log
+./test_size
+./cho
+./cho/Папка
+./cho/test.log
+./cho/папка
+./cho/папка/TesT.log
+./cho/папка/f.a
+./cho/fafasd
+./cho/test (копия).log
+./task2.sh
+./task7.sh
+./Пустой документ
+./task1.sh
+./chestck_link
+./symbol_link2
+./.~lock.Отчет.odt#
+--------21:01:14-------- $ find . -maxdepth 1
+.
+./myscript.sh
+./test_dir
+./symbol_link
+./logs.log
+./Отчет.odt
+./symbol_link3
+./hah.log
+./.ф.log.swp
+./task3.sh
+./.log
+./test.log
+./test_size
+./cho
+./task2.sh
+./task7.sh
+./Пустой документ
+./task1.sh
+./chestck_link
+./symbol_link2
+./.~lock.Отчет.odt#
+--------21:01:31-------- $ find . -perm 777
+./test_dir/a.out
+./test_dir/choo.cpp
+./symbol_link
+./symbol_link3
+./task3.sh
+./task2.sh
+./task7.sh
+./symbol_link2
+--------21:01:51-------- $ find . -perm /u=x
+.
+./myscript.sh
+./test_dir
+./test_dir/a.out
+./test_dir/choo.cpp
+./symbol_link
+./symbol_link3
+./task3.sh
+./test_size
+./cho
+./cho/Папка
+./cho/папка
+./task2.sh
+./task7.sh
+./task1.sh
+./symbol_link2
+--------21:02:08-------- $ find . -not -name "*.log"
+.
+./myscript.sh
+./test_dir
+./test_dir/file1.txt
+./test_dir/a.out
+./test_dir/file3.txt
+./test_dir/choo.cpp
+./test_dir/file2.txt
+./test_dir/test.zip
+./test_dir/test_custom_type.type
+./symbol_link
+./Отчет.odt
+./symbol_link3
+./.ф.log.swp
+./task3.sh
+./test_size
+./cho
+./cho/Папка
+./cho/папка
+./cho/папка/f.a
+./cho/fafasd
+./task2.sh
+./task7.sh
+./Пустой документ
+./task1.sh
+./chestck_link
+./symbol_link2
+./.~lock.Отчет.odt#
+--------21:02:46-------- $ find . -name "*.log" -o -name "*.sh"
+./myscript.sh
+./logs.log
+./hah.log
+./task3.sh
+./.log
+./test.log
+./cho/test.log
+./cho/папка/TesT.log
+./cho/test (копия).log
+./task2.sh
+./task7.sh
+./task1.sh
+--------21:03:04-------- $ find . -size -1M
+./test_dir/file1.txt
+./test_dir/test.zip
+./cho/папка/TesT.log
+./cho/папка/f.a
+./Пустой документ
+--------21:03:16-------- $ ls -l
+итого 2872
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 chestck_link
+drwxrwxr-x 4 egor egor    4096 мар  9 16:17 cho
+-rw-rw-r-- 1 egor root      57 мар 10 14:11 hah.log
+-rw-rw-r-- 1 egor egor    8667 мар 24 21:03 logs.log
+-rwxrwxr-x 1 egor egor    7573 фев 29 22:24 myscript.sh
+lrwxrwxrwx 1 egor egor      26 мар  4 15:11 symbol_link -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link2 -> /home/egor/OC/lb2/test.log
+lrwxrwxrwx 1 egor egor      26 мар  9 18:51 symbol_link3 -> /home/egor/OC/lb2/test.log
+-rwxrwxr-x 1 egor egor    4072 мар  9 14:06 task1.sh
+-rwxrwxrwx 1 egor egor     780 мар 24 16:07 task2.sh
+-rwxrwxrwx 1 egor egor     842 мар 24 20:01 task3.sh
+-rwxrwxrwx 1 egor egor     623 мар 10 15:40 task7.sh
+drwxrwxr-x 2 egor egor    4096 мар 24 20:06 test_dir
+-rw-rw-r-- 2 egor egor    3843 мар  8 15:09 test.log
+drwxrwxr-x 2 egor egor   12288 мар 10 15:40 test_size
+-rw-rw-r-- 1 egor egor 2869992 мар 24 21:02 Отчет.odt
+-rw-rw-r-- 1 egor egor       0 мар  9 17:47 Пустой документ
+--------21:03:30-------- $ find -user egor -group root
+./hah.log
+--------21:03:58-------- $ find . -type d -exec ls -dl {} ;
+--------21:11:02-------- $ od hah.log
+0000000 062510 066154 020157 067567 066162 020144 067141 020144
+0000020 064167 020157 066541 064440 005077 062564 072163 005056
+0000040 042101 042104 042104 042104 042104 042104 042104 042104
+0000060 042104 042104 044440 043116 000012
+0000071
+--------21:11:06-------- $ cat hah.log
+Hello world and who am i?
+test.
+ADDDDDDDDDDDDDDDDDDD INF
+--------21:13:10-------- $ od -bc hah.log
+0000000 110 145 154 154 157 040 167 157 162 154 144 040 141 156 144 040
+          H   e   l   l   o       w   o   r   l   d       a   n   d    
+0000020 167 150 157 040 141 155 040 151 077 012 164 145 163 164 056 012
+          w   h   o       a   m       i   ?  \n   t   e   s   t   .  \n
+0000040 101 104 104 104 104 104 104 104 104 104 104 104 104 104 104 104
+          A   D   D   D   D   D   D   D   D   D   D   D   D   D   D   D
+0000060 104 104 104 104 040 111 116 106 012
+          D   D   D   D       I   N   F  \n
+0000071
+--------21:13:24-------- $ od -w3 -c hah.log
+0000000   H   e   l
+0000003   l   o    
+0000006   w   o   r
+0000011   l   d    
+0000014   a   n   d
+0000017       w   h
+0000022   o       a
+0000025   m       i
+0000030   ?  \n   t
+0000033   e   s   t
+0000036   .  \n   A
+0000041   D   D   D
+*
+0000063   D       I
+0000066   N   F  \n
+0000071
+--------21:20:54-------- $ df -i
+Файл.система    Iнодов IИспользовано IСвободно IИспользовано% Cмонтировано в
+tmpfs          2009879          1201   2008678             1% /run
+/dev/nvme0n1p6 4808704       1258729   3549975            27% /
+tmpfs          2009879           296   2009583             1% /dev/shm
+tmpfs          2009879             4   2009875             1% /run/lock
+/dev/nvme0n1p1       0             0         0              - /boot/efi
+tmpfs           401975           210    401765             1% /run/user/1000
+--------23:09:43-------- $ cd test_dir_perm/
+--------23:09:45-------- $ ls -l
+итого 36
+-rwsrwsrwx 1 root  egor   17544 мар 10 22:12 a.out
+-rwxrwxrwx 1 root  root     360 мар 10 22:12 choo.cpp
+-r-------- 1 root  shadow     0 мар 10 17:39 file1.txt
+--w--w--w- 1 user1 user1     13 мар 10 19:50 file2.txt
+--w--w-r-- 1 egor  egor      15 мар 11 00:09 file3.txt
+-rw-rw-r-- 1 egor  egor      24 мар 11 00:53 test_custom_type.type
+-rw-rw-r-- 1 egor  egor       0 мар 11 00:38 test.zip
+--------23:09:54-------- $ sudo chmod +s a.out
+--------23:10:07-------- $ cat file2.txt
+cat: file2.txt: Отказано в доступе
+--------23:10:14-------- $ cat choo.cpp
+#include <iostream>
+#include <fstream>
+#include <string>
+int main() {
+
+    std::ifstream f("file2.txt");
+
+    if (f.is_open())
+    {
+        std::string temp;
+        while(f >> temp)
+        {
+            std::cout << temp << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "Ошибка открытия файла!\n";
+    }
+
+    return 0;
+}
+--------23:10:18-------- $ ./a.out
+helloworld!
+--------23:10:20--------$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:102:105::/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:103:106:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+syslog:x:104:111::/home/syslog:/usr/sbin/nologin
+_apt:x:105:65534::/nonexistent:/usr/sbin/nologin
+tss:x:106:112:TPM software stack,,,:/var/lib/tpm:/bin/false
+rtkit:x:107:113:RealtimeKit,,,:/proc:/usr/sbin/nologin
+systemd-coredump:x:108:114:systemd Core Dumper,,,:/run/systemd:/usr/sbin/nologin
+kernoops:x:109:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin
+uuidd:x:110:119::/run/uuidd:/usr/sbin/nologin
+cups-pk-helper:x:111:115:user for cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin
+lightdm:x:112:120:Light Display Manager:/var/lib/lightdm:/bin/false
+tcpdump:x:113:122::/nonexistent:/usr/sbin/nologin
+speech-dispatcher:x:114:29:Speech Dispatcher,,,:/run/speech-dispatcher:/bin/false
+avahi-autoipd:x:115:125:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin
+usbmux:x:116:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+nm-openvpn:x:117:126:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin
+geoclue:x:118:127::/var/lib/geoclue:/usr/sbin/nologin
+dnsmasq:x:119:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+pulse:x:120:128:PulseAudio daemon,,,:/run/pulse:/usr/sbin/nologin
+_flatpak:x:121:131:Flatpak system-wide installation helper,,,:/nonexistent:/usr/sbin/nologin
+avahi:x:122:132:Avahi mDNS daemon,,,:/run/avahi-daemon:/usr/sbin/nologin
+saned:x:123:133::/var/lib/saned:/usr/sbin/nologin
+colord:x:124:134:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin
+fwupd-refresh:x:125:135:fwupd-refresh user,,,:/run/systemd:/usr/sbin/nologin
+hplip:x:126:7:HPLIP system user,,,:/run/hplip:/bin/false
+egor:x:1000:1000:Egor,,,:/home/egor:/bin/bash
+sssd:x:127:137:SSSD system user,,,:/var/lib/sss:/usr/sbin/nologin
+user1:x:1001:1001:user1,room1,89829177402,95284,Hello world:/home/user1:/bin/bash
+--------23:25:10--------$ sudo cat /etc/shadow
+root:!:19392:0:99999:7:::
+daemon:*:19343:0:99999:7:::
+bin:*:19343:0:99999:7:::
+sys:*:19343:0:99999:7:::
+sync:*:19343:0:99999:7:::
+games:*:19343:0:99999:7:::
+man:*:19343:0:99999:7:::
+lp:*:19343:0:99999:7:::
+mail:*:19343:0:99999:7:::
+news:*:19343:0:99999:7:::
+uucp:*:19343:0:99999:7:::
+proxy:*:19343:0:99999:7:::
+www-data:*:19343:0:99999:7:::
+backup:*:19343:0:99999:7:::
+list:*:19343:0:99999:7:::
+irc:*:19343:0:99999:7:::
+gnats:*:19343:0:99999:7:::
+nobody:*:19343:0:99999:7:::
+systemd-network:*:19343:0:99999:7:::
+systemd-resolve:*:19343:0:99999:7:::
+messagebus:*:19343:0:99999:7:::
+systemd-timesync:*:19343:0:99999:7:::
+syslog:*:19343:0:99999:7:::
+_apt:*:19343:0:99999:7:::
+tss:*:19343:0:99999:7:::
+rtkit:*:19343:0:99999:7:::
+systemd-coredump:*:19343:0:99999:7:::
+kernoops:*:19343:0:99999:7:::
+uuidd:*:19343:0:99999:7:::
+cups-pk-helper:*:19343:0:99999:7:::
+lightdm:*:19343:0:99999:7:::
+tcpdump:*:19343:0:99999:7:::
+speech-dispatcher:!:19343:0:99999:7:::
+avahi-autoipd:*:19343:0:99999:7:::
+usbmux:*:19343:0:99999:7:::
+nm-openvpn:*:19343:0:99999:7:::
+geoclue:*:19343:0:99999:7:::
+dnsmasq:*:19343:0:99999:7:::
+pulse:*:19343:0:99999:7:::
+_flatpak:*:19343:0:99999:7:::
+avahi:*:19343:0:99999:7:::
+saned:*:19343:0:99999:7:::
+colord:*:19343:0:99999:7:::
+fwupd-refresh:*:19343:0:99999:7:::
+hplip:*:19343:0:99999:7:::
+egor:$y$j9T$Fp4rSBPf4CncZI95itIwc/$fCGSS9Ie6FUM.fpN1SlpgekdcZ.lNRgM9pK9BVeSDG9:19792:0:99999:7:::
+sssd:*:19392:0:99999:7:::
+user1:$y$j9T$zlXKxHDH5I9YFmJKmGlPt0$mfCE5vEgrF0B/SeEQdTfoskXi25tqIDE9kPJssYiNH9:19792:0:99999:7:::
+--------23:25:13-------- $ ls -l /etc/passwd /etc/shadow /usr/bin/passwd
+-rw-r--r-- 1 root root    2948 мар 10 19:28 /etc/passwd
+-rw-r----- 1 root shadow  1530 мар 10 19:27 /etc/shadow
+-rwsr-xr-x 1 root root   59976 ноя 24  2022 /usr/bin/passwd
+--------23:25:14-------- $ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 476,9G  0 disk 
+├─nvme0n1p1 259:1    0   100M  0 part /boot/efi
+├─nvme0n1p2 259:2    0    16M  0 part 
+├─nvme0n1p3 259:3    0   393G  0 part 
+├─nvme0n1p4 259:4    0   541M  0 part 
+├─nvme0n1p5 259:5    0    10G  0 part 
+└─nvme0n1p6 259:6    0  73,3G  0 part /
+--------23:25:17-------- $ ./myscript.sh logs1.log
+./myscript.sh: строка 45: ./myscript.sh: Нет такого файла или каталога
+--------23:25:21-------- $ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 476,9G  0 disk 
+├─nvme0n1p1 259:1    0   100M  0 part /boot/efi
+├─nvme0n1p2 259:2    0    16M  0 part 
+├─nvme0n1p3 259:3    0   393G  0 part 
+├─nvme0n1p4 259:4    0   541M  0 part 
+├─nvme0n1p5 259:5    0    10G  0 part 
+└─nvme0n1p6 259:6    0  73,3G  0 part /
+--------23:28:47-------- $ mount
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,nosuid,relatime,size=7976908k,nr_inodes=1994227,mode=755,inode64)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=1607904k,mode=755,inode64)
+/dev/nvme0n1p6 on / type ext4 (rw,relatime,errors=remount-ro)
+securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,inode64)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k,inode64)
+cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot)
+pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)
+efivarfs on /sys/firmware/efi/efivars type efivarfs (rw,nosuid,nodev,noexec,relatime)
+bpf on /sys/fs/bpf type bpf (rw,nosuid,nodev,noexec,relatime,mode=700)
+systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=29424)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime,pagesize=2M)
+debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
+tracefs on /sys/kernel/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+configfs on /sys/kernel/config type configfs (rw,nosuid,nodev,noexec,relatime)
+none on /run/credentials/systemd-sysusers.service type ramfs (ro,nosuid,nodev,noexec,relatime,mode=700)
+/dev/nvme0n1p1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=1607900k,nr_inodes=401975,mode=700,uid=1000,gid=1000,inode64)
+gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+portal on /run/user/1000/doc type fuse.portal (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+tracefs on /sys/kernel/debug/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+--------23:28:49-------- $ cat /etc/mtab
+sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+udev /dev devtmpfs rw,nosuid,relatime,size=7976908k,nr_inodes=1994227,mode=755,inode64 0 0
+devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000 0 0
+tmpfs /run tmpfs rw,nosuid,nodev,noexec,relatime,size=1607904k,mode=755,inode64 0 0
+/dev/nvme0n1p6 / ext4 rw,relatime,errors=remount-ro 0 0
+securityfs /sys/kernel/security securityfs rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /dev/shm tmpfs rw,nosuid,nodev,inode64 0 0
+tmpfs /run/lock tmpfs rw,nosuid,nodev,noexec,relatime,size=5120k,inode64 0 0
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot 0 0
+pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 0 0
+efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,noexec,relatime 0 0
+bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 0 0
+systemd-1 /proc/sys/fs/binfmt_misc autofs rw,relatime,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=29424 0 0
+mqueue /dev/mqueue mqueue rw,nosuid,nodev,noexec,relatime 0 0
+hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 0
+debugfs /sys/kernel/debug debugfs rw,nosuid,nodev,noexec,relatime 0 0
+tracefs /sys/kernel/tracing tracefs rw,nosuid,nodev,noexec,relatime 0 0
+fusectl /sys/fs/fuse/connections fusectl rw,nosuid,nodev,noexec,relatime 0 0
+configfs /sys/kernel/config configfs rw,nosuid,nodev,noexec,relatime 0 0
+none /run/credentials/systemd-sysusers.service ramfs ro,nosuid,nodev,noexec,relatime,mode=700 0 0
+/dev/nvme0n1p1 /boot/efi vfat rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro 0 0
+binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,nosuid,nodev,noexec,relatime 0 0
+tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,relatime,size=1607900k,nr_inodes=401975,mode=700,uid=1000,gid=1000,inode64 0 0
+gvfsd-fuse /run/user/1000/gvfs fuse.gvfsd-fuse rw,nosuid,nodev,relatime,user_id=1000,group_id=1000 0 0
+portal /run/user/1000/doc fuse.portal rw,nosuid,nodev,relatime,user_id=1000,group_id=1000 0 0
+tracefs /sys/kernel/debug/tracing tracefs rw,nosuid,nodev,noexec,relatime 0 0
+--------23:32:27-------- $ cat /usr/include/linux/limits.h
+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+#ifndef _LINUX_LIMITS_H
+#define _LINUX_LIMITS_H
+
+#define NR_OPEN	        1024
+
+#define NGROUPS_MAX    65536	/* supplemental group IDs are available */
+#define ARG_MAX       131072	/* # bytes of args + environ for exec() */
+#define LINK_MAX         127	/* # links a file may have */
+#define MAX_CANON        255	/* size of the canonical input queue */
+#define MAX_INPUT        255	/* size of the type-ahead buffer */
+#define NAME_MAX         255	/* # chars in a file name */
+#define PATH_MAX        4096	/* # chars in a path name including nul */
+#define PIPE_BUF        4096	/* # bytes in atomic write to a pipe */
+#define XATTR_NAME_MAX   255	/* # chars in an extended attribute name */
+#define XATTR_SIZE_MAX 65536	/* size of an extended attribute value (64k) */
+#define XATTR_LIST_MAX 65536	/* size of extended attribute namelist (64k) */
+
+#define RTSIG_MAX	  32
+
+#endif
+
+
+--------23:32:30-------- $ chmod 001 file1.txt
+--------23:32:32-------- $ chmod 002 file2.txt
+--------23:32:33-------- $ chmod 003 file3.txt
+--------23:32:35-------- $ ls -l
+---------x 1 egor egor 0 мар 10 17:39 file1.txt
+--------w- 1 egor egor 0 мар 10 17:39 file2.txt
+--------wx 1 egor egor 0 мар 10 17:39 file3.txt
+--------23:32:35-------- $ chmod u+r file1.txt
+--------23:32:37-------- $ chmod 777 file2.txt
+--------23:32:38-------- $ chmod g-w file2.txt
+--------23:32:41-------- $ chmod o=w file3.txt
+--------23:32:42-------- $ ls -l
+-r-------x 1 egor egor 0 мар 10 17:39 file1.txt
+-rwxr-xrwx 1 egor egor 0 мар 10 17:39 file2.txt
+--------w- 1 egor egor 0 мар 10 17:39 file3.txt
+--------23:32:44-------- $ chmod gu=w file3.txt
+--------23:32:45-------- $ ls -l
+-r-------x 1 egor egor 0 мар 10 17:39 file1.txt
+-rwxr-xrwx 1 egor egor 0 мар 10 17:39 file2.txt
+--w--w-r-- 1 egor egor 0 мар 10 17:39 file3.txt 
+--------23:32:47-------- $ sudo chown root:shadow file1.txt
+--------23:32:48-------- $ ls -l
+-r-------x 1 root shadow 0 мар 10 17:39 file1.txt
+-rwxr-xrwx 1 egor egor   0 мар 10 17:39 file2.txt
+--------w- 1 egor egor   0 мар 10 17:39 file3.txt
+--------23:32:50-------- $ sudo chmod u+s file1.txt
+--------23:32:51-------- $ ls -l
+-r-S-----x 1 root shadow 0 мар 10 17:39 file1.txt
+-rwxr-xrwx 1 egor egor   0 мар 10 17:39 file2.txt
+--------w- 1 egor egor   0 мар 10 17:39 file3.txt
+--------23:32:51-------- $ chmod u=---,g=rwx,o=--- file2.txt
+--------23:32:52-------- $ ls -l
+-r-------x 1 root shadow 0 мар 10 17:39 file1.txt
+----rwx--- 1 egor egor   0 мар 10 17:39 file2.txt
+--w--w-r-- 1 egor egor   0 мар 10 17:39 file3.txt
+--------23:32:53-------- $ cat file2.txt
+cat: file2.txt: Отказано в доступе
+--------23:32:54-------- $ chmod u=rwx,g=---,o=--- file2.txt
+--------23:32:55-------- $ cat file2.txt
+--------23:32:56-------- $ ls -l
+-r-------x 1 root shadow 0 мар 10 17:39 file1.txt
+-rwx------ 1 egor egor   0 мар 10 17:39 file2.txt
+--w--w-r-- 1 egor egor   0 мар 10 17:39 file3.txt
+--------23:33:00-------- $ chmod u-r file2.txt
+--------23:32:02-------- $ ls -l
+-r-------x 1 root shadow 0 мар 10 17:39 file1.txt
+----rwx--- 1 egor egor   0 мар 10 17:39 file2.txt
+--w--w-r-- 1 egor egor   0 мар 10 17:39 file3.txt
+--------23:32:05-------- $ su user1
+Пароль:
+--------23:32:07-------- $ cat file2.txt
+--------23:32:08-------- $ sudo chmod +s a.out
+--------23:32:09-------- $ ls -l
+-rwxrwxr-x 1 user1 user1  17696 мар 25 13:51 a_copy.out
+-rwxrwxr-x 1 root  user1  16264 мар 31 22:29 a.out
+-rwxrwxrwx 1 user1 user1    485 мар 31 22:16 choo.c
+-rw-rw-r-- 1 egor  egor     483 мар 31 22:17 choo.cpp
+-r-------- 1 root  shadow     0 мар 10 17:39 file1.txt
+-rwxrwx-w- 1 user1 user1     13 мар 10 19:50 file2.txt
+--w--w-r-- 1 egor  egor      15 мар 11 00:09 file3.txt
+-rw-rw-r-- 1 egor  egor      24 мар 11 00:53 test_custom_type.type
+-rw-rw-r-- 1 egor  egor       0 мар 11 00:38 test.zip
+--------23:32:09--------sudo usermod -aG egor user1
+--------23:32:14-------- $ ./a.out
+Ошибка открытия файла!
+--------23:32:16-------- $ getent group user1
+user1:x:1001:egor   
+--------23:32:19-------- $ sudo deluser user1 egor
+--------23:32:22-------- $ cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/nvme0n1p6 during installation
+UUID=bda07584-ad6d-48a9-9da5-b2df18dee06e /               ext4    errors=remount-ro 0       1
+# /boot/efi was on /dev/nvme0n1p1 during installation
+UUID=2C7D-76CA  /boot/efi       vfat    umask=0077      0       1
+/swapfile                                 none            swap    sw              0       0
+--------23:32:24-------- $ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 476,9G  0 disk 
+├─nvme0n1p1 259:1    0   100M  0 part /boot/efi
+├─nvme0n1p2 259:2    0    16M  0 part 
+├─nvme0n1p3 259:3    0   393G  0 part 
+├─nvme0n1p4 259:4    0   541M  0 part 
+├─nvme0n1p5 259:5    0    10G  0 part 
+└─nvme0n1p6 259:6    0  73,3G  0 part /
+--------23:32:27-------- $ cat /proc/filesystems
+nodev	sysfs
+nodev	tmpfs
+nodev	bdev
+nodev	proc
+nodev	cgroup
+nodev	cgroup2
+nodev	cpuset
+nodev	devtmpfs
+nodev	configfs
+nodev	debugfs
+nodev	tracefs
+nodev	securityfs
+nodev	sockfs
+nodev	bpf
+nodev	pipefs
+nodev	ramfs
+nodev	hugetlbfs
+nodev	devpts
+	ext3
+	ext2
+	ext4
+	squashfs
+	vfat
+nodev	ecryptfs
+	fuseblk
+nodev	fuse
+nodev	fusectl
+nodev	efivarfs
+nodev	mqueue
+nodev	resctrl
+nodev	pstore
+	btrfs
+nodev	autofs
+nodev	zfs
+nodev	binfmt_misc
+--------23:32:27-------- $ sudo fdisk -l
+Диск /dev/nvme0n1: 476,94 GiB, 512110190592 байт, 1000215216 секторов
+Disk model: Micron_2400_MTFDKBA512QFM               
+Единицы: секторов по 1 * 512 = 512 байт
+Размер сектора (логический/физический): 512 байт / 512 байт
+Размер I/O (минимальный/оптимальный): 512 байт / 512 байт
+Тип метки диска: gpt
+Идентификатор диска: A8D55AEC-5511-490A-BC8E-385089DF3EE8
+
+Устр-во           начало      Конец   Секторы Размер Тип
+/dev/nvme0n1p1      2048     206847    204800   100M EFI
+/dev/nvme0n1p2    206848     239615     32768    16M Зарезервированный раздел Microsoft
+/dev/nvme0n1p3    239616  824354335 824114720   393G Microsoft basic data
+/dev/nvme0n1p4 978132992  979240959   1107968   541M Среда для восстановления Microsoft
+/dev/nvme0n1p5 979240960 1000212479  20971520    10G Microsoft basic data
+/dev/nvme0n1p6 824354816  978132991 153778176  73,3G Файловая система Linux
+
+Элементы таблицы разделов упорядочены не так, как на диске.
+--------23:33:00-------- $ mount
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,nosuid,relatime,size=7976908k,nr_inodes=1994227,mode=755,inode64)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=1607904k,mode=755,inode64)
+/dev/nvme0n1p6 on / type ext4 (rw,relatime,errors=remount-ro)
+securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,inode64)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k,inode64)
+cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelegate,memory_recursiveprot)
+pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)
+efivarfs on /sys/firmware/efi/efivars type efivarfs (rw,nosuid,nodev,noexec,relatime)
+bpf on /sys/fs/bpf type bpf (rw,nosuid,nodev,noexec,relatime,mode=700)
+systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=29,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=27936)
+hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime,pagesize=2M)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
+tracefs on /sys/kernel/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+configfs on /sys/kernel/config type configfs (rw,nosuid,nodev,noexec,relatime)
+none on /run/credentials/systemd-sysusers.service type ramfs (ro,nosuid,nodev,noexec,relatime,mode=700)
+/dev/nvme0n1p1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=1607900k,nr_inodes=401975,mode=700,uid=1000,gid=1000,inode64)
+gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+portal on /run/user/1000/doc type fuse.portal (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+tracefs on /sys/kernel/debug/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+--------23:33:03-------- $ df -h
+Файл.система   Размер Использовано  Дост Использовано% Cмонтировано в
+tmpfs            1,6G         2,3M  1,6G            1% /run
+/dev/nvme0n1p6    72G          61G  7,3G           90% /
+tmpfs            7,7G         212M  7,5G            3% /dev/shm
+tmpfs            5,0M         4,0K  5,0M            1% /run/lock
+/dev/nvme0n1p1    96M          32M   65M           33% /boot/efi
+tmpfs            1,6G         172K  1,6G            1% /run/user/1000
+--------23:33:05-------- $ sudo umount /media/egor/DCC9-C8D3
+--------23:33:07-------- $ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda           8:0    1  14,6G  0 disk 
+└─sda1        8:1    1  14,6G  0 part 
+nvme0n1     259:0    0 476,9G  0 disk 
+├─nvme0n1p1 259:1    0   100M  0 part /boot/efi
+├─nvme0n1p2 259:2    0    16M  0 part 
+├─nvme0n1p3 259:3    0   393G  0 part 
+├─nvme0n1p4 259:4    0   541M  0 part 
+├─nvme0n1p5 259:5    0    10G  0 part 
+└─nvme0n1p6 259:6    0  73,3G  0 part /
+--------23:33:09-------- $ sudo mount /dev/sda1 .
+--------23:33:11-------- $ lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda           8:0    1  14,6G  0 disk 
+└─sda1        8:1    1  14,6G  0 part /home/egor/OC/lb2/test_dir
+nvme0n1     259:0    0 476,9G  0 disk 
+├─nvme0n1p1 259:1    0   100M  0 part /boot/efi
+├─nvme0n1p2 259:2    0    16M  0 part 
+├─nvme0n1p3 259:3    0   393G  0 part 
+├─nvme0n1p4 259:4    0   541M  0 part 
+├─nvme0n1p5 259:5    0    10G  0 part 
+└─nvme0n1p6 259:6    0  73,3G  0 part /
+--------23:33:12-------- $ cat /usr/include/linux/limits.h
+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+#ifndef _LINUX_LIMITS_H
+#define _LINUX_LIMITS_H
+
+#define NR_OPEN	        1024
+
+#define NGROUPS_MAX    65536	/* supplemental group IDs are available */
+#define ARG_MAX       131072	/* # bytes of args + environ for exec() */
+#define LINK_MAX         127	/* # links a file may have */
+#define MAX_CANON        255	/* size of the canonical input queue */
+#define MAX_INPUT        255	/* size of the type-ahead buffer */
+#define NAME_MAX         255	/* # chars in a file name */
+#define PATH_MAX        4096	/* # chars in a path name including nul */
+#define PIPE_BUF        4096	/* # bytes in atomic write to a pipe */
+#define XATTR_NAME_MAX   255	/* # chars in an extended attribute name */
+#define XATTR_SIZE_MAX 65536	/* size of an extended attribute value (64k) */
+#define XATTR_LIST_MAX 65536	/* size of extended attribute namelist (64k) */
+
+#define RTSIG_MAX	  32
+
+#endif
+--------23:33:13-------- $ file choo.txt
+choo.txt: C suorce, Unicode text, UTF-8 text
+--------23:33:15-------- $ file test_custom_type.file
+test_custom_type.type: empty
+--------23:33:17-------- $ vim test_custom_type.file
+--------23:33:19-------- $ cat test_custom_type.file
+test_type hello world!
+
+--------23:33:21-------- $ file test_custom_type.file
+test_custom_type.type: this is test type
+--------23:33:23-------- $ cat /etc/magic
+# Magic local data for file(1) command.
+# Insert here your local magic data. Format is described in magic(5).
+0 string test_type this is test type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
