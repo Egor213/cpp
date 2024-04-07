@@ -1,0 +1,611 @@
+Started work: Пт 05 апр 2024 20:44:33 MSK
+--------20:44:36-------- $ ls
+a.out
+file.txt
+lb3.odt
+main.cpp
+myscript.sh
+son
+son.c
+task1.c
+task1.log
+--------20:44:48-------- $ cc task1.c
+--------20:44:49-------- $ ./a.out
+parent pid = 38366, ppid =38332 
+Завершение процесса
+new pid = 38368, ppid =38366 
+Завершение процесса
+--------20:56:51-------- $ cc task1.c
+cc1: fatal error: task1.c: Нет такого файла или каталога
+compilation terminated.
+--------20:56:57-------- $ cd task1.c
+--------20:57:06-------- $ cd task1
+--------20:57:10-------- $ cc task1.c
+--------20:57:11-------- $ ./a.out
+parent pid = 39294, ppid =38332 
+Результаты вычислений: n = 0, c = 1
+Завершение процесса
+new pid = 39296, ppid =39294 
+Результаты вычислений: n = 1, c = 0
+Завершение процесса
+--------20:58:34-------- $ cd ..
+--------20:59:58-------- $ cd task1
+--------21:00:03-------- $ cat task1.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main()
+{
+    int pid;
+    int n = 0;
+    int c = 0;
+    pid = fork();  // с помощью функции fork() порождаем дополнительный процесс
+    if (pid == -1) // проверяем на корректность создания процесса
+    {
+        perror("fork"); // выводим сообщение об ошибке
+        exit(1);       // выходим из программы
+    }
+    if (pid == 0) // если процесс порожден корректно и это процесс родитель
+    {
+        printf("new pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        n++; // совершаем некоторое вычисление в процессе
+    }
+    else // если процесс порожден корректно и это процесс порожденный родительским процессом
+    {
+        printf("parent pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        c++; // совершаем некоторое вычисление в процессе
+    }
+    printf("Результаты вычислений: n = %d, c = %d\n", n, c); // выводим результат вычисления
+    printf("Завершение процесса\n"); // выводим сообщение о завершинии
+    exit(1);
+}--------21:00:05-------- $ cd ..
+--------21:04:32-------- $ cd task2
+--------21:04:59-------- $ cc task2.c
+--------21:05:01-------- $ ./a.out
+значение mass[0]: 0
+parent pid = 39763, ppid =38332 
+Адресс первого элемента массива mass[0]: 1значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+значение mass[0]: 0
+new pid = 39765, ppid =39763 
+Адресс первого элемента массива mass[0]: 1значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+--------21:05:28-------- $ cc task2.c
+task2.c: In function ‘main’:
+task2.c:21:59: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘int **’ [-Wformat=]
+   21 |         printf("Адресс первого элемента массива mass[0]: %d\n", &mass);
+      |                                                          ~^     ~~~~~
+      |                                                           |     |
+      |                                                           int   int **
+task2.c:28:59: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘int **’ [-Wformat=]
+   28 |         printf("Адресс первого элемента массива mass[0]: %d\n", &mass);
+      |                                                          ~^     ~~~~~
+      |                                                           |     |
+      |                                                           int   int **
+--------21:06:34-------- $ cc task2.c
+--------21:06:36-------- $ ./a.out
+значение mass[0]: 0
+parent pid = 39858, ppid =38332 
+Адресс первого элемента массива mass[0]: 0x55789ac622a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+значение mass[0]: 0
+new pid = 39860, ppid =39858 
+Адресс первого элемента массива mass[0]: 0x55789ac622a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+--------21:07:38-------- $ cc task2.c
+--------21:07:39-------- $ ./a.out
+значение mass[0]: 0
+parent pid = 39916, ppid =38332 
+Адресс первого элемента массива mass[0]: 0x55ca69bce2a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+значение mass[0]: 0
+new pid = 39918, ppid =1259 
+Адресс первого элемента массива mass[0]: 0x55ca69bce2a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+--------21:14:54-------- $ cc task2.c
+--------21:14:56-------- $ ./a.out
+значение mass[0]: 0
+parent pid = 40292, ppid =38332 
+Адресс первого элемента массива mass[0]: 0x55989498a2a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+значение mass[0]: 0
+new pid = 40294, ppid =40292 
+Адресс первого элемента массива mass[0]: 0x55989498a2a0
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+--------21:24:49-------- $ cc task2.c
+task2.c: In function ‘main’:
+task2.c:11:5: warning: implicit declaration of function ‘ffprintf’; did you mean ‘vfprintf’? [-Wimplicit-function-declaration]
+   11 |     ffprintf(file, file, "значение mass[0]: %d\n", mass[0]);
+      |     ^~~~~~~~
+      |     vfprintf
+/usr/bin/ld: /tmp/ccdzz8Gl.o: в функции «main»:
+task2.c:(.text+0x60): неопределённая ссылка на «ffprintf»
+collect2: error: ld returned 1 exit status
+--------21:24:55-------- $ cc task2.c
+task2.c: In function ‘main’:
+task2.c:11:19: warning: passing argument 2 of ‘fprintf’ from incompatible pointer type [-Wincompatible-pointer-types]
+   11 |     fprintf(file, file, "значение mass[0]: %d\n", mass[0]);
+      |                   ^~~~
+      |                   |
+      |                   FILE *
+In file included from task2.c:1:
+/usr/include/stdio.h:351:44: note: expected ‘const char * restrict’ but argument is of type ‘FILE *’
+  351 |                     const char *__restrict __format, ...);
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+--------21:25:08-------- $ cc task2.c
+--------21:25:09-------- $ ./a.out
+--------21:25:12-------- $ cat example.txt
+значение mass[0]: 0
+parent pid = 41001, ppid =38332 
+Адресс первого элемента массива mass[0]: 0x55a45b3ef480
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+значение mass[0]: 0
+new pid = 41003, ppid =41001 
+Адресс первого элемента массива mass[0]: 0x55a45b3ef480
+значение mass[0]: 1
+Финальное значение mass[0]: 1
+Завершение процесса
+--------21:41:33-------- $ cat task2.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main()
+{
+    int pid;
+    int* mass = malloc(12); // создается массив на 3 элемента
+    pid = fork();  // с помощью функции fork() порождаем дополнительный процесс
+    printf("значение mass[0]: %d\n", mass[0]);
+    
+    if (pid == -1) // проверяем на корректность создания процесса
+    {
+        perror("fork"); // выводим сообщение об ошибке
+        exit(1);       // выходим из программы
+    }
+    if (pid == 0) // если процесс порожден корректно и это процесс родитель
+    {
+        printf("new pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        mass[0]++; // совершаем некоторое вычисление в процессе
+        printf("Адресс первого элемента массива mass[0]: %p\n", (void *)&mass[0]);
+        printf("значение mass[0]: %d\n", mass[0]);
+    }
+    else // если процесс порожден корректно и это процесс порожденный родительским процессом
+    {
+        printf("parent pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        mass[0]++;
+        printf("Адресс первого элемента массива mass[0]: %p\n", (void *)&mass[0]); 
+        printf("значение mass[0]: %d\n", mass[0]);
+    }
+    printf("Финальное значение mass[0]: %d\n", mass[0]); // выводим результат вычисления
+    printf("Завершение процесса\n"); // выводим сообщение о завершинии
+    free(mass);
+    exit(0);
+}--------21:48:49-------- $ cd ..
+--------21:48:52-------- $ cd task3
+--------21:48:58-------- $ cc task3.c
+--------21:49:03-------- $ cat task3.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int n = 0;
+
+int main()
+{
+    int pid;
+    
+    pid = fork();  // с помощью функции fork() порождаем дополнительный процесс
+    char mass[1000];
+    FILE* file = NULL;
+    if (pid == -1) // проверяем на корректность создания процесса
+    {
+        perror("fork"); // выводим сообщение об ошибке
+        exit(1);       // выходим из программы
+    }
+    if (pid == 0) // если процесс порожден корректно и это процесс родитель
+    {
+        FILE* file = fopen("file1.txt", "w");
+        //printf("new pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        sprintf(mass, "new pid = %d, ppid =%d \n", getpid(), getppid());
+        for (int i = 0; i < 50; i++, n++)
+        {
+            sprintf(mass, "n = %d\n", n);
+        }
+    }
+    else // если процесс порожден корректно и это процесс порожденный родительским процессом
+    {
+        FILE* file = fopen("file2.txt", "w");
+        //printf("parent pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        sprintf(mass, "new pid = %d, ppid =%d \n", getpid(), getppid());
+        for (int i = 0; i < 50; i++, n++)
+        {
+            sprintf(mass, "n = %d\n", n);
+        }
+    }
+    //printf("Завершение процесса\n"); // выводим сообщение о завершинии
+    sprintf(mass, "Завершение процесса\n");
+    fclose(file);
+    exit(0);
+}--------21:49:06-------- $ ./a.out
+--------21:49:10-------- $ ls
+a.out
+file1.txt
+file2.txt
+task3.c
+--------21:50:12-------- $ cat file3.c
+cat: file3.c: Нет такого файла или каталога
+--------21:50:20-------- $ cat task3.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int n = 0;
+
+int main()
+{
+    int pid;
+    
+    pid = fork();  // с помощью функции fork() порождаем дополнительный процесс
+    char mass[1000];
+    FILE* file = NULL;
+    if (pid == -1) // проверяем на корректность создания процесса
+    {
+        perror("fork"); // выводим сообщение об ошибке
+        exit(1);       // выходим из программы
+    }
+    if (pid == 0) // если процесс порожден корректно и это процесс родитель
+    {
+        FILE* file = fopen("file1.txt", "w");
+        //printf("new pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        sprintf(mass, "new pid = %d, ppid =%d \n", getpid(), getppid());
+        for (int i = 0; i < 50; i++, n++)
+        {
+            sprintf(mass, "n = %d\n", n);
+        }
+    }
+    else // если процесс порожден корректно и это процесс порожденный родительским процессом
+    {
+        FILE* file = fopen("file2.txt", "w");
+        //printf("parent pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        sprintf(mass, "new pid = %d, ppid =%d \n", getpid(), getppid());
+        for (int i = 0; i < 50; i++, n++)
+        {
+            sprintf(mass, "n = %d\n", n);
+        }
+    }
+    //printf("Завершение процесса\n"); // выводим сообщение о завершинии
+    sprintf(mass, "Завершение процесса\n");
+    fprintf(file, "%s", mass);
+    fclose(file);
+    exit(0);
+}--------21:50:25-------- $ cc task3.c
+--------21:50:27-------- $ ./a.out
+--------22:27:15-------- $ cat task3.c
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sched.h>
+
+int n = 0;
+
+void work1()
+{
+    for (size_t i = 0; i < 10; i++, n++) // цикл на 10 итерации для имитации работы
+    {
+        printf("old process: n = %d\n", n);
+        sleep(2);
+    }
+}
+
+void work2()
+{
+    for (size_t i = 0; i < 10; i++, n++) // цикл на 10 итерации для имитации работы
+    {
+        printf("new process: n = %d\n", n);
+        sleep(5);
+    }
+}
+
+int main()
+{
+    int pid;
+    cpu_set_t mask;
+    CPU_ZERO(&mask);   // Очищаем маску
+    CPU_SET(0, &mask); // Устанавливаем CPU 0
+
+    if (sched_setaffinity(0, sizeof(cpu_set_t), &mask) == -1) {
+        perror("sched_setaffinity");
+        exit(EXIT_FAILURE);
+    }
+
+
+    pid = fork();  // с помощью функции fork() порождаем дополнительный процесс
+    if (pid == -1) // проверяем на корректность создания процесса
+    {
+        perror("fork"); // выводим сообщение об ошибке
+        exit(1);        // выходим из программы
+    }
+    if (pid == 0) // если процесс порожден корректно и это процесс родитель
+    {
+        // printf("new pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        printf("new pid = %d, ppid =%d \n", getpid(), getppid());
+        work1(); // запустим длительную функцию
+    }
+    else // если процесс порожден корректно и это процесс порожденный родительским процессом
+    {
+        // printf("parent pid = %d, ppid =%d \n", getpid(), getppid()); // выводим pid процесса и его родителя
+        printf("new pid = %d, ppid =%d \n", getpid(), getppid());
+        work2(); // запустим длительную функцию
+    }
+    printf("Завершение процесса pid = %d\n", getpid());
+    exit(0);
+}--------22:27:19-------- $ cc task3.c
+--------22:27:21-------- $ ./a.out
+new pid = 46040, ppid =46038 
+old process: n = 0
+old process: n = 1
+old process: n = 2
+old process: n = 3
+old process: n = 4
+old process: n = 5
+old process: n = 6
+old process: n = 7
+old process: n = 8
+old process: n = 9
+Завершение процесса pid = 46040
+new pid = 46038, ppid =38332 
+new process: n = 0
+new process: n = 1
+new process: n = 2
+new process: n = 3
+new process: n = 4
+new process: n = 5
+new process: n = 6
+new process: n = 7
+new process: n = 8
+new process: n = 9
+Завершение процесса pid = 46038
+--------22:34:18-------- $ cd ..
+--------22:34:21-------- $ cd task4
+--------00:03:56-------- $ gcc task4.c
+--------00:04:01-------- $ sudo gcc task4.c
+--------00:04:10-------- $ sudo ./a.out
+Текущий приоритет: 2
+Политика до: SCHED_OTHER
+Текущий приоритет родителя после: 2
+Политика после: SCHED_FIFO
+new pid = 53298, ppid =53297 
+old process: n = 0
+old process: n = 1
+old process: n = 2
+old process: n = 3
+old process: n = 4
+old process: n = 5
+old process: n = 6
+old process: n = 7
+old process: n = 8
+old process: n = 9
+Завершение процесса pid = 53298
+Текущий приоритет: 2
+Политика до: SCHED_OTHER
+Текущий приоритет потомка после: 99
+Политика после: SCHED_OTHER
+parent pid = 53297, ppid =53296 
+new process: n = 0
+new process: n = 1
+new process: n = 2
+new process: n = 3
+new process: n = 4
+new process: n = 5
+new process: n = 6
+new process: n = 7
+new process: n = 8
+new process: n = 9
+Завершение процесса pid = 53297
+--------00:14:15-------- $ cd ../task5.c
+--------00:14:21-------- $ cd ../task5
+--------00:14:39-------- $ gcc father.c -o father
+--------00:14:48-------- $ gcc son.c -o son
+--------00:14:51-------- $ ./father
+
+
+SON PARAMS: pid=54161 ppid=54159
+
+
+
+FATHER PARAM: pid=54159 ppid=38332
+
+
+Child proccess is finished with status 0
+
+--------00:20:42-------- $ cat file.txt
+    PID TTY      STAT   TIME COMMAND
+   1275 ?        Ssl    0:06 cinnamon-session --session cinnamon
+   1449 ?        Sl     0:04  \_ csd-power
+   1459 ?        Sl     0:02  \_ csd-print-notifications
+   1464 ?        Sl     0:02  \_ csd-clipboard
+   1466 ?        Sl     0:21  \_ csd-keyboard
+   1467 ?        Sl     0:02  \_ csd-color
+   1468 ?        Sl     0:02  \_ csd-background
+   1469 ?        Sl     0:03  \_ csd-housekeeping
+   1470 ?        Sl     0:02  \_ csd-xsettings
+   1471 ?        Sl     0:02  \_ csd-screensaver-proxy
+   1483 ?        Sl     0:02  \_ csd-automount
+   1492 ?        Sl     0:01  \_ csd-a11y-settings
+   1493 ?        Sl     0:02  \_ csd-wacom
+   1494 ?        Sl     0:04  \_ csd-media-keys
+   1597 ?        Sl     0:04  \_ cinnamon-launcher
+   1617 ?        Sl    57:20  |   \_ cinnamon --replace
+   1966 ?        SLl   30:26  |       \_ /opt/yandex/browser/yandex_browser
+   1971 ?        S      0:00  |       |   \_ cat
+   1972 ?        S      0:00  |       |   \_ cat
+   1985 ?        S      0:00  |       |   \_ /opt/yandex/browser/yandex_browser --type=zygote --no-zygote-sandbox --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable
+   2034 ?        Sl    93:30  |       |   |   \_ /opt/yandex/browser/yandex_browser --type=gpu-process --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable --gpu-preferences=WAAAAAAAAAAgAAAIAAAAAAAAAAAAAAAAAABgAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --shared-files --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   1986 ?        S      0:00  |       |   \_ /opt/yandex/browser/yandex_browser --type=zygote --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable
+   1988 ?        S      0:00  |       |   |   \_ /opt/yandex/browser/nacl_helper
+   1991 ?        S      0:00  |       |   |   \_ /opt/yandex/browser/yandex_browser --type=zygote --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable
+   2054 ?        Sl     1:28  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=utility --utility-sub-type=storage.mojom.StorageService --lang=ru --service-sandbox-type=utility --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable --process-name=Storage Service --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2144 ?        Sl     0:15  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --extension-process --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --first-renderer-process --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=36156056 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2149 ?        Sl     0:16  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --ya-custo-process --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=36169789 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2156 ?        Sl     0:30  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --ya-custo-process --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=9 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=36173268 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2183 ?        Sl    35:20  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=29 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=36375234 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2222 ?        Sl     0:20  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=10 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=36821259 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2502 ?        Sl     0:00  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=135 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=40381108 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2797 ?        Sl     7:08  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=141 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=75953122 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2811 ?        Sl     0:46  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=12 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=78510892 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2816 ?        Sl     0:01  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=11 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=78520586 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   3241 ?        Sl     0:29  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=utility --utility-sub-type=autofill.mojom.TflPredictionsService --lang=ru --service-sandbox-type=utility --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable --process-name=Autofill Tfl Predictions --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  11775 ?        Sl     4:11  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=30 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=3649796023 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  25693 ?        Sl     0:01  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=314 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=21009857550 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  25878 ?        Sl     2:04  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=53 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=21221202348 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  29579 ?        Sl     0:08  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=47 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=23066013070 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  34165 ?        Sl     0:07  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=56 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=27951532085 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  34194 ?        Sl     0:29  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --yagp --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=384 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=27952946781 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  34405 ?        Sl     4:56  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --extension-process --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=386 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=28010512531 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  35392 ?        Sl     0:05  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=52 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=28697899277 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  37319 ?        Sl    71:56  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=398 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=29585436032 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  37534 ?        Sl     2:00  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=403 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=29679073191 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  37630 ?        Sl     1:00  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --pdf-renderer --lang=ru --js-flags=--jitless --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=405 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=29731212049 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  38054 ?        Sl     0:24  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --pdf-renderer --lang=ru --js-flags=--jitless --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=410 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=30069241137 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  40658 ?        Sl     3:54  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=413 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=32516000780 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  40697 ?        Sl     4:04  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --pdf-renderer --lang=ru --js-flags=--jitless --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=414 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=32522047355 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  49101 ?        Sl     0:08  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=40 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=38729962592 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  51241 ?        Sl     0:02  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=31 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=40477096610 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+  54483 ?        Sl     0:00  |       |   |       \_ /opt/yandex/browser/yandex_browser --type=renderer --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --help-url=https://api.browser.yandex.ru/redirect/help/ --user-agent-info --web-ntp-url-for-renderer=https://webntp.yandex.ru/ --translate-security-origin=https://browser.translate.yandex.net/ --enable-instaserp --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=465 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=43102945808 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2038 ?        Sl    11:22  |       |   \_ /opt/yandex/browser/yandex_browser --type=utility --utility-sub-type=network.mojom.NetworkService --lang=ru --service-sandbox-type=none --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable --process-name=Network Service --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   2375 ?        Sl     4:37  |       |   \_ /opt/yandex/browser/yandex_browser --type=utility --utility-sub-type=audio.mojom.AudioService --lang=ru --service-sandbox-type=none --user-id=aef7794d-bd43-4d8f-93d0-1c4bc045ec8e --brand-id=yandex --crashpad-handler-pid=1976 --enable-crash-reporter=ef5d1f94-1af6-4eee-b87e-2e04446200f7,stable --change-stack-guard-on-fork=enable --process-name=Audio Service --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,3349261172957494636,2149691370097257645,131072
+   5348 ?        Sl     0:36  |       \_ /usr/bin/flameshot
+   7085 ?        Sl     1:03  |       \_ nemo
+  31587 ?        Sl     0:00  |       |   \_ /usr/lib/libreoffice/program/oosplash --writer file:///home/egor/OC/lb3/lb3.odt
+  31622 ?        Sl     4:49  |       |   |   \_ /usr/lib/libreoffice/program/soffice.bin --writer file:///home/egor/OC/lb3/lb3.odt
+  31997 ?        Sl     6:31  |       |   \_ /usr/share/code/code --unity-launch /home/egor/OC/lb3/task1.c
+  32001 ?        S      0:00  |       |   |   \_ /usr/share/code/code --type=zygote --no-zygote-sandbox
+  32037 ?        Sl    11:20  |       |   |   |   \_ /usr/share/code/code --type=gpu-process --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --gpu-preferences=WAAAAAAAAAAgAAAEAAAAAAAAAAAAAAAAAABgAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAGAAAAAAAAAAYAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --shared-files --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+  32002 ?        S      0:00  |       |   |   \_ /usr/share/code/code --type=zygote
+  32004 ?        S      0:00  |       |   |   |   \_ /usr/share/code/code --type=zygote
+  32080 ?        Sl    24:19  |       |   |   |       \_ /usr/share/code/code --type=renderer --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --app-path=/usr/share/code/resources/app --enable-sandbox --enable-blink-features=HighlightAPI --first-renderer-process --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=4 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=24399325791 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess --vscode-window-config=vscode:256da2d2-8bbb-45f1-81d5-052cbe57c82a
+  32039 ?        Sl     0:07  |       |   |   \_ /usr/share/code/code --type=utility --utility-sub-type=network.mojom.NetworkService --lang=ru --service-sandbox-type=none --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+  32121 ?        Sl     2:23  |       |   |   \_ /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=ru --service-sandbox-type=none --dns-result-order=ipv4first --inspect-port=0 --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+  34249 ?        Sl     8:35  |       |   |   |   \_ /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools
+  32131 ?        Sl     0:15  |       |   |   \_ /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=ru --service-sandbox-type=none --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+  32132 ?        Sl     0:04  |       |   |   \_ /usr/share/code/code --type=utility --utility-sub-type=node.mojom.NodeService --lang=ru --service-sandbox-type=none --crashpad-handler-pid=32018 --enable-crash-reporter=5f3aaad9-bf8a-48c4-be8b-3ae1438708db,no_channel --user-data-dir=/home/egor/.config/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,6014558327334058466,16386881870431644933,262144 --disable-features=CalculateNativeWinOcclusion,SpareRendererForSitePerProcess
+  54338 ?        Sl     0:09  |       |   \_ xed /home/egor/OC/lb3/task5/file.txt
+  22686 ?        SLl    4:21  |       \_ /opt/google/chrome/chrome
+  22691 ?        S      0:00  |           \_ cat
+  22692 ?        S      0:00  |           \_ cat
+  22702 ?        S      0:00  |           \_ /opt/google/chrome/chrome --type=zygote --no-zygote-sandbox --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable
+  22730 ?        Sl     2:33  |           |   \_ /opt/google/chrome/chrome --type=gpu-process --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --gpu-preferences=WAAAAAAAAAAgAAAIAAAAAAAAAAAAAAAAAABgAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --shared-files --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22703 ?        S      0:00  |           \_ /opt/google/chrome/chrome --type=zygote --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable
+  22704 ?        S      0:00  |           |   \_ /opt/google/chrome/nacl_helper
+  22707 ?        S      0:00  |           |   \_ /opt/google/chrome/chrome --type=zygote --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable
+  22742 ?        Sl     0:03  |           |       \_ /opt/google/chrome/chrome --type=utility --utility-sub-type=storage.mojom.StorageService --lang=ru --service-sandbox-type=utility --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22830 ?        Sl     0:01  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --extension-process --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=15372072901 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22841 ?        Sl     0:18  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --extension-process --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=6 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=15372088876 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22847 ?        Sl     0:16  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --extension-process --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=7 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=15372095959 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22857 ?        Sl     0:21  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --extension-process --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=8 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=15372102564 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22919 ?        Sl    10:35  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=13 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=15373258871 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  31049 ?        Sl     1:29  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=24 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=23982544465 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  34340 ?        Sl     0:00  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=49 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=27986343145 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  47901 ?        Sl     0:00  |           |       \_ /opt/google/chrome/chrome --type=renderer --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --lang=ru --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=115 --time-ticks-at-unix-epoch=-1712308750722101 --launch-time-ticks=37471707756 --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  22731 ?        Sl     2:06  |           \_ /opt/google/chrome/chrome --type=utility --utility-sub-type=network.mojom.NetworkService --lang=ru --service-sandbox-type=none --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+  31079 ?        Sl     0:01  |           \_ /opt/google/chrome/chrome --type=utility --utility-sub-type=audio.mojom.AudioService --lang=ru --service-sandbox-type=none --crashpad-handler-pid=22694 --enable-crash-reporter=, --change-stack-guard-on-fork=enable --shared-files=v8_context_snapshot_data:100 --field-trial-handle=0,i,292769853828670909,5732250384238517738,131072
+   1661 ?        Sl     0:07  \_ /usr/libexec/xapps/sn-watcher/xapp-sn-watcher
+   1681 ?        Sl     0:46  \_ /usr/bin/python3 /usr/bin/solaar --window=hide
+   1682 ?        Sl     0:07  \_ nemo-desktop
+   1684 ?        Sl     0:01  \_ /usr/libexec/evolution-data-server/evolution-alarm-notify
+   1686 ?        Sl     2:15  \_ /usr/lib/caribou/caribou
+   1687 ?        Sl     0:19  \_ nm-applet
+   1688 ?        Sl     0:00  \_ /usr/libexec/geoclue-2.0/demos/agent
+   1693 ?        Sl     0:02  \_ /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+   1694 ?        Sl     0:01  \_ cinnamon-killer-daemon
+   1708 ?        Sl     0:02  \_ /usr/bin/python3 /usr/bin/blueman-applet
+   2746 ?        S      0:05  \_ /usr/bin/python3 /usr/share/system-config-printer/applet.py
+  54012 ?        Sl     0:00 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {5A10B86C-570C-4C34-9722-81D01E4F7594}
+  53821 ?        Sl     0:00 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {4E181725-A7AB-43F6-A81E-53A3D8994279}
+  49956 ?        Sl     0:00 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {CD610F25-498E-4CB3-9979-6F0D5F7B5B43}
+  48919 ?        Sl     0:01 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {B3AFFE04-9E9A-405C-A416-EBF3C46A3D08}
+  48876 ?        Sl     0:01 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {B9D7620C-8286-42B0-9C4B-92B63A00B67E}
+  47440 ?        Sl     0:13 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {4F4A638E-0FB0-4A57-9855-85B9FF464CCD}
+  42248 ?        Sl     0:08 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {1F006DF3-9CCC-4EE6-820A-F7DB64B1D5EB}
+  38732 ?        Sl     0:04 /home/egor/.vscode/extensions/ms-vscode.cpptools-1.20.0-linux-x64/bin/cpptools-srv 34249 {AC869E22-4B33-447C-B8BA-26EA608F9B2D}
+  32018 ?        Sl     0:00 /usr/share/code/chrome_crashpad_handler --monitor-self-annotation=ptype=crashpad-handler --no-rate-limit --database=/home/egor/.config/Code/Crashpad --url=appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=f363bef0-f4b8-42db-a21b-a7838022d8a1&iid=f363bef0-f4b8-42db-a21b-a7838022d8a1&sid=f363bef0-f4b8-42db-a21b-a7838022d8a1 --annotation=_companyName=Microsoft --annotation=_productName=VSCode --annotation=_version=1.87.0 --annotation=lsb-release=Linux Mint 21.1 --annotation=plat=Linux --annotation=prod=Electron --annotation=ver=27.3.2 --initial-client-fd=42 --shared-client-connection
+  22696 ?        Sl     0:00 /opt/google/chrome/chrome_crashpad_handler --no-periodic-tasks --monitor-self-annotation=ptype=crashpad-handler --database=/home/egor/.config/google-chrome/Crash Reports --url=https://clients2.google.com/cr/report --annotation=channel= --annotation=lsb-release=Linux Mint 21.1 --annotation=plat=Linux --annotation=prod=Chrome_Linux --annotation=ver=110.0.5481.177 --initial-client-fd=4 --shared-client-connection
+  22694 ?        Sl     0:00 /opt/google/chrome/chrome_crashpad_handler --monitor-self --monitor-self-annotation=ptype=crashpad-handler --database=/home/egor/.config/google-chrome/Crash Reports --url=https://clients2.google.com/cr/report --annotation=channel= --annotation=lsb-release=Linux Mint 21.1 --annotation=plat=Linux --annotation=prod=Chrome_Linux --annotation=ver=110.0.5481.177 --initial-client-fd=5 --shared-client-connection
+   2771 ?        Sl     2:02 mintreport-tray
+   2658 ?        Sl     0:04 mintUpdate
+   1978 ?        Sl     0:00 /opt/yandex/browser/chrome_crashpad_handler --no-periodic-tasks --monitor-self-annotation=ptype=crashpad-handler --database=/home/egor/.config/yandex-browser/Crash Reports --url=https://crash-reports.browser.yandex.net/submit --annotation=channel=stable --annotation=lsb-release=Linux Mint 21.1 --annotation=plat=Linux --annotation=prod=Yandex_Linux --annotation=ver=23.3.3.706 --initial-client-fd=4 --shared-client-connection
+   1976 ?        Sl     0:00 /opt/yandex/browser/chrome_crashpad_handler --monitor-self --monitor-self-annotation=ptype=crashpad-handler --database=/home/egor/.config/yandex-browser/Crash Reports --metrics-dir=/home/egor/.config/yandex-browser --url=https://crash-reports.browser.yandex.net/submit --annotation=channel=stable --annotation=lsb-release=Linux Mint 21.1 --annotation=plat=Linux --annotation=prod=Yandex_Linux --annotation=ver=23.3.3.706 --initial-client-fd=5 --shared-client-connection
+   1788 ?        Sl     1:14 /usr/bin/python3 /usr/bin/blueman-tray
+   1547 ?        Sl     0:00 /usr/libexec/csd-printer
+   1405 ?        Sl     0:01 /usr/libexec/ibus-x11 --kill-daemon
+   1366 ?        Ssl    4:55 /usr/bin/ibus-daemon --daemonize --xim
+   1386 ?        Sl     0:00  \_ /usr/libexec/ibus-dconf
+   1389 ?        Sl     1:42  \_ /usr/libexec/ibus-ui-gtk3
+   1403 ?        Sl     1:27  \_ /usr/libexec/ibus-extension-gtk3
+   1513 ?        Sl     1:10  \_ /usr/libexec/ibus-engine-simple
+   1271 ?        Sl     0:02 /usr/bin/gnome-keyring-daemon --daemonize --login
+   1259 ?        Ss     0:00 /lib/systemd/systemd --user
+   1260 ?        S      0:00  \_ (sd-pam)
+   1267 ?        S<sl   0:00  \_ /usr/bin/pipewire
+   1268 ?        S<sl  19:39  \_ /usr/bin/pulseaudio --daemonize=no --log-target=journal
+   1274 ?        Rs     0:18  \_ /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+   1373 ?        Ssl    0:00  \_ /usr/libexec/gvfsd
+   1850 ?        Sl     0:00  |   \_ /usr/libexec/gvfsd-trash --spawner :1.8 /org/gtk/gvfs/exec_spaw/0
+   4082 ?        Sl     0:00  |   \_ /usr/libexec/gvfsd-network --spawner :1.8 /org/gtk/gvfs/exec_spaw/1
+   4099 ?        Sl     0:00  |   \_ /usr/libexec/gvfsd-dnssd --spawner :1.8 /org/gtk/gvfs/exec_spaw/3
+  31911 ?        Sl     0:00  |   \_ /usr/libexec/gvfsd-recent --spawner :1.8 /org/gtk/gvfs/exec_spaw/4
+   1379 ?        Sl     0:00  \_ /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f
+   1392 ?        Ssl    0:00  \_ /usr/libexec/at-spi-bus-launcher
+   1401 ?        S      1:30  |   \_ /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 11 --address=unix:path=/run/user/1000/at-spi/bus_0
+   1408 ?        Sl     0:02  \_ /usr/libexec/ibus-portal
+   1411 ?        Sl     0:31  \_ /usr/libexec/at-spi2-registryd --use-gnome-session
+   1422 ?        Ssl    0:04  \_ /usr/libexec/xdg-desktop-portal
+   1520 ?        S      0:00  |   \_ sh -c /usr/lib/x86_64-linux-gnu/libproxy/0.4.17/pxgsettings org.gnome.system.proxy org.gnome.system.proxy.http org.gnome.system.proxy.https org.gnome.system.proxy.ftp org.gnome.system.proxy.socks
+   1521 ?        Sl     0:00  |       \_ /usr/lib/x86_64-linux-gnu/libproxy/0.4.17/pxgsettings org.gnome.system.proxy org.gnome.system.proxy.http org.gnome.system.proxy.https org.gnome.system.proxy.ftp org.gnome.system.proxy.socks
+   1434 ?        Ssl    0:02  \_ /usr/libexec/xdg-document-portal
+   1442 ?        Ssl    0:00  \_ /usr/libexec/xdg-permission-store
+   1463 ?        Ssl    0:06  \_ /usr/libexec/xdg-desktop-portal-gtk
+   1550 ?        Ssl    0:00  \_ /usr/libexec/dconf-service
+   1561 ?        Ssl    0:00  \_ /usr/libexec/gvfs-udisks2-volume-monitor
+   1570 ?        Ssl    0:00  \_ /usr/libexec/gvfs-gphoto2-volume-monitor
+   1579 ?        Ssl    0:00  \_ /usr/libexec/gvfs-mtp-volume-monitor
+   1583 ?        Ssl    0:02  \_ /usr/libexec/gvfs-afc-volume-monitor
+   1588 ?        Ssl    0:00  \_ /usr/libexec/gvfs-goa-volume-monitor
+   1593 ?        Sl     0:00  \_ /usr/libexec/goa-daemon
+   1609 ?        Sl     0:00  \_ /usr/libexec/goa-identity-service
+   1726 ?        Ssl    0:00  \_ /usr/libexec/evolution-source-registry
+   1755 ?        Ssl    0:00  \_ /usr/libexec/evolution-calendar-factory
+   1781 ?        Ssl    0:00  \_ /usr/libexec/evolution-addressbook-factory
+   1785 ?        Ss     0:00  \_ /usr/lib/bluetooth/obexd
+   1866 ?        Ssl    0:00  \_ /usr/libexec/gvfsd-metadata
+   6278 ?        Ssl    0:02  \_ /usr/libexec/flatpak-session-helper
+   6282 ?        Ss     0:00  \_ server --sh -n /run/user/1000/.flatpak-helper/pkcs11-flatpak-6278 --provider p11-kit-trust.so pkcs11:model=p11-kit-trust?write-protected=yes
+  32207 ?        Ssl    1:08  \_ /usr/libexec/gnome-terminal-server
+  32250 pts/0    Ss     0:00      \_ bash
+  38332 pts/0    S+     0:00      |   \_ bash
+  42910 pts/2    Ss     0:00      \_ bash
+  54706 pts/2    S+     0:00          \_ ./father
+  54707 pts/2    S+     0:00              \_ son
+  54708 pts/2    S+     0:00              \_ sh -c ps -fx > file.txt
+  54709 pts/2    R+     0:00                  \_ ps -fx
+--------01:17:17-------- $ quit
+./myscript.sh: строка 45: quit: команда не найдена
+Work is finished: Сб 06 апр 2024 01:17:19 MSK
