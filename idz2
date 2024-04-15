@@ -321,6 +321,33 @@ p_\xi(x) = \left\{
 \right.
 \] 
 
+    \[
+F_\xi(x) = \left\{
+\begin{aligned}
+    &  \cfrac{e^{x-1}}{2} , && x \in  (-\infty, 1] \\
+    & \cfrac{2-e^{1-x}}{2} , && x \in  (1, +\infty) \\
+\end{aligned}
+\right.
+\] 
+
+
+
+\begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$x$},
+    ylabel={$F_\xi(x)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=-2:2,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-10:1] {exp(x-1)/2} node[right] {};
+    \addplot[blue, thick, domain=1:10] {1-exp(1-x)/2} node[right] {};
+  \end{axis}
+\end{tikzpicture}   
+
+
+
 \end{center}
 
 
@@ -369,7 +396,7 @@ A_1 (-\infty, 1] = \left\{
 \right.
 \] 
 
-\[ p_\eta(y) = \lvert \cfrac{1}{y} \rvert \cdot e^{\ln{y} - 1}, y \in  (0, 1]\]
+\[ p_\eta(y) = \lvert \cfrac{1}{y} \rvert \cdot \cfrac{e^{\ln{y} - 1}}{2} = \cfrac{1}{2e}, y \in  (0, e]\]
 
 
     \[
@@ -377,16 +404,16 @@ A_2 (1, +\infty] = \left\{
 \begin{aligned}
     & g_2(x) = e^x \\
     & g_2^{-1}(y) = \ln{y} \\
-\end{aligned}
+\end{aligned} 
 \right.
 \] 
-\[ p_\eta(y) = \lvert \cfrac{1}{y} \rvert \cdot e^{1 - \ln{y}}, y \in  (1, +\infty)\]
+\[ p_\eta(y) = \lvert \cfrac{1}{y} \rvert \cdot \cfrac{e^{1 - \ln{y}}}{2} = \cfrac{e}{2y^2}, y \in  (e, +\infty)\]
 
     \[
 p_\eta(y) = \left\{
 \begin{aligned}
-    & \cfrac{1}{y} , && y \in  (0, 1] \\
-    & \cfrac{e}{y^2} , && y \in  (1, +\infty) \\
+    & \cfrac{1}{2e} , && y \in  (0, e] \\
+    & \cfrac{e}{2y^2} , && y \in  (e, +\infty) \\
     & 0 , && y \in  (-\infty, 0] \\
 \end{aligned}
 \right.
@@ -396,11 +423,27 @@ p_\eta(y) = \left\{
 F_\eta(y) = \left\{
 \begin{aligned}
     & 0 , && y \in  (-\infty, 0] \\
-    & \cfrac{x}{e} , && y \in  (0, 1] \\
-    & 0 , && y \in  (-\infty, 0] \\
+    & \cfrac{y}{2e} , && y \in  (0, e] \\
+    & \cfrac{2y-e}{2y} , && y \in  (e, +\infty) \\
 \end{aligned}
 \right.
 \] 
+
+\begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$н$},
+    ylabel={$F_\eta(y)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-10:0] {0} node[right] {};
+    \addplot[blue, thick, domain=0:2.718] {x/(2*2.718)} node[right] {};
+    \addplot[blue, thick, domain=2.718:10] {1 - 2.718/(2*x)} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
     
 \end{center}
    
