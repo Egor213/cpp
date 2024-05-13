@@ -13,8 +13,8 @@
 
 ## Алгоритм
 *Выделенное множество - вершины графа красного цвета.* <br>
-1. Для начала необходимо узнать изначальное количество компонент связности, так как не гарантируется, что изначальный граф содержит одну компонент связности.<br>
-2. Для нахождения количества компонент связности графа был создан специальный класс *ColorNode* который фактически является расширение уже созданного класса Vertex. Данный класс необходим для более комфортной работы по нахождению компонент связности. Поле *color* отвечается за номер цвета, который относится к некоторой компонент связности.
+1. Для решения данной задачи воспользуемся модифицированным поиском в глубину.
+1. Для начала раскрасим вершины одной компонент связности в один цвет, а сами компоненты в разные цвета, чтобы отличать компонент связности друг от друга. Для упрощения работы был создан специальный класс *ColorNode* который фактически является расширением уже созданного класса Vertex. Поле *color* отвечается за номер цвета, который относится к некоторой компонент связности.
 ```Java 
   public class ColorNode
     {
@@ -25,26 +25,40 @@
         }
     }
 ```
-3. Для нахождения количества компонент связности реализован метод *getComponent*. 
+3. Основная покраска вершин происход в методе *solve*. 
 ```Java
-public int getComponent(Graph graph)
+Vector<ColorNode> set_color_nodes = new Vector<>();
+    public boolean solve(Graph graph, boolean with_red_node)
     {
-        Vector<ColorNode> set_color_nodes = new Vector<>();
         int number_color = 0;
-        for (Vertex ver : graph.getVertices().values()) {
-            ColorNode temp = new ColorNode(ver);
-            set_color_nodes.add(temp);
-        }
-        for (ColorNode node : set_color_nodes) {
-            if (node.color == 0) {
-                number_color = number_color + 1;
-                dfs(node, graph, number_color, set_color_nodes);
+        if (with_red_node) {
+            for (Vertex ver : graph.getVertices().values()) {
+                ColorNode temp = new ColorNode(ver);
+                set_color_nodes.add(temp);
             }
         }
-        return number_color;
+        for (ColorNode node : set_color_nodes) {
+            if (with_red_node) {
+                if (node.color == 0 && node.node.getColor() != Color.red) {
+                    number_color = number_color + 1;
+                    dfs(node, graph, number_color, set_color_nodes, with_red_node);
+                }
+            }
+            else {
+                if (!visited.contains(node)) {
+                    dfs(node, graph, number_color, set_color_nodes, with_red_node);
+                    if (unic_set.size() > 2){
+                        return true;
+                    }
+                    unic_set.clear();
+                }
+            }
+        }
+        return false;
     }
+
 ```
-В первую очередь в данном методе строится множество *ColorNode* посредством прохода по имеющимся вершинам. После этого запускаем цикл, в котором совершаем проход по всем *ColorNode's* (т.е. по всем вершинам графа). В начале проверяем, покрашена ли данная вершина, если вершина еще не обрабатывалась, то увеличиваем значение цвета и запускаем поиск в глубину по графу. С помощью данного обхода мы помечаем все встретившиеся вершины от запущенной, таким образом отделяя одну компонент связности от других.
+В первую очередь в данном методе строится множество *ColorNode* посредством прохода по имеющимся вершинам. После этого запускаем цикл, в котором совершаем проход по всем *ColorNode's* (т.е. по всем вершинам графа). В данном методе присутствует флаг *with_red_node*, который игнорирует вершины красного цвета. Таким образом первым проходом с флагом *with_red_node* мы красим все вершины в номера их компонент связности, пропуская красные вершины.
 ```Java
 public void dfs(ColorNode color_node, Graph graph, int number_color, Vector<ColorNode> set_color_node)
     {
@@ -63,37 +77,40 @@ public void dfs(ColorNode color_node, Graph graph, int number_color, Vector<Colo
         }
     }
 ```
-4. После нахождения всех компонент связности выделяется множество вершин, которые необходимо удалить. Для этого используется метод *getDelVertexes*. С помощью простого цикла мы перебираем все вершины графа и добавляем в список *delVertexes* только те, которые окрашены в красный цвет.
 ```Java
-public HashSet<UUID> getDelVertexes(Graph graph)
+    HashSet<Integer> unic_set = new HashSet<>();
+    HashSet<ColorNode> visited = new HashSet<>();
+    public void dfs(ColorNode color_node, Graph graph, int number_color, Vector<ColorNode> set_color_node, boolean with_red_node)
     {
-        HashSet<UUID> delVertexes = new HashSet<>();
-        Iterator<Map.Entry<UUID, Vertex>> iterator = graph.getVertices().entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<UUID, Vertex> entry = iterator.next();
-            if (entry.getValue().getColor() == Color.red) {
-                delVertexes.add(entry.getKey());
-                iterator.remove();
+        if (with_red_node) {
+            if (color_node.color == 0 && color_node.node.getColor() != Color.red) {
+                color_node.color = number_color;
+                workNode(graph, color_node, set_color_node, with_red_node, number_color);
             }
         }
-        return delVertexes;
-    }
-```
-5. После получения множества вершин помеченных вершин, мы удаляем их из графа с помощью метода *sliceGraph*
-```Java
-public void sliceGraph(HashSet<UUID> delVertexes, Graph graph)
-    {
-        Iterator<Edge> iterator = graph.getEdges().iterator();
-        while (iterator.hasNext()) {
-            Edge edge = iterator.next();
-            if (delVertexes.contains(edge.getToV()) || delVertexes.contains(edge.getFromV())) {
-                iterator.remove();
+        else {
+            if (!visited.contains(color_node)) {
+                visited.add(color_node);
+                unic_set.add(color_node.color);
+                workNode(graph, color_node, set_color_node, with_red_node, number_color);
             }
         }
     }
 ```
-  6. После удаления вершин, мы вновь проверяем количество компонент связности.
-  7. Сравниваем количество компонент связности в изначальном графе и в графе, который получился после удаления вершин. Если количество компонент связности увеличилось, значит множество являлось разделяюшим. <br>
+4. После этого выполняем второй запуск метода *solve* уже без флага *with_red_node*. Таким образом мы совершаем обход по всему графу. Мы запускаем от каждой вершины dfs и на каждом шаге записываем в *unic_set* цвет встретившейся вершины.
+```Java
+          else {
+                if (!visited.contains(node)) {
+                    dfs(node, graph, number_color, set_color_nodes, with_red_node);
+                    if (unic_set.size() > 2){
+                        return true;
+                    }
+                    unic_set.clear();
+                }
+            }
+```
+  6. После выполнения dfs в *unic_set* будут лежать все встретившиеся в компонент связности цвета и если их оказывается больше 2 (т.е. 0 у красных вершин и какой-то цвет компоненты), то компонента распалась и возвращаем true.
+  7. Таким образом, если во время прохода алгоритм не вернул true, то возвращается false;
 ## *Примечания:*
 1. *Если подать граф без помеченных вершин - false, если нет множества, то оно не является разделяющим. Таким же образом граф без любых вершин.*
 2. *Если подать ориентированный граф - false.*
