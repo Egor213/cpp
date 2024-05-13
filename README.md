@@ -79,3 +79,20 @@ public HashSet<UUID> getDelVertexes(Graph graph)
         return delVertexes;
     }
 ```
+5. После получения множества вершин помеченных вершин, мы удаляем их из графа с помощью метода *sliceGraph*
+```Java
+public void sliceGraph(HashSet<UUID> delVertexes, Graph graph)
+    {
+        Iterator<Edge> iterator = graph.getEdges().iterator();
+        while (iterator.hasNext()) {
+            Edge edge = iterator.next();
+            if (delVertexes.contains(edge.getToV()) || delVertexes.contains(edge.getFromV())) {
+                iterator.remove();
+            }
+        }
+    }
+```
+  6. После удаления вершин, мы вновь проверяем количество компонент связности.
+  7. Сравниваем количество компонент связности в изначальном графе и в графе, который получился после удаления вершин. Если количество компонент связности увеличилось, значит множество являлось разделяюшим.
+*Примечания:*
+*1. Если подать граф без помеченных вершин - false, если нет множества, то оно не является разделяющим. Таким же образом граф без любых вершин.*
