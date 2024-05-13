@@ -25,4 +25,41 @@
         }
     }
 ```
-3. аыава
+3. Для нахождения количества компонент связности реализован метод *getComponent*. 
+```Java
+public int getComponent(Graph graph)
+    {
+        Vector<ColorNode> set_color_nodes = new Vector<>();
+        int number_color = 0;
+        for (Vertex ver : graph.getVertices().values()) {
+            ColorNode temp = new ColorNode(ver);
+            set_color_nodes.add(temp);
+        }
+        for (ColorNode node : set_color_nodes) {
+            if (node.color == 0) {
+                number_color = number_color + 1;
+                dfs(node, graph, number_color, set_color_nodes);
+            }
+        }
+        return number_color;
+    }
+```
+В первую очередь в данном методе строится множество *ColorNode* посредством прохода по имеющимся вершинам. После этого запускаем цикл, в котором совершаем проход по всем *ColorNode's* (т.е. по всем вершинам графа). В начале проверяем, покрашена ли данная вершина, если вершина еще не обрабатывалась, то увеличиваем значение цвета и запускаем поиск в глубину по графу.
+```Java
+public void dfs(ColorNode color_node, Graph graph, int number_color, Vector<ColorNode> set_color_node)
+    {
+        if (color_node.color == 0) {
+            color_node.color = number_color;
+            for (Edge edge : graph.getEdges()) {
+                if (edge.getFromV().equals(color_node.node.getId())) {
+                    ColorNode temp_color = getColorNode(edge.getToV(), set_color_node);
+                    dfs(temp_color, graph, number_color, set_color_node);
+                }
+                else if (edge.getToV().equals(color_node.node.getId())) {
+                    ColorNode temp_color = getColorNode(edge.getFromV(), set_color_node);
+                    dfs(temp_color, graph, number_color, set_color_node);
+                }
+            }
+        }
+    }
+```
