@@ -63,3 +63,19 @@ public void dfs(ColorNode color_node, Graph graph, int number_color, Vector<Colo
         }
     }
 ```
+4. После нахождения всех компонент связности выделяется множество вершин, которые необходимо удалить. Для этого используется метод *getDelVertexes*.
+```Java
+public HashSet<UUID> getDelVertexes(Graph graph)
+    {
+        HashSet<UUID> delVertexes = new HashSet<>();
+        Iterator<Map.Entry<UUID, Vertex>> iterator = graph.getVertices().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<UUID, Vertex> entry = iterator.next();
+            if (entry.getValue().getColor() == Color.red) {
+                delVertexes.add(entry.getKey());
+                iterator.remove();
+            }
+        }
+        return delVertexes;
+    }
+```
