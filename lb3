@@ -586,16 +586,312 @@ p_{\xi \mid \eta = y_0}(x) = \cfrac{p_{\xi,\eta}(x,y_0)}{p_{\eta}(y_0)} = \left\
 \[
 p_{\xi \mid \eta}(x)= \left\{
 \begin{aligned}
-    & \cfrac{1}{2-\eta} , &&  x \in [0, \eta]\\
+    & \cfrac{1}{2-\eta} , &&  x \in [0, 2 - \eta]\\
     & 0 , &&  else\\
 \end{aligned}
 \right.
 \]
 
+
+\[
+\Expect(\xi \mid \eta) = \int_{-\infty}^{\infty} x f_{\xi \mid \eta} (x) \, dx = \int_0^{2-\eta} \frac{x}{2-\eta} \, dx
+\]
+
+\[
+= \frac{1}{2-\eta} \int_0^{2-\eta} x \, dx = \frac{1}{2-\eta} \cdot \cfrac{x^2}{2}\bigg|_{0}^{2-\eta}
+= \frac{1}{2-\eta} \cdot \left( \frac{(2-\eta)^2}{2} \right) = \cfrac{2-\eta}{2}
+\]
+
+\[
+\Expect(\xi^2 \mid \eta) = \int_{-\infty}^{\infty} x^2 f_{\xi \mid \eta} (x) \, dx = \int_0^{2-\eta} \frac{x^2}{2-\eta} \, dx
+\]
+
+\[
+= \frac{1}{2-\eta} \int_0^{2-\eta} x^2 \, dx = \frac{1}{2-\eta} \cdot \cfrac{x^3}{3}\bigg|_{0}^{2-\eta}
+= \frac{1}{2-\eta} \cdot \left( \frac{(2-\eta)^3}{3} \right) = \cfrac{(2-\eta)^2}{3}
+\]
+
+\[ \Variance(\xi^2 \mid \eta) = \Expect(\xi^2 \mid \eta) - (\Expect(\xi \mid \eta))^2 = \cfrac{(2-\eta)^2}{3} - \cfrac{(2-\eta)^2}{4} = \cfrac{(2-\eta)^2}{12}\] 
     
+\end{center}
+
+Теперь вычислим математические ожидания для $\eta, \xi$.
+
+\begin{center}
+    \[
+    \Expect(\xi) = 2\cdot\int_{0}^{1} x(1-x) \, dx = 2\cdot (\cfrac{x^2}{2}-\cfrac{x^3}{3})\bigg|_{0}^{1} = \cfrac{1}{3}
+    \]
+    \[
+    \Expect(\xi^2) = 2\cdot\int_{0}^{1} x^2(1-x) \, dx = 2\cdot (\cfrac{x^3}{3}-\cfrac{x^4}{4})\bigg|_{0}^{1} = \cfrac{1}{6}
+    \]
+
+
+    \[
+    \Expect(\eta) = 2\cdot\int_{1}^{2} y(2-y) \, dy = 2\cdot (y^2-\cfrac{y^3}{3})\bigg|_{1}^{2} = \cfrac{4}{3}
+    \]
+    \[
+    \Expect(\eta^2) = 2\cdot\int_{1}^{2} y^2(2-y) \, dy = 2\cdot (\cfrac{2y^3}{3}-\cfrac{y^4}{4})\bigg|_{1}^{2} = \cfrac{11}{6}
+    \]
+
+    \[
+    \Expect(\xi\eta) = \iint_D xyp_{\xi,\eta}(x,y) \, dx \, dy = \int_{0}^{1} dx \int_{1}^{2-x}2xydy = \cfrac{5}{12}
+    \]
+
+    
+\end{center}
+
+Вектор математчиеских ожиданий:
+\begin{center}
+    \[
+    \Expect(\xi;\eta) = (\Expect\xi; \Expect\eta) = (\cfrac{1}{3}; \cfrac{4}{3})
+    \]
+\end{center}
+
+
+Теперь вычисление дисперсии:
+\begin{center}
+\[
+\Variance\xi = \Expect\xi^2 - (\Expect\xi)^2 = \cfrac{1}{6} - \cfrac{1}{9} = \cfrac{1}{18}
+\]
+\[
+\Variance\eta = \Expect\eta^2 - (\Expect\eta)^2 = \cfrac{11}{6} - \cfrac{16}{9} = \cfrac{1}{18}
+\]
+\end{center}
+Вычислим матрицу ковариации.
+\begin{center}
+\[
+\cov\xi\eta = \Expect\xi\eta - \Expect\xi\cdot\Expect\eta = \cfrac{5}{12}-\cfrac{1}{3}\cdot\cfrac{4}{3} = -\cfrac{1}{36}
+\]
+\[
+\cov\xi\xi = \Expect\xi^2 - (\Expect\xi)^2 = \cfrac{1}{18}
+\]
+\[
+\cov\eta\eta = \Expect\eta^2 - (\Expect\eta)^2 = \cfrac{1}{18}
+\]  
+\end{center}
+Таким образом матрица ковариации: 
+\begin{center}
+    
+
+\[
+\mathbf{A} = \begin{bmatrix}
+\cfrac{1}{18} & -\cfrac{1}{36} \\
+-\cfrac{1}{36} & \cfrac{1}{18}
+\end{bmatrix}
+\]
+\end{center}
+
+Вычислим кореляцию:
+\begin{center}
+\[
+p(\xi\eta) = \cfrac{\cov\xi\eta}{\sqrt{\Variance\xi\cdot\Variance\eta}} = -\cfrac{1}{2}
+\]
+\end{center}
+Тогда матрица:
+\begin{center}
+    
+
+\[
+\mathbf{R} = \begin{bmatrix}
+1 & -\cfrac{1}{2} \\
+-\cfrac{1}{2} & 1
+\end{bmatrix}
+\]
+\end{center}
+
+\end{proof}
+
+
+
+
+\begin{problem}
+    Найти распределение $\mu$. Вычислить $\Variance\mu, \Expect\mu$. Построить график функции распределения $F_{\mu}(m)$, $\mu = \xi+\eta$
+\end{problem}
+
+\begin{proof}
+Построим график:
+\begin{center}
+
+    
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = {$x$},
+        ylabel = {$y$},
+        xmin = -1, xmax = 3,
+        ymin = -1, ymax = 3,
+        samples = 100,
+        domain = -1:3,
+        restrict y to domain = -1:3
+    ]
+    \addplot [
+        domain=0:2,
+        samples=100,
+        name path=A,
+        thick,
+        color=blue,
+    ] {2-x};
+    
+    \addplot [
+        domain=0:3,
+        samples=100,
+        name path=B,
+        thick,
+        color=red,
+    ] {1};
+    
+    \path [name path=C] (axis cs:0,0) -- (axis cs:0,3);
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and B,
+        soft clip={domain=0:1},
+    ];
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and C,
+        soft clip={domain=1:2},
+    ];
+
+    \addplot[dashed, blue, thick, domain=0:1] {1-x} node[right] {};
+    \addplot[dashed, blue, thick, domain=0:3/2] {3/2-x} node[right] {};
+
+    % Заштриховка области между графиками
+\addplot [
+    domain=0:1,
+    samples=100,
+    fill=blue,
+    fill opacity=0.2,
+] {1-x} \closedcycle;
+
+\addplot [
+    domain=0:3/2,
+    samples=100,
+    fill=blue,
+    fill opacity=0.2,
+] {3/2-x} \closedcycle;
+
+% Отметка точки пересечения y = 0 и y = 3/2 - x
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(0, 3/2)};
+
+\node[anchor=east] at (axis cs:0, 3/2) {$m$};
+
+
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(3/2-1, 1)};
+
+\node[anchor=north] at (axis cs:3/2-1, 0) {$m-1$};
+
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(3/2, 0)};
+
+\node[anchor=north] at (axis cs:3/2, 0) {$m$};
+
+\addplot [
+    red,
+    thick,
+    dashed,
+] coordinates {(1/2, 0) (1/2, 1)};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Вычислим площадь трапеции:
+\begin{center}
+\[
+S = \cfrac{(m-1)+m}{2} \cdot 1 = m-\cfrac{1}{2}
+\]
+    
+\end{center}
+
+Рассчитаем значение функции распределения для $\mu$.
+
+\begin{center}
+\[
+supp(\mu) = [1;3]
+\]
+\[
+F_\mu(m) = \Prob(\mu<m) = \Prob(\xi+\eta<m)
+\]
+    \[ 
+    F_\mu(m) = \iint_D p_{\xi;\eta}(x,y) \, dxdy = 2 \cdot (\int_{0}^{m} dx \int_{0}^{m-x}  \, dy - m + \cfrac{1}{2}) = m^2-2m+1
+    \]
+
+
+        \[
+F_\mu(m) = \left\{
+\begin{aligned}
+    & 0 , && m \in  (-\infty, 1] \\
+    & m^2-2m+1 , && m \in  (1, 2] \\
+    & 1 , && m \in  (2, +\infty) \\
+\end{aligned}
+\right.
+\] 
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$m$},
+    ylabel={$F_\mu(m)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-3:1] {0} node[right] {};
+    \addplot[blue, thick, domain=1:2] {x^2-2*x+1} node[right] {};
+    \addplot[blue, thick, domain=2:5] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+\end{center}
+
+
+Найдем плотность распределния, затем $\Variance\mu, \Expect\mu$
+\begin{center}
+        \[
+p_\mu(m) = \left\{
+\begin{aligned}
+    & 2m-2 , && m \in  [1, 2] \\
+    & 0 , && m \notin  [1, 2] \\
+\end{aligned}
+\right.
+\] 
+
+\[
+\Expect\mu = 2\int_{1}^{2}m(m-1) \, dm = \cfrac{5}{6}
+\]
+
+\[
+\Expect\mu^2 = 2\int_{1}^{2}m^2(m-1) \, dm = \cfrac{17}{12}
+\]
+
+\[
+\Variance\mu = \Expect\mu^2 - (\Expect\mu)^2 = \cfrac{17}{12} - (\cfrac{5}{6})^2 = \cfrac{26}{36}
+\]
 \end{center}
 
 
 
 \end{proof}
+
 \end{document}  
