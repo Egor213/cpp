@@ -1,0 +1,643 @@
+Started work: Пт 16 фев 2024 18:36:15 MSK
+--------18:36:17-------- $ man date                                            - данная команда используется для отображения руководства для различных программ.
+DATE(1)                          User Commands                         DATE(1) 
+
+NAME                                                                           - наименование команды и краткое ее описание 
+       date - print or set the system date and time
+
+SYNOPSIS                                                                       - синтаксис команды
+       date [OPTION]... [+FORMAT]
+       date [-u|--utc|--universal] [MMDDhhmm[[CC]YY][.ss]]
+
+DESCRIPTION                                                                    - описание функций флагов команды
+       Display the current time in the given FORMAT, or set the system date.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       -d, --date=STRING
+              display time described by STRING, not 'now'
+
+       --debug
+              annotate the parsed date, and warn about questionable  usage  to
+              stderr
+
+       -f, --file=DATEFILE
+              like --date; once for each line of DATEFILE
+
+       -I[FMT], --iso-8601[=FMT]
+              output  date/time  in ISO 8601 format.  FMT='date' for date only
+              (the default), 'hours', 'minutes', 'seconds', or 'ns'  for  date
+              and    time    to    the    indicated    precision.     Example:
+              2006-08-14T02:34:56-06:00
+
+       -R, --rfc-email
+              output date and time in RFC 5322 format.  Example: Mon,  14  Aug
+              2006 02:34:56 -0600
+
+       --rfc-3339=FMT
+              output  date/time in RFC 3339 format.  FMT='date', 'seconds', or
+              'ns' for date and time to  the  indicated  precision.   Example:
+              2006-08-14 02:34:56-06:00
+
+       -r, --reference=FILE
+              display the last modification time of FILE
+
+       -s, --set=STRING
+              set time described by STRING
+
+       -u, --utc, --universal
+              print or set Coordinated Universal Time (UTC)
+
+       --help display this help and exit
+
+       --version
+              output version information and exit
+
+       FORMAT controls the output.  Interpreted sequences are:
+
+       %%     a literal %
+
+       %a     locale's abbreviated weekday name (e.g., Sun)
+
+       %A     locale's full weekday name (e.g., Sunday)
+
+       %b     locale's abbreviated month name (e.g., Jan)
+
+       %B     locale's full month name (e.g., January)
+
+       %c     locale's date and time (e.g., Thu Mar  3 23:05:25 2005)
+
+       %C     century; like %Y, except omit last two digits (e.g., 20)
+
+       %d     day of month (e.g., 01)
+
+       %D     date; same as %m/%d/%y
+
+       %e     day of month, space padded; same as %_d
+
+       %F     full date; like %+4Y-%m-%d
+
+       %g     last two digits of year of ISO week number (see %G)
+
+       %G     year of ISO week number (see %V); normally useful only with %V
+
+       %h     same as %b
+
+       %H     hour (00..23)
+
+       %I     hour (01..12)
+
+       %j     day of year (001..366)
+
+       %k     hour, space padded ( 0..23); same as %_H
+
+       %l     hour, space padded ( 1..12); same as %_I
+
+       %m     month (01..12)
+
+       %M     minute (00..59)
+
+       %n     a newline
+
+       %N     nanoseconds (000000000..999999999)
+
+       %p     locale's equivalent of either AM or PM; blank if not known
+
+       %P     like %p, but lower case
+
+       %q     quarter of year (1..4)
+
+       %r     locale's 12-hour clock time (e.g., 11:11:04 PM)
+
+       %R     24-hour hour and minute; same as %H:%M
+
+       %s     seconds since 1970-01-01 00:00:00 UTC
+
+       %S     second (00..60)
+
+       %t     a tab
+
+       %T     time; same as %H:%M:%S
+
+       %u     day of week (1..7); 1 is Monday
+
+       %U     week number of year, with Sunday as first day of week (00..53)
+
+       %V     ISO week number, with Monday as first day of week (01..53)
+
+       %w     day of week (0..6); 0 is Sunday
+
+       %W     week number of year, with Monday as first day of week (00..53)
+
+       %x     locale's date representation (e.g., 12/31/99)
+
+       %X     locale's time representation (e.g., 23:13:48)
+
+       %y     last two digits of year (00..99)
+
+       %Y     year
+
+       %z     +hhmm numeric time zone (e.g., -0400)
+
+       %:z    +hh:mm numeric time zone (e.g., -04:00)
+
+       %::z   +hh:mm:ss numeric time zone (e.g., -04:00:00)
+
+       %:::z  numeric  time  zone  with  :  to necessary precision (e.g., -04,
+              +05:30)
+
+       %Z     alphabetic time zone abbreviation (e.g., EDT)
+
+       By default, date pads numeric fields with zeroes.   The  following  op‐
+       tional flags may follow '%':
+
+       -      (hyphen) do not pad the field
+
+       _      (underscore) pad with spaces
+
+       0      (zero) pad with zeros
+
+       +      pad with zeros, and put '+' before future years with >4 digits
+
+       ^      use upper case if possible
+
+       #      use opposite case if possible
+
+       After  any  flags  comes  an optional field width, as a decimal number;
+       then an optional modifier, which is either E to use the locale's alter‐
+       nate  representations  if available, or O to use the locale's alternate
+       numeric symbols if available.
+
+EXAMPLES                                                                       - примеры использования команды
+       Convert seconds since the epoch (1970-01-01 UTC) to a date
+
+              $ date --date='@2147483647'
+
+       Show the time on the west coast of the US (use tzselect(1) to find TZ)
+
+              $ TZ='America/Los_Angeles' date
+
+       Show the local time for 9AM next Friday on the west coast of the US
+
+              $ date --date='TZ="America/Los_Angeles" 09:00 next Fri'
+
+DATE STRING                                                                    - описание формата строк даты для параметра --date 
+       The --date=STRING is a mostly free format human  readable  date  string
+       such  as  "Sun, 29 Feb 2004 16:21:42 -0800" or "2004-02-29 16:21:42" or
+       even "next Thursday".  A date string may contain items indicating  cal‐
+       endar  date,  time of day, time zone, day of week, relative time, rela‐
+       tive date, and numbers.  An empty string indicates the beginning of the
+       day.   The date string format is more complex than is easily documented
+       here but is fully described in the info documentation.
+
+AUTHOR                                                                         - информация об авторе     
+       Written by David MacKenzie.
+
+REPORTING BUGS                                                                 - инструкция по сообщению об ошибках, куда обратиться                
+       GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+       Report any translation bugs to <https://translationproject.org/team/>
+
+COPYRIGHT                                                                      - информация о лицензии, о том кому принадлежит данная команда             
+       Copyright © 2020 Free Software Foundation, Inc.   License  GPLv3+:  GNU
+       GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+       This  is  free  software:  you  are free to change and redistribute it.
+       There is NO WARRANTY, to the extent permitted by law.
+
+SEE ALSO                                                                       - список команд, которые рекомендуют посмотреть авторы справки                 
+       Full documentation <https://www.gnu.org/software/coreutils/date>
+       or available locally via: info '(coreutils) date invocation'
+
+GNU coreutils 8.32               February 2022                         DATE(1)
+--------18:36:19-------- $ who                                                 - выводит данные пользователей системы, которые на данный момент находятся в системе    
+egor     tty7         2024-02-16 14:33 (:0)                                    - в первом столбце - имя пользователя, 
+                                                                                 во втором - запущенная система и запущенные терминалы
+                                                                                 в третьем - дата и время входа пользователя в систему
+                                                                                 в четвертом - дополнительная информация о сеансе пользователя             
+--------18:36:22-------- $ date                                                - выводит информацию о текущем системном времени
+Пт 16 фев 2024 18:36:22 MSK
+--------18:36:27-------- $ who -d                                              - выводит время последнего завершения процесса
+         pts/2        2024-02-16 18:23             31027 id=ts/2  терминал=0 выход=0  - в первом столбце - номер терминала, к которому подключен пользователь 
+                                                                                        во втором - дата и время входа пользователя в систему
+                                                                                        в третьем - это идентификатор процесса сеанса
+                                                                                        в четвертом - это идентификатор сессии терминала для данного пользователя (id=ts/2)
+                                                                                        в пятом - это номер терминала, к которому подключен пользователь (в данном случае, это 0)
+                                                                                        в шестом - это статус выхода       
+--------18:36:29-------- $ who -b                                              - используется для отображения информации о времени последней загрузки системы
+         загрузка системы 2024-02-16 14:32                                     - в первом столбце - это сообщение означает, что команда отображает время последней загрузки системы
+                                                                                 во втором - это дата и время последней загрузки системы
+--------18:36:32-------- $ tty                                                 - выводит полное имя терминала                         
+/dev/pts/0
+--------18:36:44-------- $ logname                                             - выводит имя пользователя, под которым он произвел вход 
+egor
+--------18:36:50-------- $ uname                                               - выводит информацию о системе 
+Linux
+--------18:36:58-------- $ uname -a                                            - выводит полную информацию о системе      
+Linux egor-Katana-GF76-12UC 5.15.0-56-generic #62-Ubuntu SMP Tue Nov 22 19:54:14 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux - в первом столбце - название операционной системы
+                                                                                                                           во втором - имя компьютера в сети
+                                                                                                                           в третьем - версия ядра Linux, которая запущена на системе (5.15.0-56-generic)
+                                                                                                                           в четвертом - дополнительная информация о ядре, включая дату и время сборки ядра и информацию о его конфигурации
+                                                                                                                           в пятом - архитектура процессора 
+                                                                                                                           в шестом - тип операционной системы
+--------18:37:17-------- $ sleep 5                                             - приостанавливает выполнение командного интерпретатора на определенное количество секунд         
+--------18:38:54-------- $ ls                                                  - выводит содержимое текущего каталога
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+test1
+--------18:39:04-------- $ ls -l                                               -l - выводит детальную информацию о содержимом каталога 
+drwxrwxr-x  2 egor egor  4096 сен 20 18:56  build-maze-Desktop-Debug           - в первом столбце - права доступа для владельца файла (user), для группы файла (group), для остальных пользователей (other)
+                                                                               - во втором - количество жестких ссылок на файл
+                                                                               - в третьем - это имя владельца файла
+                                                                               - в четвертом - имя группы файла
+                                                                               - в пятом - размер файла
+                                                                               - в шестом - дата последней модификации файла
+                                                                               - в седьмом - имя файла
+--------18:39:05-------- $ ls -log                                             - выводит дополнительную информацию с помощью флагов
+                                                                               -l - выводит детальную информацию о содержимом каталога
+                                                                               -o - выводит информацию о содержимом каталога без столбца группы
+                                                                               -g - выводит информацию о содержимом каталога без столбца владельца файла     
+                                                                                  
+итого 40
+-rwxrwxr-x 1 15960 фев 16 17:58 a.out
+-rw-rw-r-- 1     4 фев 16 17:48 a.txt
+-rw-rw-r-- 1  7922 фев 16 18:39 logs.log
+-rw-rw-r-- 1    74 фев 16 17:58 main.c
+-rwxrwxr-x 1   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1     0 фев 16 18:20 output.log
+drwxrwxr-x 4  4096 фев 14 23:57 test1
+--------18:39:18-------- $ mkdir Test1                                         - создает папку с заданным именем             
+--------18:40:04-------- $ ls -logh                                            -h - выводит размер файла в переведенных единицах измерения                 
+итого 48K
+-rwxrwxr-x 1  16K фев 16 17:58 a.out
+-rw-rw-r-- 1    4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 8,6K фев 16 18:40 logs.log
+-rw-rw-r-- 1   74 фев 16 17:58 main.c
+-rwxrwxr-x 1  975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1    0 фев 16 18:20 output.log
+drwxrwxr-x 4 4,0K фев 14 23:57 test1
+drwxrwxr-x 2 4,0K фев 16 18:39 Test1
+--------18:40:29-------- $ stat -c "%s" /                                      - выводит информацию о файле или директории      
+                                                                               -c - задает формат вывода, в данном случае выводит размер файла или директории           
+4096
+--------18:40:48-------- $ cat a.txt                                           - показывает содержимое файла в консоль, не работает для каталогов
+fdf
+--------18:41:15-------- $ cat Test1                                           - пробуем вывести содержимое каталога Test1
+cat: Test1: Это каталог
+--------18:42:16-------- $ mv Test1 test_test                                  - позволяет переименовывать файлы или перемещать их  
+--------18:42:19-------- $ ls -logh                                            - выводит расширенную информацию о содержимом директории без столбца владельца и группы, с нормированным размером файлов
+итого 48K
+-rwxrwxr-x 1  16K фев 16 17:58 a.out
+-rw-rw-r-- 1    4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 9,1K фев 16 18:42 logs.log
+-rw-rw-r-- 1   74 фев 16 17:58 main.c
+-rwxrwxr-x 1  975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1    0 фев 16 18:20 output.log
+drwxrwxr-x 4 4,0K фев 14 23:57 test1
+drwxrwxr-x 2 4,0K фев 16 18:39 test_test
+--------18:44:11-------- $ mv test_test test1                                  - перемещает папку test_test в папку test1
+--------18:44:13-------- $ ls                                                  - выводит содержимое директории 
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+test1
+--------18:44:23-------- $ cd test1                                            - производит переход к другой директории  
+--------18:46:46-------- $ >test.txt                                           - создает файл                             
+--------18:46:47-------- $ ls                                                  - выводит содержимое директории 
+logs.log
+something
+test
+test_test
+test.txt
+--------18:47:02-------- $ cp test.txt ts.txt                                  - осуществляет копирование файла, можно копировать папки с помощью флага -r         
+--------18:47:03-------- $ ls                                                  - выводит содержимое директории 
+logs.log
+something
+test
+test_test
+test.txt
+ts.txt
+--------18:47:52-------- $ rm ts.txt                                           - удаляет файл 
+--------18:47:53-------- $ ls                                                  - выводит содержимое директории 
+logs.log
+something
+test
+test_test
+test.txt
+--------18:47:56-------- $ pwd                                                 - показывает полное имя текущего каталога     
+/home/egor/OC/test1
+--------18:48:02-------- $ cd ..                                               - перейти в директорию на уровень выше
+--------18:48:04-------- $ ls /                                                - выводит содержимое корневого каталога
+0
+bin
+boot
+cdrom
+dev
+etc
+home
+lib
+lib32
+lib64
+libx32
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+swapfile
+sys
+tmp
+usr
+var
+--------18:48:31-------- $ ls -l                                               - выводит расширенное содержимое директории  
+итого 44
+-rwxrwxr-x 1 egor egor 15960 фев 16 17:58 a.out
+-rw-rw-r-- 1 egor egor     4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 egor egor 10725 фев 16 18:48 logs.log
+-rw-rw-r-- 1 egor egor    74 фев 16 17:58 main.c
+-rwxrwxr-x 1 egor egor   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1 egor egor     0 фев 16 18:20 output.log
+drwxrwxr-x 5 egor egor  4096 фев 16 18:47 test1
+--------18:48:34-------- $ ls -l /                                             - выводит расширенное содержимое корневой директории
+итого 2097500
+-rw-r--r--   1 root root          0 сен  1 17:09 0
+lrwxrwxrwx   1 root root          7 фев  4  2023 bin -> usr/bin
+drwxr-xr-x   4 root root       4096 фев  4  2023 boot
+drwxr-xr-x   2 root root       4096 фев  4  2023 cdrom
+drwxr-xr-x  20 root root       4900 фев 16 17:52 dev
+drwxr-xr-x 152 root root      12288 фев 16 18:23 etc
+drwxr-xr-x   3 root root       4096 фев  4  2023 home
+lrwxrwxrwx   1 root root          7 фев  4  2023 lib -> usr/lib
+lrwxrwxrwx   1 root root          9 фев  4  2023 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root          9 фев  4  2023 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root         10 фев  4  2023 libx32 -> usr/libx32
+drwx------   2 root root      16384 фев  4  2023 lost+found
+drwxr-xr-x   3 root root       4096 фев  4  2023 media
+drwxr-xr-x   2 root root       4096 дек 17  2022 mnt
+drwxr-xr-x  10 root root       4096 фев 15 17:17 opt
+dr-xr-xr-x 446 root root          0 фев 16 14:32 proc
+drwx------   9 root root       4096 сен 17 20:54 root
+drwxr-xr-x  36 root root       1000 фев 16 14:32 run
+lrwxrwxrwx   1 root root          8 фев  4  2023 sbin -> usr/sbin
+drwxr-xr-x   2 root root       4096 дек 17  2022 srv
+-rw-------   1 root root 2147483648 фев  4  2023 swapfile
+dr-xr-xr-x  13 root root          0 фев 16 14:32 sys
+drwxrwxrwt  21 root root     278528 фев 16 18:45 tmp
+drwxr-xr-x  17 root root       4096 ноя 21 22:05 usr
+drwxr-xr-x  11 root root       4096 дек 17  2022 var
+--------18:49:47-------- $ ls -ld                                              - выводит информацию о текущей директории                     
+drwxrwxr-x 3 egor egor 4096 фев 16 18:44 .
+--------18:50:41-------- $ ls -ld /bin                                         - выводит информацию о папке bin
+lrwxrwxrwx 1 root root 7 фев  4  2023 /bin -> usr/bin
+--------18:51:18-------- $ cd                                                  - переходит в корневой каталог                         
+--------18:52:01-------- $ mkdir Something                                     - создает директорию Something
+--------18:52:03-------- $ ls                                                  - выводит содержимое текущего каталога
+2023-05-30 08-26-38.mkv
+2023-05-30 08-29-06.mkv
+2023-05-30 08-29-06.mkv.tar.gz
+anim2.png
+anim3.png
+anim4.png
+anim_hero.jpg
+arial.ttf
+build-maze-Desktop-Debug
+build-test_qt-Desktop-Debug
+build-untitled1-Desktop-Debug
+build-untitled-Desktop-Debug
+C++
+car.jpeg
+diagram
+DMITI
+Documents
+dryrun.log
+EVM
+HELLO2.ASM
+hello.ac3
+Interferentsia2122.pptx_0.odp
+logs.log
+main1.py
+main.cpp
+main.py
+Makefile
+maze
+OC
+packages.microsoft.gpg
+PycharmProjects
+python
+PythonProject
+run
+session.log
+Something
+targets.log
+test
+test.cpp
+test.h
+test_qt
+untitled
+untitled1
+Untitled.ipynb
+viber.deb
+Viking3.png
+vscode-cpptools
+Walk
+Warpinator
+your_program
+Видео
+Галовиц Яцек - C++17 STL. Стандартная библиотека шаблонов (Библиотека программиста) - 2018.pdf
+Документы
+Загрузки
+Изображения
+Музыка
+Общедоступные
+Папка
+Рабочий стол
+Шаблоны
+--------18:52:15-------- $ cd Something                                        - перейти в каталог Something
+--------18:53:05-------- $ cd ..                                               - перейти в каталог на уровень выше
+--------18:53:11-------- $ vim prog.c                                          - открывать файл в текстовом редакторе vim                                                 
+--------18:53:44-------- $ cd Something                                        - перейти в каталог Something
+--------18:54:12-------- $ cp ../prog.c prog.c                                 - копирует файл prog.c из директории выше в текущую директорию     
+--------18:54:13-------- $ ls                                                  - выводит содержимое текущего каталога
+prog.c
+--------18:54:21-------- $ cd                                                  - перейти в корневую директорию
+--------18:54:35-------- $ rmdir Something                                     - удаляет директорию Something                 
+rmdir: не удалось удалить 'Something': Каталог не пуст
+--------18:54:55-------- $ rm Something/prog.c                                 - удаляет файл prog.c в папке Something
+--------18:55:06-------- $ rmdir Something                                     - удаляет папку Something
+--------18:55:09-------- $ ls                                                  - выводит содержимое текущего каталога
+2023-05-30 08-26-38.mkv
+2023-05-30 08-29-06.mkv
+2023-05-30 08-29-06.mkv.tar.gz
+anim2.png
+anim3.png
+anim4.png
+anim_hero.jpg
+arial.ttf
+build-maze-Desktop-Debug
+build-test_qt-Desktop-Debug
+build-untitled1-Desktop-Debug
+build-untitled-Desktop-Debug
+C++
+car.jpeg
+diagram
+DMITI
+Documents
+dryrun.log
+EVM
+HELLO2.ASM
+hello.ac3
+Interferentsia2122.pptx_0.odp
+logs.log
+main1.py
+main.cpp
+main.py
+Makefile
+maze
+OC
+packages.microsoft.gpg
+prog.c
+PycharmProjects
+python
+PythonProject
+run
+session.log
+targets.log
+test
+test.cpp
+test.h
+test_qt
+untitled
+untitled1
+Untitled.ipynb
+viber.deb
+Viking3.png
+vscode-cpptools
+Walk
+Warpinator
+your_program
+Видео
+Галовиц Яцек - C++17 STL. Стандартная библиотека шаблонов (Библиотека программиста) - 2018.pdf
+Документы
+Загрузки
+Изображения
+Музыка
+Общедоступные
+Папка
+Рабочий стол
+Шаблоны
+--------18:58:24-------- $ cd OC                                               - переходит в директорию OC
+--------18:58:31-------- $ ls -logha                                           - флаг -a - выводит все содержимое файла (в том числе и скрытые файлы)             
+итого 60K
+drwxrwxr-x  3 4,0K фев 16 18:44 .
+drwxr-x--- 63 4,0K фев 16 18:55 ..
+-rwxrwxr-x  1  16K фев 16 17:58 a.out
+-rw-rw-r--  1    4 фев 16 17:48 a.txt
+-rw-rw-r--  1  17K фев 16 18:58 logs.log
+-rw-rw-r--  1   74 фев 16 17:58 main.c
+-rwxrwxr-x  1  975 фев 16 18:27 myscript.sh
+-rw-rw-r--  1    0 фев 16 18:20 output.log
+drwxrwxr-x  5 4,0K фев 16 18:47 test1
+--------18:58:40-------- $ >prog.c
+--------18:58:44-------- $ vim prog.c
+--------18:59:27-------- $ cat prog.c
+#include <stdio.h>
+
+int main()
+{
+	printf("Hello world!");
+	return 0;
+}
+--------18:59:43-------- $ gcc -c prog.c                                       - выполняет только компиляцию файла без его линковки                 
+--------18:59:44-------- $ ls                                                  - выводит содержимое текущей директории
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------18:59:55-------- $ gcc prog.o                                          - выполняет линковку файла                 
+--------18:59:56-------- $ ls                                                  - выводит содержимое текущей директории
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------19:00:16-------- $ gcc -o hello.out prog.c                             - компилируют и линкую prog.c в исполнительный файл с именем hello.out 
+--------19:00:16-------- $ ls                                                  - выводит содержимое текущей директории
+a.out
+a.txt
+hello.out
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------19:00:24-------- $ ./a.out                                             - запускает выполняемый файл a.out                                     
+Hello world!
+--------19:00:37-------- $ ./hello.out                                         - запускает выполняемый файл hello.out
+Hello world!
+--------19:01:43-------- $ >res.c                                              - создается файл res.c
+--------19:01:47-------- $ vim res.c                                           - пишется код в res.c
+--------19:06:07-------- $ gcc res.c                                           - компилируется и линкуется res.c в исполнительный файл a.out
+--------19:06:11-------- $ ./a.out                                             - запускает исполнительный файл a.out
+--------19:07:19-------- $ ls -l                                               - выводит расширенное содержимое текущей директории
+итого 84
+-rwxrwxr-x 1 egor egor 16128 фев 16 19:06 a.out
+-rw-rw-r-- 1 egor egor     4 фев 16 17:48 a.txt
+-rwxrwxr-x 1 egor egor 15960 фев 16 19:00 hello.out
+-rw-rw-r-- 1 egor egor 18005 фев 16 19:07 logs.log
+-rw-rw-r-- 1 egor egor    74 фев 16 17:58 main.c
+-rwxrwxr-x 1 egor egor   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1 egor egor     0 фев 16 18:20 output.log
+-rw-rw-r-- 1 egor egor    71 фев 16 18:59 prog.c
+-rw-rw-r-- 1 egor egor  1504 фев 16 18:59 prog.o
+-rw-rw-r-- 1 egor egor    13 фев 16 19:06 res
+-rw-rw-r-- 1 egor egor   198 фев 16 19:05 res.c
+drwxrwxr-x 5 egor egor  4096 фев 16 18:47 test1
+--------19:07:35-------- $ cat res                                             - выводит содержимое файла res 
+hello world!
+--------19:07:51-------- $ >my_open.c                                          - создает файл my_open.c
+--------19:07:55-------- $ vim my_open.c                                       - открывает файл my_open.c с помощью текстового редактора vim
+--------19:13:53-------- $ gcc main.c                                          - компилирует и линкует файл main.c
+--------19:14:09-------- $ ls                                                  - выводит содержимое текущей директории
+a.out   
+a.txt
+hello.out
+logs.log
+main.c
+my_open.c
+myscript.sh
+output.log
+prog.c
+prog.o
+res
+res.c
+test1
+
+--------19:15:03-------- $ >try.txt                                            - создает файл try.txt     
+--------19:15:37-------- $ gcc my_open.c                                       - компилирует и линкует файл my_open.c                            
+--------19:15:43-------- $ ./a.out try.txt                                     - запускает исполнительный файл a.out передавая в качестве аргумента файл try.txt
+./a.out: файл try.txt открыт
+--------19:15:43-------- $ ./a.out Something.txt                               - запускает исполнительный файл a.out передавая в качестве аргумента файл Something.txt
+./a.out: неудача при попытке открыть файл Something.
+--------19:15:43-------- $ ./a.out                                             - запускает исполняемый файл a.out
+открываемый файл не указан

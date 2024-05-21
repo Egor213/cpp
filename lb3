@@ -1,0 +1,897 @@
+\documentclass{amsart}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{fullpage}
+\usepackage{eufrak}
+\usepackage{bbm}
+\usepackage{tikz} % пакет для рисования графиков
+%%% Дополнительная работа с математикой
+\usepackage{amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{amsmath}
+\usepackage{icomma}
+\usepackage{ulem}
+
+
+%% Шрифты
+\usepackage{euscript}	% Шрифт Евклид
+\usepackage{mathrsfs}	% Красивый матшрифт
+
+%% Свои команды
+\DeclareMathOperator{\lb}{\mathop{lb}}	% логарифм по основанию 2
+\DeclareMathOperator{\sgn}{\mathop{sgn}}	% сигнум
+\renewcommand{\Im}{\mathop{\mathrm{Im}}\nolimits}	% мнимая часть
+\renewcommand{\Re}{\mathop{\mathrm{Re}}\nolimits}	% вещественная часть
+\renewcommand{\emptyset}{\varnothing}	% пустое множество
+\renewcommand{\le}{\leqslant}	% отечественная версия "меньше или равно"
+\renewcommand{\ge}{\geqslant}	% отечественная версия "больше или равно"
+\renewcommand{\epsilon}{\varepsilon}	% стандартная "эпсилон"
+\renewcommand{\phi}{\varphi}	% стандартная "фи"
+\newcommand{\const}{\mathrm{const}}	% константа
+
+%% Множества чисел
+\DeclareMathOperator{\Natural}{\mathbb{N}}	% Натуральные числа
+\DeclareMathOperator{\Integer}{\mathbb{Z}}	% Целые числа
+\DeclareMathOperator{\Integerp}{\mathbb{Z}_{+}}	% Целые неотрицательные числа
+\DeclareMathOperator{\Rational}{\mathbb{Q}}	% Рациональные числа
+\DeclareMathOperator{\Real}{\mathbb{R}}	% Вещественные числа
+\DeclareMathOperator{\Realp}{\mathbb{R}_{>0}}	% Вещественные положительные числа
+\DeclareMathOperator{\Realn}{\mathbb{R}_{<0}}	% Вещественные отрицательные числа
+\DeclareMathOperator{\Realnn}{\mathbb{R}_{\ge 0}}	% Вещественные неотрицательные числа
+\DeclareMathOperator{\Realnp}{\mathbb{R}_{\le 0}}	% Вещественные неположительные числа
+\DeclareMathOperator{\Complex}{\mathbb{C}}	% Комплексные числа
+
+%% Заглавные греческие буквы
+\DeclareMathOperator{\Alpha}{\mathrm{A}}	% Альфа
+\DeclareMathOperator{\Beta}{\mathrm{B}}	% Вета
+\DeclareMathOperator{\Epsilon}{\mathrm{E}}	% Эпсилон
+\DeclareMathOperator{\Zeta}{\mathrm{Z}}	% Дзета
+\DeclareMathOperator{\Eta}{\mathrm{H}}	% Эта
+\DeclareMathOperator{\Iota}{\mathrm{I}}	% Йота
+\DeclareMathOperator{\Kappa}{\mathrm{K}}	% Каппа
+\DeclareMathOperator{\Mu}{\mathrm{M}}	% Мю
+\DeclareMathOperator{\Nu}{\mathrm{N}}	% Ню
+\DeclareMathOperator{\Omicron}{\mathrm{O}}	% Омикрон
+\DeclareMathOperator{\Rho}{\mathrm{P}}	% Ро
+\DeclareMathOperator{\Tau}{\mathrm{T}}	% Тау
+\DeclareMathOperator{\Chi}{\mathrm{X}}	% Хи
+
+%% Теория вероятностей
+\renewcommand{\Prob}{\mathbb P}	% вероятность
+\newcommand{\Expect}{\mathbb E}	% математическое ожидание
+\renewcommand{\Variance}{\mathbb D}	% дисперсия
+\newcommand{\Entropy}{\mathbb H}	% энтропия
+\DeclareMathOperator{\cov}{\mathop{cov}}	% ковариация
+\DeclareMathOperator{\supp}{\mathop{supp}}	% носитель
+\DeclareMathOperator{\Skewness}{\mathop{Skew}}	% коэффициент асимметрии
+\DeclareMathOperator{\Kurtosis}{\mathop{Kurt}}	% коэффициент эксцесса
+
+%%% Статистический анализ
+\newcommand*{\moment}[1]{\overline{#1}}	% выборочный момент
+\DeclareMathOperator{\hskew}{\mathop{\widehat{Skew}}}	% выборочный коэффициент асимметрии
+\DeclareMathOperator{\hkurt}{\mathop{\widehat{Kurt}}}	% выборочный коэффициент эксцесса
+%% Однопараметрические распределения
+\newcommand*{\chisq}[1]{\chi^2_{#1}}	% Распределение хи-квадрат
+\newcommand*{\Stud}[1]{\mathcal{S}_{#1}}	% Распределение Стьюдента
+\newcommand*{\Exp}[1]{\mathop{\mathrm{Exp}}(#1)}	% Показательное распределение
+\newcommand*{\Bern}[1]{\mathop{\mathrm{Bern}}(#1)}	% Распределение Бернулли
+\newcommand*{\Geom}[1]{\mathop{\mathrm{Geom}}(#1)}	% Геометрическое распределение
+\newcommand*{\Pois}[1]{\mathop{\mathrm{Pois}}(#1)}	% Распределение Пуассона
+%% Двухпараметрические распределения
+\newcommand*{\FS}[2]{\mathcal{F}_{#1, #2}}	% Распределение Фишера-Снедекора
+\newcommand*{\Norm}[2]{\mathcal{N}(#1, #2)}	% Нормальное распределение
+\newcommand*{\Unif}[2]{\mathcal{U}(#1, #2)}	% Равномерное распределение
+\newcommand*{\DE}[2]{\mathop{\mathrm{DE}}(#1, #2)}	% Распределение Лапласа
+\newcommand*{\Cauchy}[2]{\mathop{\mathrm{C}}(#1, #2)}	% Распределение Коши
+\newcommand*{\Binom}[2]{\mathop{\mathrm{Binom}}(#1, #2)}	% Биномиальное распределение
+\newcommand*{\Betadist}[2]{\mathop{\mathrm{Beta}}(#1, #2)}	% Бета-распределение
+\newcommand*{\Gammadist}[2]{\mathop{\mathrm{Gamma}}(#1, #2)}	% Гамма-распределение
+%% Ажурные и готические буквы
+\newcommand*{\Acl}{\mathcal{A}}	% A красивое
+\newcommand*{\Ccl}{\mathcal{C}}	% C красивое
+\newcommand*{\Fcl}{\mathcal{F}}	% F красивое
+\newcommand*{\Icl}{\mathcal{I}}	% I красивое
+\newcommand*{\Kcl}{\mathcal{K}}	% K красивое
+\newcommand*{\Pcl}{\mathcal{P}}	% P красивое
+\newcommand*{\Ycl}{\mathcal{Y}}	% Y красивое
+\newcommand*{\Afr}{\mathfrak{A}}	% A готическое
+\newcommand*{\Bfr}{\mathfrak{B}}	% B готическое
+\newcommand*{\Ffr}{\mathfrak{F}}	% F готическое
+\newcommand*{\Kfr}{\mathfrak{K}}	% K готическое
+\newcommand*{\Xfr}{\mathfrak{X}}	% X готическое
+%% Теория оценивания
+\newcommand*{\ind}[1]{\mathbbm{1}_{\lbrace #1 \rbrace}}	% индикаторная функция
+\newcommand*{\bias}[2]{\mathop{\mathrm{bias}}\nolimits_{#1}(#2)}	% смещение
+
+%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+	{\hbox{$\mathsurround=0pt #1$}}{}}
+
+%%% Работа с картинками
+\usepackage{graphicx,xcolor}	% Для вставки рисунков
+\graphicspath{{images/}{images2/}}	% папки с картинками
+\setlength\fboxsep{3pt}	% Отступ рамки \fbox{} от рисунка
+\setlength\fboxrule{1pt}	% Толщина линий рамки \fbox{}
+\usepackage{wrapfig}	% Обтекание рисунков и таблиц текстом
+\RequirePackage{caption}
+\DeclareCaptionLabelSeparator{defffis}{ "--- }
+\captionsetup{justification=centering,labelsep=defffis}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{patterns}
+\usetikzlibrary{calc}
+\usepgfplotslibrary{fillbetween}
+
+%%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs}	% Дополнительная работа с таблицами
+\usepackage{longtable}	% Длинные таблицы
+\usepackage{multirow}	% Слияние строк в таблице
+\usepackage{makecell}
+\usepackage{multicol}
+
+\renewcommand{\arraystretch}{2.5}
+\renewcommand{\qedsymbol}{}
+
+\newtheorem{problem}{Задание}
+
+\begin{document}
+	\newcommand{\problemset}[1]{
+		\begin{center}
+			\Large #1
+		\end{center}
+	}
+
+	\begin{tabbing}
+	\hspace{11cm} \= Студент: \=Муравин Егор \\	% не забудьте исправить, студент Вы или студентка :)
+																									% (а то некоторые забывают)
+	\> Группа: \>2382 \\	% Здесь меняете № группы
+	\> Вариант: \> 9 \\		% А здесь меняете № варианта
+	\> Дата: \> \today		% А вот здесь ничего не меняем!!!
+\end{tabbing}
+\hrule
+\vspace{1cm}	% в данном файле меняем только Пол, Фамилию Имя, № группы и № варианта
+	\problemset{Теория вероятностей и математическая статистика}
+\problemset{Индивидуальное домашнее задание №3}	% поменяйте номер ИДЗ
+
+\renewcommand*{\proofname}{Решение}
+
+%%%%%%%%%%%%%% ЗАДАНИЕ №1 %%%%%%%%%%%%%%
+%% Условие задания №1
+\begin{problem}
+    Случайный вектор ($\xi$,$\eta$) имеет равномерное распределение в области D:
+    \[
+D = \left( 
+\begin{array}{c}
+x + y \leq 2, \\
+x \geq 0, \, y \geq 1
+\end{array}
+\right)
+\]
+    
+    \hspace{1cm} $\zeta = -2\xi^2-2, \nu=\left\lfloor 3\eta\right\rfloor, \mu = \xi+\eta$\\ Найти \( p_{\xi, \eta}(x, y) \), функции и плотности распределения компонентов. Построить графики функций распределений \( F_{\xi}(x) \) и \( F_{\eta}(y) \). Будут ли компоненты независимыми?
+
+
+
+    
+\end{problem}
+
+%% Решение задания №1
+\begin{proof}
+
+    Построим область D:
+\begin{center}
+
+    
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = {$x$},
+        ylabel = {$y$},
+        xmin = -1, xmax = 3,
+        ymin = -1, ymax = 3,
+        samples = 100,
+        domain = -1:3,
+        restrict y to domain = -1:3
+    ]
+    \addplot [
+        domain=0:2,
+        samples=100,
+        name path=A,
+        thick,
+        color=blue,
+    ] {2-x};
+    
+    \addplot [
+        domain=0:3,
+        samples=100,
+        name path=B,
+        thick,
+        color=red,
+    ] {1};
+    
+    \path [name path=C] (axis cs:0,0) -- (axis cs:0,3);
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and B,
+        soft clip={domain=0:1},
+    ];
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and C,
+        soft clip={domain=1:2},
+    ];
+    
+    \end{axis}
+\end{tikzpicture}
+
+
+\end{center}
+    Вычислим значение \( p_{\xi, \eta}(x, y) \):
+    \begin{center}
+    \[ \iint\limits_{\substack{D}}  p_{\xi, \eta}(x, y)  \, dx \, dy = 1 \\
+ \int_{0}^{1} \ dx  \int_{1}^{2-x} C \ dy = 1\]
+\end{center}
+Таким образом получаем значение С = 2.
+
+\begin{center}
+    
+    \[
+p_{\xi, \eta}(x, y) = \left\{
+\begin{aligned}
+    & 2, && (x,y) \in  D, x \in [0,1], y \in [1,2] \\
+    & 0, &&  (x,y) \notin  D\\
+\end{aligned}
+\right.
+\] 
+
+\end{center}
+
+Вычислим значение плотности компонент:
+\begin{center}
+
+
+
+\[ p_{\xi}(x)= \int_{\mathbb{R}} p_{\xi, \eta}(x, y) \, dy=\int_{1}^{2-x} 2 \, dy=2-2x \] \\
+\[ p_{\eta}(y)= \int_{\mathbb{R}} p_{\xi, \eta}(x, y) \, dx=\int_{0}^{2-y} 2 \, dx=4-2y \]
+
+
+
+\end{center}
+
+Таким образом получаем: 
+
+\begin{center}
+    
+\end{center}
+    \[
+p_{\xi}(x) = \left\{
+\begin{aligned}
+    & 2-2x , && x \in [0,1] \\
+    & 0, &&  x \notin [0,1] \\
+\end{aligned}
+\right.
+\] 
+
+    \[
+p_{\eta}(y) = \left\{
+\begin{aligned}
+    & 4-2y , && y \in [1,2] \\
+    & 0, &&  y \notin [1,2] \\
+\end{aligned}
+\right.
+\] 
+
+
+Проверим компоненты на независимость
+
+\begin{center}
+    \[p_{\xi, \eta}(x, y) = p_{\xi}(x) \cdot p_{\eta}(y)\] \\
+    \[2 = 4(1-x)(2-y)\]
+\end{center}
+
+Возьмем точку (0,1). 2 = $4\cdot1\cdot1$. Как можно увидеть, 2 != 4 - значит компоненты $\xi$ и $\eta$ зависимы. \\
+Построим функции распределения величин.
+\begin{center}
+
+    \[
+F_\xi(x) = \left\{
+\begin{aligned}
+    &  0 , && x \in  (-\infty, 0] \\
+    & 2x-x^2, && x \in  (0,1] \\
+    & 1, && x \in  (1,+\infty) \\
+\end{aligned}
+\right.
+\] 
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$x$},
+    ylabel={$F_\xi(x)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-3:0] {0} node[right] {};
+    \addplot[blue, thick, domain=0:1] {2*x-x^2} node[right] {};
+    \addplot[blue, thick, domain=1:3] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+    \[
+F_\eta(y) = \left\{
+\begin{aligned}
+    &  0 , && y \in  (-\infty, 1] \\
+    & 4y-y^2-3, && y \in  (1,2] \\
+    & 1, && y \in  (2,+\infty) \\
+\end{aligned}
+\right.
+\]
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$y$},
+    ylabel={$F_\eta(y)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-3:1] {0} node[right] {};
+    \addplot[blue, thick, domain=1:2] {4*x-x^2-3} node[right] {};
+    \addplot[blue, thick, domain=2:5] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+
+
+\end{center}
+
+
+
+
+\end{proof}
+
+%%%%%%%%%%%%%% ЗАДАНИЕ №2 %%%%%%%%%%%%%%
+%% Условие задания №2
+\begin{problem}
+    Найти распределения случайных величин $\zeta$ и $\nu$; Вычислить  $\Expect\xi$, $\Variance\xi$, $\Expect\zeta$ и $\Variance\zeta$. Построить графики функции распределения $F_{\zeta}(z)$  и $ F_{\nu}(n)$
+    
+\end{problem}
+
+
+%% Решение задания №2
+\begin{proof}
+
+Найдем рапределение $\zeta = -2\xi^2-2$.
+
+
+\begin{center}
+
+    supp($\xi$) = [0,1]\\
+    supp($\zeta$ )= [-4, -2]
+
+\begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$\xi$},
+    ylabel={$\zeta$},
+    axis lines=middle,
+    enlargelimits,
+    domain=-2:2,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=0:1] {-2*x^2-2};
+  \end{axis}
+\end{tikzpicture}
+
+    \[
+A_1 [0, 1] = \left\{
+\begin{aligned}
+    & g_1(x) = -2x^2-2 \\
+    & g_1^{-1}(z) = \sqrt{-\cfrac{z}{2}-1} \\
+\end{aligned}
+\right.
+\] 
+
+
+\[ p_\zeta(z) = \lvert -\cfrac{1}{4\cdot\sqrt{-\cfrac{z}{2}-1}} \rvert \cdot (2-2\cdot\sqrt{-\cfrac{z}{2}-1})  = \cfrac{1}{2\sqrt{-\cfrac{z}{2}-1}} - \cfrac{1}{2}, y \in  [-4, -2]\]
+
+    \[
+p_\zeta(z) = \left\{
+\begin{aligned}
+    & \cfrac{1}{\sqrt{-2z-4}} - \cfrac{1}{2} , && z \in  [-4, -2] \\
+    & 0 , && z \notin  [-4,-2] \\
+\end{aligned}
+\right.
+\] 
+
+
+
+    \[
+F_\zeta(z) = \left\{
+\begin{aligned}
+    &  0 , && z \in  (-\infty, -4] \\
+    & -\cfrac{z}{2}-\sqrt{-2z-4} , && z \in  (-4, -2] \\
+    & 1 , && z \in  (-2, +\infty) \\
+\end{aligned}
+\right.
+\] 
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$z$},
+    ylabel={$F_\zeta(z)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-8:-4] {0} node[right] {};
+    \addplot[blue, thick, domain=-4:-2] {-(x/2)-sqrt(-2*x-4)} node[right] {};
+    \addplot[blue, thick, domain=-2:5] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+    
+\end{center}
+
+Найдем распределение $\nu=\left\lfloor 3\eta\right\rfloor$.
+
+
+
+
+
+
+\begin{center}
+
+    supp($\eta$) = [1,2]\\
+    supp($\nu$ )= \{3,4,5,6\}
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$\eta$},
+    ylabel={$\nu$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=1:4/3] {3} node[right] {};
+    \addplot[blue, thick, domain=4/3:5/3] {4} node[right] {};
+    \addplot[blue, thick, domain=5/3:2] {5} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+\end{center}
+
+Из графика можно увидеть, что величина $\nu$ является дискретной случайной величиной.
+Тогда:
+\begin{center}
+
+
+\[
+\Prob(\nu = 3) = \int_{1}^{\cfrac{4}{3}} 4-2y  \, dy = \cfrac{5}{9}\\
+\Prob(\nu = 4) = \int_{\cfrac{4}{3}}^{\cfrac{5}{3}} 4-2y  \, dy = \cfrac{3}{9}\\
+\Prob(\nu = 5) = \int_{\cfrac{5}{3}}^{2} 4-2y  \, dy = \cfrac{1}{9}
+\]
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    $ \nu$ & 3 & 4 &  5  \\
+    \hline
+     $ \Prob \nu $& $ \cfrac{5}{9} $ & $ \cfrac{3}{9} $ &  $ \cfrac{1}{9}  $   \\
+    \hline
+\end{tabular}
+
+
+
+    \[
+F_\nu(n) = \left\{
+\begin{aligned}
+    & 0 , && n \in  (-\infty, 3] \\
+    & \cfrac{5}{9} , && n \in  (3, 4] \\
+    & \cfrac{8}{9} , && n \in  (4, 5] \\
+    & 1 , && n \in  (5, +\infty) \\
+\end{aligned}
+\right.
+\] 
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$n$},
+    ylabel={$F_\nu(n)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-8:3] {0} node[right] {};
+    \addplot[blue, thick, domain=3:4] {5/9} node[right] {};
+    \addplot[blue, thick, domain=4:5] {8/9} node[right] {};
+    \addplot[blue, thick, domain=5:10] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+\end{center}
+
+
+
+\end{center}
+
+
+Вычислим математическое ожидание:
+    \[ \Expect\zeta = \int_{-4}^{-2} z\cdot(\cfrac{1}{\sqrt{-2z-4}} - \cfrac{1}{2}) \, dz =  |t = -\cfrac{z}{2}-1, dz = -2dt| = 2\int_{1}^{0}\cfrac{t+1}{\sqrt{t}} \, dt - \cfrac{1}{2}\int_{-4}^{-2}z \, dz = 2\cdot (\cfrac{2t^{\cfrac{3}{2}}}{3}\bigg|_{1}^{0} + 2\sqrt{t}\bigg|_{1}^{0}) - \cfrac{1}{2} \cdot \cfrac{z^2}{2}\bigg|_{-4}^{-2} = - \cfrac{7}{3}\]
+
+    \[ \Expect\zeta^2 = \int_{-4}^{-2} z^2\cdot(\cfrac{1}{\sqrt{-2z-4}} - \cfrac{1}{2}) \, dz =  |t = -\cfrac{z}{2}-1, dz = -2dt| = -4\int_{1}^{0}\cfrac{t^2+2t+1}{\sqrt{t}} \, dt - \cfrac{1}{2}\int_{-4}^{-2}z^2 \, dz = \] \[= -4\cdot (\cfrac{2t^{\cfrac{5}{2}}}{5}\bigg|_{1}^{0} + \cfrac{4t^{\cfrac{3}{2}}}{3}\bigg|_{1}^{0} + 2\sqrt{z}\bigg|_{1}^{0}) - \cfrac{1}{2} \cdot \cfrac{z^3}{3}\bigg|_{-4}^{-2} =  \cfrac{28}{5}\]
+
+
+
+    \[
+    \Expect\nu = 3\cdot\cfrac{5}{9} + 4\cdot\cfrac{3}{9} + 5\cdot\cfrac{1}{9} = \cfrac{32}{9}
+    \]
+
+    \[
+    \Expect\nu^2 = 9\cdot\cfrac{5}{9} + 16\cdot\cfrac{3}{9} + 25\cdot\cfrac{1}{9} = \cfrac{118}{9}
+    \]
+
+    
+Вычислим дисперсию:
+    \[ \Variance\zeta = \Expect\zeta^2 - (\Expect\zeta)^2 = \cfrac{28}{5} - (\cfrac{7}{3})^2 = \cfrac{7}{45}\] 
+    \[ \Variance\nu = \Expect\nu^2 - (\Expect\nu)^2 = \cfrac{118}{5} - (\cfrac{32}{3})^2 = \cfrac{38}{81}\] 
+
+
+
+
+
+\end{proof}
+
+
+\begin{problem}
+    Вычислить вектор математических ожиданий, построить ковариационную и корреляционную матрицы
+для вектора $(\xi,\eta)$. Найти условное распределение $\xi$
+при условии $\eta$. Вычислить $\Expect(\xi\mid\eta)$ и $\Variance(\xi\mid\eta)$.
+\end{problem}
+
+\begin{proof}
+    
+
+
+Вычислим условное распределение $\xi$ при условии $\eta$
+
+\begin{center}
+
+\[
+p_{\xi \mid \eta = y_0}(x) = \cfrac{p_{\xi,\eta}(x,y_0)}{p_{\eta}(y_0)} = \left\{
+\begin{aligned}
+    & \cfrac{1}{2-y_0} , && y_0 \in  [1, 2], x \in [0, 2-y_0]\\
+    & 0 , &&  else\\
+\end{aligned}
+\right.
+\]
+
+\[
+p_{\xi \mid \eta}(x)= \left\{
+\begin{aligned}
+    & \cfrac{1}{2-\eta} , &&  x \in [0, 2 - \eta]\\
+    & 0 , &&  else\\
+\end{aligned}
+\right.
+\]
+
+
+\[
+\Expect(\xi \mid \eta) = \int_{-\infty}^{\infty} x f_{\xi \mid \eta} (x) \, dx = \int_0^{2-\eta} \frac{x}{2-\eta} \, dx
+\]
+
+\[
+= \frac{1}{2-\eta} \int_0^{2-\eta} x \, dx = \frac{1}{2-\eta} \cdot \cfrac{x^2}{2}\bigg|_{0}^{2-\eta}
+= \frac{1}{2-\eta} \cdot \left( \frac{(2-\eta)^2}{2} \right) = \cfrac{2-\eta}{2}
+\]
+
+\[
+\Expect(\xi^2 \mid \eta) = \int_{-\infty}^{\infty} x^2 f_{\xi \mid \eta} (x) \, dx = \int_0^{2-\eta} \frac{x^2}{2-\eta} \, dx
+\]
+
+\[
+= \frac{1}{2-\eta} \int_0^{2-\eta} x^2 \, dx = \frac{1}{2-\eta} \cdot \cfrac{x^3}{3}\bigg|_{0}^{2-\eta}
+= \frac{1}{2-\eta} \cdot \left( \frac{(2-\eta)^3}{3} \right) = \cfrac{(2-\eta)^2}{3}
+\]
+
+\[ \Variance(\xi^2 \mid \eta) = \Expect(\xi^2 \mid \eta) - (\Expect(\xi \mid \eta))^2 = \cfrac{(2-\eta)^2}{3} - \cfrac{(2-\eta)^2}{4} = \cfrac{(2-\eta)^2}{12}\] 
+    
+\end{center}
+
+Теперь вычислим математические ожидания для $\eta, \xi$.
+
+\begin{center}
+    \[
+    \Expect(\xi) = 2\cdot\int_{0}^{1} x(1-x) \, dx = 2\cdot (\cfrac{x^2}{2}-\cfrac{x^3}{3})\bigg|_{0}^{1} = \cfrac{1}{3}
+    \]
+    \[
+    \Expect(\xi^2) = 2\cdot\int_{0}^{1} x^2(1-x) \, dx = 2\cdot (\cfrac{x^3}{3}-\cfrac{x^4}{4})\bigg|_{0}^{1} = \cfrac{1}{6}
+    \]
+
+
+    \[
+    \Expect(\eta) = 2\cdot\int_{1}^{2} y(2-y) \, dy = 2\cdot (y^2-\cfrac{y^3}{3})\bigg|_{1}^{2} = \cfrac{4}{3}
+    \]
+    \[
+    \Expect(\eta^2) = 2\cdot\int_{1}^{2} y^2(2-y) \, dy = 2\cdot (\cfrac{2y^3}{3}-\cfrac{y^4}{4})\bigg|_{1}^{2} = \cfrac{11}{6}
+    \]
+
+    \[
+    \Expect(\xi\eta) = \iint_D xyp_{\xi,\eta}(x,y) \, dx \, dy = \int_{0}^{1} dx \int_{1}^{2-x}2xydy = \cfrac{5}{12}
+    \]
+
+    
+\end{center}
+
+Вектор математчиеских ожиданий:
+\begin{center}
+    \[
+    \Expect(\xi;\eta) = (\Expect\xi; \Expect\eta) = (\cfrac{1}{3}; \cfrac{4}{3})
+    \]
+\end{center}
+
+
+Теперь вычисление дисперсии:
+\begin{center}
+\[
+\Variance\xi = \Expect\xi^2 - (\Expect\xi)^2 = \cfrac{1}{6} - \cfrac{1}{9} = \cfrac{1}{18}
+\]
+\[
+\Variance\eta = \Expect\eta^2 - (\Expect\eta)^2 = \cfrac{11}{6} - \cfrac{16}{9} = \cfrac{1}{18}
+\]
+\end{center}
+Вычислим матрицу ковариации.
+\begin{center}
+\[
+\cov\xi\eta = \Expect\xi\eta - \Expect\xi\cdot\Expect\eta = \cfrac{5}{12}-\cfrac{1}{3}\cdot\cfrac{4}{3} = -\cfrac{1}{36}
+\]
+\[
+\cov\xi\xi = \Expect\xi^2 - (\Expect\xi)^2 = \cfrac{1}{18}
+\]
+\[
+\cov\eta\eta = \Expect\eta^2 - (\Expect\eta)^2 = \cfrac{1}{18}
+\]  
+\end{center}
+Таким образом матрица ковариации: 
+\begin{center}
+    
+
+\[
+\mathbf{A} = \begin{bmatrix}
+\cfrac{1}{18} & -\cfrac{1}{36} \\
+-\cfrac{1}{36} & \cfrac{1}{18}
+\end{bmatrix}
+\]
+\end{center}
+
+Вычислим кореляцию:
+\begin{center}
+\[
+p(\xi\eta) = \cfrac{\cov\xi\eta}{\sqrt{\Variance\xi\cdot\Variance\eta}} = -\cfrac{1}{2}
+\]
+\end{center}
+Тогда матрица:
+\begin{center}
+    
+
+\[
+\mathbf{R} = \begin{bmatrix}
+1 & -\cfrac{1}{2} \\
+-\cfrac{1}{2} & 1
+\end{bmatrix}
+\]
+\end{center}
+
+\end{proof}
+
+
+
+
+\begin{problem}
+    Найти распределение $\mu$. Вычислить $\Variance\mu, \Expect\mu$. Построить график функции распределения $F_{\mu}(m)$, $\mu = \xi+\eta$
+\end{problem}
+
+\begin{proof}
+Построим график:
+\begin{center}
+
+    
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = {$x$},
+        ylabel = {$y$},
+        xmin = -1, xmax = 3,
+        ymin = -1, ymax = 3,
+        samples = 100,
+        domain = -1:3,
+        restrict y to domain = -1:3
+    ]
+    \addplot [
+        domain=0:2,
+        samples=100,
+        name path=A,
+        thick,
+        color=blue,
+    ] {2-x};
+    
+    \addplot [
+        domain=0:3,
+        samples=100,
+        name path=B,
+        thick,
+        color=red,
+    ] {1};
+    
+    \path [name path=C] (axis cs:0,0) -- (axis cs:0,3);
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and B,
+        soft clip={domain=0:1},
+    ];
+    
+    \addplot [
+        thick,
+        color=gray,
+        fill=gray,
+        fill opacity=0.3
+    ] fill between [
+        of=A and C,
+        soft clip={domain=1:2},
+    ];
+
+    \addplot[dashed, blue, thick, domain=0:1] {1-x} node[right] {};
+    \addplot[dashed, blue, thick, domain=0:3/2] {3/2-x} node[right] {};
+
+    % Заштриховка области между графиками
+\addplot [
+    domain=0:1,
+    samples=100,
+    fill=blue,
+    fill opacity=0.2,
+] {1-x} \closedcycle;
+
+\addplot [
+    domain=0:3/2,
+    samples=100,
+    fill=blue,
+    fill opacity=0.2,
+] {3/2-x} \closedcycle;
+
+% Отметка точки пересечения y = 0 и y = 3/2 - x
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(0, 3/2)};
+
+\node[anchor=east] at (axis cs:0, 3/2) {$m$};
+
+
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(3/2-1, 1)};
+
+\node[anchor=north] at (axis cs:3/2-1, 0) {$m-1$};
+
+\addplot[
+    only marks,
+    mark=*,
+    mark options={scale=1, fill=red},
+] coordinates {(3/2, 0)};
+
+\node[anchor=north] at (axis cs:3/2, 0) {$m$};
+
+\addplot [
+    red,
+    thick,
+    dashed,
+] coordinates {(1/2, 0) (1/2, 1)};
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Вычислим площадь трапеции:
+\begin{center}
+\[
+S = \cfrac{(m-1)+m}{2} \cdot 1 = m-\cfrac{1}{2}
+\]
+    
+\end{center}
+
+Рассчитаем значение функции распределения для $\mu$.
+
+\begin{center}
+\[
+supp(\mu) = [1;3]
+\]
+\[
+F_\mu(m) = \Prob(\mu<m) = \Prob(\xi+\eta<m)
+\]
+    \[ 
+    F_\mu(m) = \iint_D p_{\xi;\eta}(x,y) \, dxdy = 2 \cdot (\int_{0}^{m} dx \int_{0}^{m-x}  \, dy - m + \cfrac{1}{2}) = m^2-2m+1
+    \]
+
+
+        \[
+F_\mu(m) = \left\{
+\begin{aligned}
+    & 0 , && m \in  (-\infty, 1] \\
+    & m^2-2m+1 , && m \in  (1, 2] \\
+    & 1 , && m \in  (2, +\infty) \\
+\end{aligned}
+\right.
+\] 
+
+    \begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$m$},
+    ylabel={$F_\mu(m)$},
+    axis lines=middle,
+    enlargelimits,
+    domain=0:2.718,
+    samples=101
+  ]
+    \addplot[blue, thick, domain=-3:1] {0} node[right] {};
+    \addplot[blue, thick, domain=1:2] {x^2-2*x+1} node[right] {};
+    \addplot[blue, thick, domain=2:5] {1} node[right] {};
+  \end{axis}
+\end{tikzpicture}
+
+\end{center}
+
+
+Найдем плотность распределния, затем $\Variance\mu, \Expect\mu$
+\begin{center}
+        \[
+p_\mu(m) = \left\{
+\begin{aligned}
+    & 2m-2 , && m \in  [1, 2] \\
+    & 0 , && m \notin  [1, 2] \\
+\end{aligned}
+\right.
+\] 
+
+\[
+\Expect\mu = 2\int_{1}^{2}m(m-1) \, dm = \cfrac{5}{6}
+\]
+
+\[
+\Expect\mu^2 = 2\int_{1}^{2}m^2(m-1) \, dm = \cfrac{17}{12}
+\]
+
+\[
+\Variance\mu = \Expect\mu^2 - (\Expect\mu)^2 = \cfrac{17}{12} - (\cfrac{5}{6})^2 = \cfrac{26}{36}
+\]
+\end{center}
+
+
+
+\end{proof}
+
+\end{document}  

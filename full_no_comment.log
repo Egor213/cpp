@@ -1,0 +1,1625 @@
+Started work: Пт 16 фев 2024 18:36:15 MSK
+--------18:36:17-------- $ man date                                            
+DATE(1)                          User Commands                         DATE(1) 
+
+NAME                                                                         
+       date - print or set the system date and time
+
+SYNOPSIS                                                                      
+       date [OPTION]... [+FORMAT]
+       date [-u|--utc|--universal] [MMDDhhmm[[CC]YY][.ss]]
+
+DESCRIPTION                                                                    
+       Display the current time in the given FORMAT, or set the system date.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       -d, --date=STRING
+              display time described by STRING, not 'now'
+
+       --debug
+              annotate the parsed date, and warn about questionable  usage  to
+              stderr
+
+       -f, --file=DATEFILE
+              like --date; once for each line of DATEFILE
+
+       -I[FMT], --iso-8601[=FMT]
+              output  date/time  in ISO 8601 format.  FMT='date' for date only
+              (the default), 'hours', 'minutes', 'seconds', or 'ns'  for  date
+              and    time    to    the    indicated    precision.     Example:
+              2006-08-14T02:34:56-06:00
+
+       -R, --rfc-email
+              output date and time in RFC 5322 format.  Example: Mon,  14  Aug
+              2006 02:34:56 -0600
+
+       --rfc-3339=FMT
+              output  date/time in RFC 3339 format.  FMT='date', 'seconds', or
+              'ns' for date and time to  the  indicated  precision.   Example:
+              2006-08-14 02:34:56-06:00
+
+       -r, --reference=FILE
+              display the last modification time of FILE
+
+       -s, --set=STRING
+              set time described by STRING
+
+       -u, --utc, --universal
+              print or set Coordinated Universal Time (UTC)
+
+       --help display this help and exit
+
+       --version
+              output version information and exit
+
+       FORMAT controls the output.  Interpreted sequences are:
+
+       %%     a literal %
+
+       %a     locale's abbreviated weekday name (e.g., Sun)
+
+       %A     locale's full weekday name (e.g., Sunday)
+
+       %b     locale's abbreviated month name (e.g., Jan)
+
+       %B     locale's full month name (e.g., January)
+
+       %c     locale's date and time (e.g., Thu Mar  3 23:05:25 2005)
+
+       %C     century; like %Y, except omit last two digits (e.g., 20)
+
+       %d     day of month (e.g., 01)
+
+       %D     date; same as %m/%d/%y
+
+       %e     day of month, space padded; same as %_d
+
+       %F     full date; like %+4Y-%m-%d
+
+       %g     last two digits of year of ISO week number (see %G)
+
+       %G     year of ISO week number (see %V); normally useful only with %V
+
+       %h     same as %b
+
+       %H     hour (00..23)
+
+       %I     hour (01..12)
+
+       %j     day of year (001..366)
+
+       %k     hour, space padded ( 0..23); same as %_H
+
+       %l     hour, space padded ( 1..12); same as %_I
+
+       %m     month (01..12)
+
+       %M     minute (00..59)
+
+       %n     a newline
+
+       %N     nanoseconds (000000000..999999999)
+
+       %p     locale's equivalent of either AM or PM; blank if not known
+
+       %P     like %p, but lower case
+
+       %q     quarter of year (1..4)
+
+       %r     locale's 12-hour clock time (e.g., 11:11:04 PM)
+
+       %R     24-hour hour and minute; same as %H:%M
+
+       %s     seconds since 1970-01-01 00:00:00 UTC
+
+       %S     second (00..60)
+
+       %t     a tab
+
+       %T     time; same as %H:%M:%S
+
+       %u     day of week (1..7); 1 is Monday
+
+       %U     week number of year, with Sunday as first day of week (00..53)
+
+       %V     ISO week number, with Monday as first day of week (01..53)
+
+       %w     day of week (0..6); 0 is Sunday
+
+       %W     week number of year, with Monday as first day of week (00..53)
+
+       %x     locale's date representation (e.g., 12/31/99)
+
+       %X     locale's time representation (e.g., 23:13:48)
+
+       %y     last two digits of year (00..99)
+
+       %Y     year
+
+       %z     +hhmm numeric time zone (e.g., -0400)
+
+       %:z    +hh:mm numeric time zone (e.g., -04:00)
+
+       %::z   +hh:mm:ss numeric time zone (e.g., -04:00:00)
+
+       %:::z  numeric  time  zone  with  :  to necessary precision (e.g., -04,
+              +05:30)
+
+       %Z     alphabetic time zone abbreviation (e.g., EDT)
+
+       By default, date pads numeric fields with zeroes.   The  following  op‐
+       tional flags may follow '%':
+
+       -      (hyphen) do not pad the field
+
+       _      (underscore) pad with spaces
+
+       0      (zero) pad with zeros
+
+       +      pad with zeros, and put '+' before future years with >4 digits
+
+       ^      use upper case if possible
+
+       #      use opposite case if possible
+
+       After  any  flags  comes  an optional field width, as a decimal number;
+       then an optional modifier, which is either E to use the locale's alter‐
+       nate  representations  if available, or O to use the locale's alternate
+       numeric symbols if available.
+
+EXAMPLES                                                                       
+       Convert seconds since the epoch (1970-01-01 UTC) to a date
+
+              $ date --date='@2147483647'
+
+       Show the time on the west coast of the US (use tzselect(1) to find TZ)
+
+              $ TZ='America/Los_Angeles' date
+
+       Show the local time for 9AM next Friday on the west coast of the US
+
+              $ date --date='TZ="America/Los_Angeles" 09:00 next Fri'
+
+DATE STRING                                                                    
+       The --date=STRING is a mostly free format human  readable  date  string
+       such  as  "Sun, 29 Feb 2004 16:21:42 -0800" or "2004-02-29 16:21:42" or
+       even "next Thursday".  A date string may contain items indicating  cal‐
+       endar  date,  time of day, time zone, day of week, relative time, rela‐
+       tive date, and numbers.  An empty string indicates the beginning of the
+       day.   The date string format is more complex than is easily documented
+       here but is fully described in the info documentation.
+
+AUTHOR                                                                              
+       Written by David MacKenzie.
+
+REPORTING BUGS                                                                         
+       GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+       Report any translation bugs to <https://translationproject.org/team/>
+
+COPYRIGHT                                                                                 
+       Copyright © 2020 Free Software Foundation, Inc.   License  GPLv3+:  GNU
+       GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+       This  is  free  software:  you  are free to change and redistribute it.
+       There is NO WARRANTY, to the extent permitted by law.
+
+SEE ALSO                                                                                 
+       Full documentation <https://www.gnu.org/software/coreutils/date>
+       or available locally via: info '(coreutils) date invocation'
+
+GNU coreutils 8.32               February 2022                         DATE(1)
+--------18:36:19-------- $ who                                                   
+egor     tty7         2024-02-16 14:33 (:0)                                             
+--------18:36:22-------- $ date                                               
+Пт 16 фев 2024 18:36:22 MSK
+--------18:36:27-------- $ who -d                                             
+         pts/2        2024-02-16 18:23             31027 id=ts/2  терминал=0 выход=0  
+--------18:36:29-------- $ who -b                                              
+         загрузка системы 2024-02-16 14:32                                                                               
+--------18:36:32-------- $ tty                                                                  
+/dev/pts/0
+--------18:36:44-------- $ logname                                             
+egor
+--------18:36:50-------- $ uname                                            
+Linux
+--------18:36:58-------- $ uname -a                                               
+Linux egor-Katana-GF76-12UC 5.15.0-56-generic #62-Ubuntu SMP Tue Nov 22 19:54:14 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux 
+--------18:37:17-------- $ sleep 5                                                
+--------18:38:54-------- $ ls                                                
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+test1
+--------18:39:04-------- $ ls -l                                              
+drwxrwxr-x  2 egor egor  4096 сен 20 18:56  build-maze-Desktop-Debug                                                     
+--------18:39:05-------- $ ls -log                                                                                                                           
+итого 40
+-rwxrwxr-x 1 15960 фев 16 17:58 a.out
+-rw-rw-r-- 1     4 фев 16 17:48 a.txt
+-rw-rw-r-- 1  7922 фев 16 18:39 logs.log
+-rw-rw-r-- 1    74 фев 16 17:58 main.c
+-rwxrwxr-x 1   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1     0 фев 16 18:20 output.log
+drwxrwxr-x 4  4096 фев 14 23:57 test1
+--------18:39:18-------- $ mkdir Test1                                                   
+--------18:40:04-------- $ ls -logh                                                  
+итого 48K
+-rwxrwxr-x 1  16K фев 16 17:58 a.out
+-rw-rw-r-- 1    4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 8,6K фев 16 18:40 logs.log
+-rw-rw-r-- 1   74 фев 16 17:58 main.c
+-rwxrwxr-x 1  975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1    0 фев 16 18:20 output.log
+drwxrwxr-x 4 4,0K фев 14 23:57 test1
+drwxrwxr-x 2 4,0K фев 16 18:39 Test1
+--------18:40:29-------- $ stat -c "%s" /                                             
+4096
+--------18:40:48-------- $ cat a.txt                                          
+fdf
+--------18:41:15-------- $ cat Test1                                           
+cat: Test1: Это каталог
+--------18:42:16-------- $ mv Test1 test_test                                    
+--------18:42:19-------- $ ls -logh                                            
+итого 48K
+-rwxrwxr-x 1  16K фев 16 17:58 a.out
+-rw-rw-r-- 1    4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 9,1K фев 16 18:42 logs.log
+-rw-rw-r-- 1   74 фев 16 17:58 main.c
+-rwxrwxr-x 1  975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1    0 фев 16 18:20 output.log
+drwxrwxr-x 4 4,0K фев 14 23:57 test1
+drwxrwxr-x 2 4,0K фев 16 18:39 test_test
+--------18:44:11-------- $ mv test_test test1                                  
+--------18:44:13-------- $ ls                                                  
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+test1
+--------18:44:23-------- $ cd test1                                            
+--------18:46:46-------- $ >test.txt                                                                       
+--------18:46:47-------- $ ls                                                  
+logs.log
+something
+test
+test_test
+test.txt
+--------18:47:02-------- $ cp test.txt ts.txt                                           
+--------18:47:03-------- $ ls                                                  
+logs.log
+something
+test
+test_test
+test.txt
+ts.txt
+--------18:47:52-------- $ rm ts.txt                                           
+--------18:47:53-------- $ ls                                                  
+logs.log
+something
+test
+test_test
+test.txt
+--------18:47:56-------- $ pwd                                                
+/home/egor/OC/test1
+--------18:48:02-------- $ cd ..                                              
+--------18:48:04-------- $ ls /                                                
+0
+bin
+boot
+cdrom
+dev
+etc
+home
+lib
+lib32
+lib64
+libx32
+lost+found
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+swapfile
+sys
+tmp
+usr
+var
+--------18:48:31-------- $ ls -l                                              
+итого 44
+-rwxrwxr-x 1 egor egor 15960 фев 16 17:58 a.out
+-rw-rw-r-- 1 egor egor     4 фев 16 17:48 a.txt
+-rw-rw-r-- 1 egor egor 10725 фев 16 18:48 logs.log
+-rw-rw-r-- 1 egor egor    74 фев 16 17:58 main.c
+-rwxrwxr-x 1 egor egor   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1 egor egor     0 фев 16 18:20 output.log
+drwxrwxr-x 5 egor egor  4096 фев 16 18:47 test1
+--------18:48:34-------- $ ls -l /                                            
+итого 2097500
+-rw-r--r--   1 root root          0 сен  1 17:09 0
+lrwxrwxrwx   1 root root          7 фев  4  2023 bin -> usr/bin
+drwxr-xr-x   4 root root       4096 фев  4  2023 boot
+drwxr-xr-x   2 root root       4096 фев  4  2023 cdrom
+drwxr-xr-x  20 root root       4900 фев 16 17:52 dev
+drwxr-xr-x 152 root root      12288 фев 16 18:23 etc
+drwxr-xr-x   3 root root       4096 фев  4  2023 home
+lrwxrwxrwx   1 root root          7 фев  4  2023 lib -> usr/lib
+lrwxrwxrwx   1 root root          9 фев  4  2023 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root          9 фев  4  2023 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root         10 фев  4  2023 libx32 -> usr/libx32
+drwx------   2 root root      16384 фев  4  2023 lost+found
+drwxr-xr-x   3 root root       4096 фев  4  2023 media
+drwxr-xr-x   2 root root       4096 дек 17  2022 mnt
+drwxr-xr-x  10 root root       4096 фев 15 17:17 opt
+dr-xr-xr-x 446 root root          0 фев 16 14:32 proc
+drwx------   9 root root       4096 сен 17 20:54 root
+drwxr-xr-x  36 root root       1000 фев 16 14:32 run
+lrwxrwxrwx   1 root root          8 фев  4  2023 sbin -> usr/sbin
+drwxr-xr-x   2 root root       4096 дек 17  2022 srv
+-rw-------   1 root root 2147483648 фев  4  2023 swapfile
+dr-xr-xr-x  13 root root          0 фев 16 14:32 sys
+drwxrwxrwt  21 root root     278528 фев 16 18:45 tmp
+drwxr-xr-x  17 root root       4096 ноя 21 22:05 usr
+drwxr-xr-x  11 root root       4096 дек 17  2022 var
+--------18:49:47-------- $ ls -ld                                                                 
+drwxrwxr-x 3 egor egor 4096 фев 16 18:44 .
+--------18:50:41-------- $ ls -ld /bin                                        
+lrwxrwxrwx 1 root root 7 фев  4  2023 /bin -> usr/bin
+--------18:51:18-------- $ cd                                                                          
+--------18:52:01-------- $ mkdir Something                                     
+--------18:52:03-------- $ ls                                                
+2023-05-30 08-26-38.mkv
+2023-05-30 08-29-06.mkv
+2023-05-30 08-29-06.mkv.tar.gz
+anim2.png
+anim3.png
+anim4.png
+anim_hero.jpg
+arial.ttf
+build-maze-Desktop-Debug
+build-test_qt-Desktop-Debug
+build-untitled1-Desktop-Debug
+build-untitled-Desktop-Debug
+C++
+car.jpeg
+diagram
+DMITI
+Documents
+dryrun.log
+EVM
+HELLO2.ASM
+hello.ac3
+Interferentsia2122.pptx_0.odp
+logs.log
+main1.py
+main.cpp
+main.py
+Makefile
+maze
+OC
+packages.microsoft.gpg
+PycharmProjects
+python
+PythonProject
+run
+session.log
+Something
+targets.log
+test
+test.cpp
+test.h
+test_qt
+untitled
+untitled1
+Untitled.ipynb
+viber.deb
+Viking3.png
+vscode-cpptools
+Walk
+Warpinator
+your_program
+Видео
+Галовиц Яцек - C++17 STL. Стандартная библиотека шаблонов (Библиотека программиста) - 2018.pdf
+Документы
+Загрузки
+Изображения
+Музыка
+Общедоступные
+Папка
+Рабочий стол
+Шаблоны
+--------18:52:15-------- $ cd Something                                        
+--------18:53:05-------- $ cd ..                                               
+--------18:53:11-------- $ vim prog.c                                                                                          
+--------18:53:44-------- $ cd Something                                        
+--------18:54:12-------- $ cp ../prog.c prog.c                                    
+--------18:54:13-------- $ ls                                                  
+prog.c
+--------18:54:21-------- $ cd                                                 
+--------18:54:35-------- $ rmdir Something                                                     
+rmdir: не удалось удалить 'Something': Каталог не пуст
+--------18:54:55-------- $ rm Something/prog.c                                 
+--------18:55:06-------- $ rmdir Something                                     
+--------18:55:09-------- $ ls                                                  
+2023-05-30 08-26-38.mkv
+2023-05-30 08-29-06.mkv
+2023-05-30 08-29-06.mkv.tar.gz
+anim2.png
+anim3.png
+anim4.png
+anim_hero.jpg
+arial.ttf
+build-maze-Desktop-Debug
+build-test_qt-Desktop-Debug
+build-untitled1-Desktop-Debug
+build-untitled-Desktop-Debug
+C++
+car.jpeg
+diagram
+DMITI
+Documents
+dryrun.log
+EVM
+HELLO2.ASM
+hello.ac3
+Interferentsia2122.pptx_0.odp
+logs.log
+main1.py
+main.cpp
+main.py
+Makefile
+maze
+OC
+packages.microsoft.gpg
+prog.c
+PycharmProjects
+python
+PythonProject
+run
+session.log
+targets.log
+test
+test.cpp
+test.h
+test_qt
+untitled
+untitled1
+Untitled.ipynb
+viber.deb
+Viking3.png
+vscode-cpptools
+Walk
+Warpinator
+your_program
+Видео
+Галовиц Яцек - C++17 STL. Стандартная библиотека шаблонов (Библиотека программиста) - 2018.pdf
+Документы
+Загрузки
+Изображения
+Музыка
+Общедоступные
+Папка
+Рабочий стол
+Шаблоны
+--------18:58:24-------- $ cd OC                                               
+--------18:58:31-------- $ ls -logha                                                      
+итого 60K
+drwxrwxr-x  3 4,0K фев 16 18:44 .
+drwxr-x--- 63 4,0K фев 16 18:55 ..
+-rwxrwxr-x  1  16K фев 16 17:58 a.out
+-rw-rw-r--  1    4 фев 16 17:48 a.txt
+-rw-rw-r--  1  17K фев 16 18:58 logs.log
+-rw-rw-r--  1   74 фев 16 17:58 main.c
+-rwxrwxr-x  1  975 фев 16 18:27 myscript.sh
+-rw-rw-r--  1    0 фев 16 18:20 output.log
+drwxrwxr-x  5 4,0K фев 16 18:47 test1
+--------18:58:40-------- $ >prog.c
+--------18:58:44-------- $ vim prog.c
+--------18:59:27-------- $ cat prog.c
+#include <stdio.h>
+
+int main()
+{
+	printf("Hello world!");
+	return 0;
+}
+--------18:59:43-------- $ gcc -c prog.c                                                    
+--------18:59:44-------- $ ls                                               
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------18:59:55-------- $ gcc prog.o                                                         
+--------18:59:56-------- $ ls                                                 
+a.out
+a.txt
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------19:00:16-------- $ gcc -o hello.out prog.c                             
+--------19:00:16-------- $ ls                                                  
+a.out
+a.txt
+hello.out
+logs.log
+main.c
+myscript.sh
+output.log
+prog.c
+prog.o
+test1
+--------19:00:24-------- $ ./a.out                                                                                 
+Hello world!
+--------19:00:37-------- $ ./hello.out                                        
+Hello world!
+--------19:01:43-------- $ >res.c                                              
+--------19:01:47-------- $ vim res.c                                           
+--------19:06:07-------- $ gcc res.c                                           
+--------19:06:11-------- $ ./a.out                                             
+--------19:07:19-------- $ ls -l                                               
+итого 84
+-rwxrwxr-x 1 egor egor 16128 фев 16 19:06 a.out
+-rw-rw-r-- 1 egor egor     4 фев 16 17:48 a.txt
+-rwxrwxr-x 1 egor egor 15960 фев 16 19:00 hello.out
+-rw-rw-r-- 1 egor egor 18005 фев 16 19:07 logs.log
+-rw-rw-r-- 1 egor egor    74 фев 16 17:58 main.c
+-rwxrwxr-x 1 egor egor   975 фев 16 18:27 myscript.sh
+-rw-rw-r-- 1 egor egor     0 фев 16 18:20 output.log
+-rw-rw-r-- 1 egor egor    71 фев 16 18:59 prog.c
+-rw-rw-r-- 1 egor egor  1504 фев 16 18:59 prog.o
+-rw-rw-r-- 1 egor egor    13 фев 16 19:06 res
+-rw-rw-r-- 1 egor egor   198 фев 16 19:05 res.c
+drwxrwxr-x 5 egor egor  4096 фев 16 18:47 test1
+--------19:07:35-------- $ cat res                                             
+hello world!
+--------19:07:51-------- $ >my_open.c                                          
+--------19:07:55-------- $ vim my_open.c                                       
+--------19:13:53-------- $ gcc main.c                                          
+--------19:14:09-------- $ ls                                                  
+a.out   
+a.txt
+hello.out
+logs.log
+main.c
+my_open.c
+myscript.sh
+output.log
+prog.c
+prog.o
+res
+res.c
+test1
+
+--------19:15:03-------- $ >try.txt                                               
+--------19:15:37-------- $ gcc my_open.c                                                                   
+--------19:15:43-------- $ ./a.out try.txt                                    
+./a.out: файл try.txt открыт
+--------19:15:43-------- $ ./a.out Something.txt                               
+./a.out: неудача при попытке открыть файл Something.
+--------19:15:43-------- $ ./a.out                                            
+открываемый файл не указан
+Started work: Сб 24 фев 2024 21:21:53 MSK
+--------21:22:25-------- $ cd test1
+--------21:22:29-------- $ ls
+file
+func1.c
+func2.c
+test1.h
+test2.h
+--------21:22:56-------- $ cat func1.c func2.c test1.h test2.h
+#include <stdio.h>
+#include "test2.h"
+
+int main()
+{
+    printf("hello1\n");
+    func2();
+    return 0;
+}#include <stdio.h>
+#include "test2.h"
+
+void func2()
+{
+    printf("Hello2!\n");
+}void func1(void);
+void func2(void);
+--------21:23:42-------- $ gcc func1.c func2.c -o file
+--------21:23:50-------- $ ls
+file
+func1.c
+func2.c
+test1.h
+test2.h
+--------21:24:06-------- $ ./file
+hello1
+Hello2!
+--------21:26:42-------- $ ./file &
+--------21:27:24-------- $ ls /etc/shells
+/etc/shells
+--------21:27:36-------- $ cat /etc/shells
+# /etc/shells: valid login shells
+/bin/sh
+/bin/bash
+/usr/bin/bash
+/bin/rbash
+/usr/bin/rbash
+/usr/bin/sh
+/bin/dash
+/usr/bin/dash
+/usr/bin/tmux
+--------21:27:47-------- $ valid login shells
+./myscript.sh: строка 36: valid: команда не найдена
+--------21:28:03-------- $ /etc/shells: valid login shells
+./myscript.sh: строка 36: /etc/shells:: Нет такого файла или каталога
+--------21:28:52-------- $ echo $SHELL
+/bin/bash
+--------21:30:28-------- $ ps
+    PID TTY          TIME CMD
+  43008 pts/0    00:00:00 bash
+  49681 pts/0    00:00:00 myscript.sh
+  50405 pts/0    00:00:00 ps
+  50406 pts/0    00:00:00 tee
+--------21:33:00-------- $ ps -ea
+    PID TTY          TIME CMD
+      1 ?        00:00:02 systemd
+      2 ?        00:00:00 kthreadd
+      3 ?        00:00:00 rcu_gp
+      4 ?        00:00:00 rcu_par_gp
+      5 ?        00:00:00 netns
+      7 ?        00:00:00 kworker/0:0H-events_highpri
+      9 ?        00:00:00 mm_percpu_wq
+     10 ?        00:00:00 rcu_tasks_rude_
+     11 ?        00:00:00 rcu_tasks_trace
+     12 ?        00:00:01 ksoftirqd/0
+     13 ?        00:01:17 rcu_sched
+     14 ?        00:00:00 migration/0
+     15 ?        00:00:00 idle_inject/0
+     17 ?        00:00:00 cpuhp/0
+     18 ?        00:00:00 cpuhp/1
+     19 ?        00:00:00 idle_inject/1
+     20 ?        00:00:36 migration/1
+     21 ?        00:00:01 ksoftirqd/1
+     23 ?        00:00:00 kworker/1:0H-events_highpri
+     24 ?        00:00:00 cpuhp/2
+     25 ?        00:00:00 idle_inject/2
+     26 ?        00:00:00 migration/2
+     27 ?        00:00:00 ksoftirqd/2
+     29 ?        00:00:00 kworker/2:0H-events_highpri
+     30 ?        00:00:00 cpuhp/3
+     31 ?        00:00:00 idle_inject/3
+     32 ?        00:00:33 migration/3
+     33 ?        00:00:00 ksoftirqd/3
+     35 ?        00:00:00 kworker/3:0H-events_highpri
+     36 ?        00:00:00 cpuhp/4
+     37 ?        00:00:00 idle_inject/4
+     38 ?        00:00:00 migration/4
+     39 ?        00:00:00 ksoftirqd/4
+     41 ?        00:00:00 kworker/4:0H-events_highpri
+     42 ?        00:00:00 cpuhp/5
+     43 ?        00:00:00 idle_inject/5
+     44 ?        00:00:35 migration/5
+     45 ?        00:00:00 ksoftirqd/5
+     47 ?        00:00:00 kworker/5:0H-events_highpri
+     48 ?        00:00:00 cpuhp/6
+     49 ?        00:00:00 idle_inject/6
+     50 ?        00:00:00 migration/6
+     51 ?        00:00:01 ksoftirqd/6
+     53 ?        00:00:00 kworker/6:0H-events_highpri
+     54 ?        00:00:00 cpuhp/7
+     55 ?        00:00:00 idle_inject/7
+     56 ?        00:00:49 migration/7
+     57 ?        00:00:00 ksoftirqd/7
+     59 ?        00:00:00 kworker/7:0H-events_highpri
+     60 ?        00:00:00 cpuhp/8
+     61 ?        00:00:00 idle_inject/8
+     62 ?        00:00:32 migration/8
+     63 ?        00:00:00 ksoftirqd/8
+     65 ?        00:00:00 kworker/8:0H-events_highpri
+     66 ?        00:00:00 cpuhp/9
+     67 ?        00:00:00 idle_inject/9
+     68 ?        00:00:38 migration/9
+     69 ?        00:00:00 ksoftirqd/9
+     71 ?        00:00:00 kworker/9:0H-events_highpri
+     72 ?        00:00:00 cpuhp/10
+     73 ?        00:00:00 idle_inject/10
+     74 ?        00:00:54 migration/10
+     75 ?        00:00:00 ksoftirqd/10
+     77 ?        00:00:00 kworker/10:0H-events_highpri
+     78 ?        00:00:00 cpuhp/11
+     79 ?        00:00:00 idle_inject/11
+     80 ?        00:01:27 migration/11
+     81 ?        00:00:00 ksoftirqd/11
+     83 ?        00:00:00 kworker/11:0H-events_highpri
+     84 ?        00:00:00 kdevtmpfs
+     85 ?        00:00:00 inet_frag_wq
+     86 ?        00:00:00 kauditd
+     87 ?        00:00:00 khungtaskd
+     88 ?        00:00:00 oom_reaper
+     89 ?        00:00:00 writeback
+     90 ?        00:00:03 kcompactd0
+     91 ?        00:00:00 ksmd
+     92 ?        00:00:00 khugepaged
+    139 ?        00:00:00 kintegrityd
+    141 ?        00:00:00 kblockd
+    142 ?        00:00:00 blkcg_punt_bio
+    143 ?        00:00:00 tpm_dev_wq
+    144 ?        00:00:00 ata_sff
+    145 ?        00:00:00 md
+    146 ?        00:00:00 edac-poller
+    147 ?        00:00:00 devfreq_wq
+    148 ?        00:00:00 watchdogd
+    151 ?        00:00:02 kworker/1:1H-events_highpri
+    152 ?        00:00:02 kworker/0:1H-kblockd
+    154 ?        00:00:00 kswapd0
+    155 ?        00:00:00 ecryptfs-kthrea
+    157 ?        00:00:00 kthrotld
+    158 ?        00:00:00 acpi_thermal_pm
+    160 ?        00:00:00 vfio-irqfd-clea
+    162 ?        00:00:02 kworker/7:1H-events_highpri
+    165 ?        00:00:00 mld
+    166 ?        00:00:02 kworker/4:1H-events_highpri
+    167 ?        00:00:00 ipv6_addrconf
+    169 ?        00:00:03 kworker/6:1H-kblockd
+    185 ?        00:00:00 kstrp
+    188 ?        00:00:00 zswap-shrink
+    196 ?        00:00:00 charger_manager
+    220 ?        00:00:02 kworker/2:1H-events_highpri
+    254 ?        00:00:03 kworker/8:1H-events_highpri
+    265 ?        00:00:00 nvme-wq
+    266 ?        00:00:00 nvme-reset-wq
+    267 ?        00:00:00 nvme-delete-wq
+    268 ?        00:00:00 cryptd
+    269 ?        00:00:00 scsi_eh_0
+    270 ?        00:00:00 scsi_tmf_0
+    271 ?        00:00:00 scsi_eh_1
+    272 ?        00:00:00 scsi_tmf_1
+    294 ?        00:00:03 kworker/10:1H-kblockd
+    302 ?        00:00:02 kworker/3:1H-events_highpri
+    303 ?        00:03:05 irq/131-MSNB000
+    311 ?        00:00:03 kworker/11:1H-events_highpri
+    312 ?        00:00:03 kworker/9:1H-events_highpri
+    320 ?        00:00:00 nvkm-disp
+    321 ?        00:00:01 kworker/5:1H-events_highpri
+    322 ?        00:00:00 card1-crtc0
+    323 ?        00:00:00 card1-crtc1
+    324 ?        00:00:00 card1-crtc2
+    325 ?        00:00:00 card1-crtc3
+    384 ?        00:00:10 jbd2/nvme0n1p6-
+    385 ?        00:00:00 ext4-rsv-conver
+    436 ?        00:00:02 systemd-journal
+    473 ?        00:00:00 systemd-udevd
+    539 ?        00:00:00 irq/147-mei_me
+    545 ?        00:00:00 cfg80211
+    578 ?        00:00:49 irq/148-iwlwifi
+    579 ?        00:00:07 irq/149-iwlwifi
+    580 ?        00:00:14 irq/150-iwlwifi
+    581 ?        00:00:22 irq/151-iwlwifi
+    582 ?        00:00:08 irq/152-iwlwifi
+    583 ?        00:00:15 irq/153-iwlwifi
+    585 ?        00:00:07 irq/154-iwlwifi
+    586 ?        00:00:08 irq/155-iwlwifi
+    587 ?        00:00:14 irq/156-iwlwifi
+    588 ?        00:00:04 irq/157-iwlwifi
+    589 ?        00:00:14 irq/158-iwlwifi
+    590 ?        00:00:08 irq/159-iwlwifi
+    591 ?        00:00:03 irq/160-iwlwifi
+    592 ?        00:00:00 irq/161-iwlwifi
+    657 ?        00:00:02 irq/163-AudioDS
+    662 ?        00:00:00 spl_system_task
+    663 ?        00:00:00 spl_delay_taskq
+    664 ?        00:00:00 spl_dynamic_tas
+    665 ?        00:00:00 spl_kmem_cache
+    667 ?        00:00:00 zvol
+    668 ?        00:00:00 arc_prune
+    669 ?        00:00:00 arc_evict
+    670 ?        00:00:01 arc_reap
+    671 ?        00:00:00 dbu_evict
+    672 ?        00:00:01 dbuf_evict
+    673 ?        00:00:00 z_vdev_file
+    674 ?        00:00:01 l2arc_feed
+    720 ?        00:00:08 systemd-resolve
+    721 ?        00:00:00 systemd-timesyn
+    785 ?        00:00:01 accounts-daemon
+    786 ?        00:00:06 acpid
+    789 ?        00:00:00 avahi-daemon
+    791 ?        00:00:00 bluetoothd
+    792 ?        00:00:00 cron
+    793 ?        00:00:13 dbus-daemon
+    794 ?        00:00:20 NetworkManager
+    800 ?        00:00:05 irqbalance
+    804 ?        00:00:00 networkd-dispat
+    805 ?        00:00:01 polkitd
+    806 ?        00:00:00 rsyslogd
+    808 ?        00:00:01 systemd-logind
+    809 ?        00:00:09 thermald
+    811 ?        00:00:00 udisksd
+    812 ?        00:00:04 wpa_supplicant
+    814 ?        00:00:00 zed
+    830 ?        00:00:00 avahi-daemon
+    878 ?        00:00:00 cupsd
+    884 ?        00:00:00 ModemManager
+    938 ?        00:00:02 upowerd
+   1038 ?        00:00:00 cups-browsed
+   1040 ?        00:00:01 kerneloops
+   1042 ?        00:00:01 kerneloops
+   1048 ?        00:00:00 lightdm
+   1056 tty7     00:59:16 Xorg
+   1058 tty1     00:00:00 agetty
+   1164 ?        00:00:00 rtkit-daemon
+   1227 ?        00:00:00 lightdm
+   1246 ?        00:00:00 krfcommd
+   1254 ?        00:00:00 systemd
+   1255 ?        00:00:00 (sd-pam)
+   1262 ?        00:00:00 pipewire
+   1263 ?        00:27:37 pulseaudio
+   1266 ?        00:00:01 gnome-keyring-d
+   1269 ?        00:00:20 dbus-daemon
+   1270 ?        00:00:07 cinnamon-sessio
+   1369 ?        00:04:42 ibus-daemon
+   1373 ?        00:00:00 gvfsd
+   1380 ?        00:00:00 gvfsd-fuse
+   1383 ?        00:00:00 ibus-dconf
+   1389 ?        00:01:23 ibus-ui-gtk3
+   1390 ?        00:00:00 at-spi-bus-laun
+   1399 ?        00:01:29 dbus-daemon
+   1400 ?        00:01:16 ibus-extension-
+   1402 ?        00:00:01 ibus-x11
+   1406 ?        00:00:33 at-spi2-registr
+   1408 ?        00:00:01 ibus-portal
+   1420 ?        00:00:02 xdg-desktop-por
+   1434 ?        00:00:01 xdg-document-po
+   1438 ?        00:00:00 xdg-permission-
+   1439 ?        00:00:05 csd-power
+   1452 ?        00:00:00 fusermount3
+   1453 ?        00:00:02 csd-print-notif
+   1460 ?        00:00:02 csd-clipboard
+   1461 ?        00:00:06 xdg-desktop-por
+   1463 ?        00:00:17 csd-keyboard
+   1464 ?        00:00:02 csd-color
+   1466 ?        00:00:02 csd-background
+   1467 ?        00:00:03 csd-housekeepin
+   1468 ?        00:00:03 csd-xsettings
+   1473 ?        00:00:02 csd-screensaver
+   1478 ?        00:00:02 csd-automount
+   1483 ?        00:00:02 csd-a11y-settin
+   1485 ?        00:00:02 csd-wacom
+   1487 ?        00:00:04 csd-media-keys
+   1497 ?        00:00:00 sh
+   1498 ?        00:00:00 pxgsettings
+   1504 ?        00:01:13 ibus-engine-sim
+   1512 ?        00:00:00 csd-printer
+   1540 ?        00:00:00 gvfs-udisks2-vo
+   1545 ?        00:00:00 gvfs-gphoto2-vo
+   1553 ?        00:00:00 colord
+   1556 ?        00:00:00 gvfs-mtp-volume
+   1568 ?        00:00:02 gvfs-afc-volume
+   1577 ?        00:00:00 gvfs-goa-volume
+   1581 ?        00:00:00 goa-daemon
+   1585 ?        00:00:00 dconf-service
+   1595 ?        00:00:04 cinnamon-launch
+   1603 ?        00:00:00 goa-identity-se
+   1612 ?        01:21:49 cinnamon
+   1655 ?        00:00:04 xapp-sn-watcher
+   1674 ?        00:00:39 solaar
+   1675 ?        00:00:13 nemo-desktop
+   1677 ?        00:00:01 evolution-alarm
+   1679 ?        00:02:10 caribou
+   1680 ?        00:00:15 nm-applet
+   1681 ?        00:00:00 agent
+   1683 ?        00:00:02 polkit-gnome-au
+   1686 ?        00:00:01 cinnamon-killer
+   1694 ?        00:00:02 blueman-applet
+   1716 ?        00:00:00 evolution-sourc
+   1743 ?        00:00:00 evolution-calen
+   1757 ?        00:00:00 evolution-addre
+   1772 ?        00:00:00 obexd
+   1774 ?        00:00:59 blueman-tray
+   1845 ?        00:00:00 gvfsd-trash
+   1861 ?        00:00:01 gvfsd-metadata
+   1875 ?        00:45:13 yandex_browser
+   1881 ?        00:00:00 cat
+   1882 ?        00:00:00 cat
+   1884 ?        00:00:00 chrome_crashpad
+   1886 ?        00:00:00 chrome_crashpad
+   1892 ?        00:00:00 yandex_browser
+   1893 ?        00:00:00 yandex_browser
+   1894 ?        00:00:00 nacl_helper
+   1897 ?        00:00:00 yandex_browser
+   1918 ?        02:29:07 yandex_browser
+   1922 ?        00:16:03 yandex_browser
+   1944 ?        00:01:43 yandex_browser
+   1987 ?        00:00:21 yandex_browser
+   2013 ?        00:00:24 yandex_browser
+   2027 ?        00:00:26 yandex_browser
+   2096 ?        00:00:01 yandex_browser
+   2440 ?        00:00:03 mintUpdate
+   2512 ?        00:00:04 applet.py
+   2549 ?        00:01:52 mintreport-tray
+   2669 ?        00:01:11 yandex_browser
+   2749 ?        00:06:11 yandex_browser
+   2885 ?        00:52:45 yandex_browser
+   4535 ?        00:00:00 packagekitd
+   6445 ?        00:06:21 chrome
+   6449 ?        00:00:00 cat
+   6450 ?        00:00:00 cat
+   6452 ?        00:00:00 chrome_crashpad
+   6454 ?        00:00:00 chrome_crashpad
+   6460 ?        00:00:00 chrome
+   6461 ?        00:00:00 chrome
+   6462 ?        00:00:00 nacl_helper
+   6465 ?        00:00:00 chrome
+   6488 ?        00:21:58 chrome
+   6489 ?        00:02:54 chrome
+   6501 ?        00:00:03 chrome
+   6603 ?        00:00:33 chrome
+   6612 ?        00:00:35 chrome
+   6685 ?        00:49:16 chrome
+   6718 ?        00:00:07 chrome
+   6791 ?        00:01:03 nemo
+   7144 ?        00:09:57 chrome
+   8342 ?        00:00:01 flatpak-session
+   8346 ?        00:00:00 p11-kit-server
+   8746 ?        00:00:23 flameshot
+  11838 ?        00:00:00 gvfsd-network
+  11868 ?        00:00:00 gvfsd-dnssd
+  17133 ?        00:01:32 Viber
+  17163 ?        00:00:00 QtWebEngineProc
+  17164 ?        00:00:00 QtWebEngineProc
+  17166 ?        00:00:00 QtWebEngineProc
+  24070 ?        00:03:20 yandex_browser
+  25109 ?        00:03:22 yandex_browser
+  27367 ?        00:00:29 kworker/u25:0-i915_flip
+  31933 ?        00:00:24 kworker/u25:2-rb_allocator
+  32315 ?        00:00:09 yandex_browser
+  32330 ?        00:00:01 yandex_browser
+  38320 ?        00:04:44 xed
+  38351 ?        00:00:25 kworker/u24:4-events_unbound
+  38429 ?        00:04:01 yandex_browser
+  38458 ?        00:00:00 yandex_browser
+  40824 ?        00:00:03 kworker/8:2-mm_percpu_wq
+  40993 ?        00:00:00 chrome
+  41313 ?        02:13:55 yandex_browser
+  42964 ?        00:00:17 gnome-terminal-
+  43008 pts/0    00:00:00 bash
+  43361 ?        00:00:00 chrome
+  43612 ?        00:00:09 kworker/u25:1-rb_allocator
+  45354 ?        00:00:09 kworker/u24:1-events_unbound
+  46161 ?        00:00:00 kworker/0:2
+  46209 ?        00:00:08 kworker/u24:0-events_unbound
+  46253 ?        00:00:00 kworker/1:0-events
+  46364 ?        00:00:00 kworker/10:2-events
+  46457 ?        00:00:00 chrome
+  46956 ?        00:00:17 yandex_browser
+  47053 ?        00:00:00 kworker/0:0-events
+  47057 ?        00:00:03 kworker/6:0-mm_percpu_wq
+  47071 ?        00:00:00 kworker/3:2-events
+  47263 ?        00:00:00 yandex_browser
+  48370 ?        00:00:00 kworker/11:0-mm_percpu_wq
+  48374 ?        00:00:00 kworker/4:0-mm_percpu_wq
+  48672 ?        00:00:00 kworker/9:0-mm_percpu_wq
+  48991 ?        00:00:00 kworker/2:2-events
+  49136 ?        00:00:00 kworker/8:0-events
+  49155 ?        00:00:00 kworker/7:0-events
+  49656 ?        00:00:00 kworker/4:1-events
+  49678 ?        00:00:00 kworker/5:0-events
+  49680 ?        00:00:00 kworker/3:1-events
+  49681 pts/0    00:00:00 myscript.sh
+  49695 ?        00:00:01 kworker/6:1-mm_percpu_wq
+  49724 ?        00:00:00 kworker/11:1-mm_percpu_wq
+  49745 ?        00:00:00 kworker/1:1-events
+  49843 ?        00:00:00 kworker/2:1
+  49901 ?        00:00:00 kworker/7:2-events
+  50036 ?        00:00:00 kworker/10:1-mm_percpu_wq
+  50075 ?        00:00:00 kworker/9:1-events
+  50172 ?        00:00:00 kworker/5:1
+  50193 ?        00:00:00 kworker/3:0-mm_percpu_wq
+  50251 ?        00:00:00 kworker/6:2-events
+  50264 ?        00:00:00 kworker/11:2
+  50347 ?        00:00:00 kworker/2:0-events
+  50352 ?        00:00:00 kworker/u24:2-flush-259:0
+  50379 ?        00:00:00 kworker/0:1-events
+  50509 ?        00:00:00 kworker/4:2
+  50532 pts/0    00:00:00 ps
+  50533 pts/0    00:00:00 tee
+--------21:38:07-------- $ apt-cache policy nano
+nano:
+  Установлен: 6.2-1
+  Кандидат:   6.2-1
+  Таблица версий:
+ *** 6.2-1 500
+        500 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages
+        100 /var/lib/dpkg/status
+--------21:38:27-------- $ apt remove nano
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Чтение списков пакетов…
+Построение дерева зависимостей…
+Чтение информации о состоянии…
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  gconf-service gconf-service-backend gconf2-common i965-va-driver:i386
+  intel-media-va-driver:i386 libc++1 libc++1-14 libc++abi1-14
+  libegl-mesa0:i386 libegl1:i386 libgconf-2-4 libigdgmm12:i386 libunwind-14
+  libva2:i386 mesa-va-drivers:i386 steam-devices va-driver-all:i386
+Для их удаления используйте «sudo apt autoremove».
+Следующие пакеты будут УДАЛЕНЫ:
+  nano
+Обновлено 0 пакетов, установлено 0 новых пакетов, для удаления отмечено 1 пакетов, и 536 пакетов не обновлено.
+После данной операции объём занятого дискового пространства уменьшится на 881 kB.
+Хотите продолжить? [Д/н] (Чтение базы данных … 
+(Чтение базы данных … 5%
+(Чтение базы данных … 10%
+(Чтение базы данных … 15%
+(Чтение базы данных … 20%
+(Чтение базы данных … 25%
+(Чтение базы данных … 30%
+(Чтение базы данных … 35%
+(Чтение базы данных … 40%
+(Чтение базы данных … 45%
+(Чтение базы данных … 50%
+(Чтение базы данных … 55%
+(Чтение базы данных … 60%
+(Чтение базы данных … 65%
+(Чтение базы данных … 70%
+(Чтение базы данных … 75%
+(Чтение базы данных … 80%
+(Чтение базы данных … 85%
+(Чтение базы данных … 90%
+(Чтение базы данных … 95%
+(Чтение базы данных … 100%
+(Чтение базы данных … на данный момент установлено 611067 файлов и каталогов.)
+Удаляется nano (6.2-1) …
+update-alternatives: используется /usr/bin/vim.basic для предоставления /usr/bin/editor (editor) в автоматическом режиме
+Обрабатываются триггеры для man-db (2.10.2-1) …
+Обрабатываются триггеры для install-info (6.8-4build1) …
+Обрабатываются триггеры для doc-base (0.11.1) …
+Обработка 2 удалённых файла doc-base...
+--------21:38:47-------- $ apt-cache search nano
+libboost-chrono1.74-dev - C++ representation of time duration, time point, and clocks
+libboost-chrono1.74.0 - C++ representation of time duration, time point, and clocks
+nano - маленький дружественный текстовый редактор в духе Pico
+libtime-moment-perl - Perl C/XS module representing date and time of day with UTC offset
+alpine-pico - Простой текстовый редактор из Alpine, клиента электронной почты с текстовым интерфейсом
+libboost-chrono-dev - C++ representation of time duration, time point, and clocks (default version)
+libghc-nanospec-dev - lightweight implementation of a subset of Hspec's API
+libghc-nanospec-doc - lightweight implementation of a subset of Hspec's API; documentation
+libgnuradio-satellites4.4.0 - library of satellite telemetry signal decoders
+arduino-core-avr - Arduino Core for AVR microcontroller
+bornagain - Simulate and fit X-ray and neutron GISAS -- binary
+bornagain-doc - Simulate and fit X-ray and neutron GISAS -- doc
+canu - single molecule sequence assembler for genomes
+cutesv - comprehensive discovery of structural variations of genomic sequences
+deepnano - alternative basecaller for MinION reads of genomic sequences
+deepnano-data - alternative basecaller for MinION reads of genomic sequences (data)
+fast5 - utilities for manipulating Oxford Nanopore Fast5 files
+fonts-aenigma - 465 free TrueType fonts by Brian Kent
+gr-satellites - Collection of satellite telemetry signal decoders
+gwave - waveform viewer eg for spice simulators
+kicad-templates - Project templates for KiCad
+kma - mapping genomic sequences to raw reads directly against redundant databases
+ledger-wallets-udev - udev rules for Ledger wallets
+libaudio-moosic-perl - Moosic client library for Perl
+libclass-tiny-antlers-perl - Moose-like sugar for Class::Tiny
+libdatetime-format-human-duration-perl - Perl module to return a locale-specific string describing a DateTime::Duration
+libdsk-utils - library for accessing discs and disc image file (utilities)
+libdsk4 - library for accessing discs and disc image file
+libdsk4-dev - library for accessing discs and disc image file (development headers)
+libduration-ocaml - conversions to various time units for OCaml (runtime)
+libduration-ocaml-dev - conversions to various time units for OCaml (dev)
+libfast5-dev - library for reading Oxford Nanopore Fast5 files -- headers
+libghc-nanospec-prof - lightweight implementation of a subset of Hspec's API; profiling libraries
+libminimap2-dev - development headers for libminimap
+libmrpt-nanogui-dev - Mobile Robot Programming Toolkit - nanogui development package
+libmrpt-nanogui2.4 - Mobile Robot Programming Toolkit - nanogui library
+libmtime-ocaml - monotonic wall-clock time for OCaml (runtime)
+libmtime-ocaml-dev - monotonic wall-clock time for OCaml (development)
+libnanoflann-dev - C++11 header-only library for Nearest Neighbor Search with KD-Trees
+libnanomsg-dev - nanomsg development files
+libnanomsg-raw-perl - low-level interface to nanomsg for Perl
+libnanomsg5 - high-performance implementation of scalability libraries
+libnanopb-dev - Protocol Buffers with small code size, development files
+libnanoxml2-java - Small XML parser for Java
+libnanoxml2-java-doc - documentation for libnanoxml2-java
+libtime-clock-perl - twenty-four hour clock object with nanosecond precision
+libtime-hr-perl - Perl interface to high-resolution timer
+libvbz-hdf-plugin-dev - VBZ compression plugin for nanopore signal data (devel)
+libvbz-hdf-plugin0 - VBZ compression plugin for nanopore signal data
+mash - fast genome and metagenome distance estimation using MinHash
+mcaller - find methylation in nanopore reads
+micro - modern and intuitive terminal-based text editor
+minimap2 - versatile pairwise aligner for genomic and spliced nucleotide sequences
+nano-tiny - small, friendly text editor inspired by Pico - tiny build
+nanoc - static site generator written in Ruby
+nanofilt - filtering and trimming of long read sequencing data
+nanolyse - remove lambda phage reads from a fastq file
+nanomsg-utils - nanomsg utilities
+nanook - pre- and post-alignment analysis of nanopore sequencing data
+nanook-examples - pre- and post-alignment analysis of nanopore sequencing data (examples)
+nanopb - Protocol Buffers with small code size
+nanopolish - consensus caller for nanopore sequencing data
+nanostat - statistics on long biological sequences
+nanosv - structural variant caller for nanopore data
+ngmlr - CoNvex Gap-cost alignMents for Long Reads
+node-postcss - Tool for transforming styles with JS plugins
+ont-fast5-api - simple interface to HDF5 files of the Oxford Nanopore .fast5 file format
+openmx - package for nano-scale material simulations
+openmx-data - package for nano-scale material simulations (data)
+osmo-bsc-ipaccess-utils - Command line utilities for ip.access nanoBTS
+osmo-gbproxy - GPRS Gb Interface Proxy
+osmo-gtphub - Proxy for GTP traffic between multiple SGSNs and GGSNs
+osmo-sgsn - Serving GPRS Support Node for 2G and 3G networks
+picolibc-arm-none-eabi - Smaller embedded C library for ARM development
+picopore - lossless compression of Nanopore files
+plasma-nano - Plasma shell for embedded devices
+porechop - adapter trimmer for Oxford Nanopore reads
+poretools - toolkit for nanopore nucleotide sequencing data
+poretools-data - toolkit for nanopore nucleotide sequencing data -- sample datasets
+pycoqc - computes metrics and generates Interactive QC plots
+python3-bornagain - Simulate and fit X-ray and neutron GISAS -- Python3
+python3-editor - programmatically open an editor, capture the result - Python 3.x
+python3-fast5 - library for reading Oxford Nanopore Fast5 files -- Python 3
+python3-mappy - Python3 interface minimap2
+python3-nanoget - extract information from Oxford Nanopore sequencing data and alignments
+python3-nanoget-examples - example data for python3-nanoget (dealing with Oxford Nanopore data)
+python3-nanomath - simple math function for other Oxford Nanopore processing scripts
+python3-nanostat - statistics on long biological sequences
+python3-pauvre - QC and genome browser plotting Oxford Nanopore and PacBio long reads
+python3-picopore - lossless compression of Nanopore files (Python3 module)
+python3-pychopper - identify, orient and trim full-length Nanopore cDNA reads
+python3-qutip - python package for simulating the dynamics of open quantum systems
+python3-shasta - nanopore whole genome assembly (dynamic library)
+python3-shasta-doc - nanopore whole genome assembly (documentation)
+qcat - demultiplexing Oxford Nanopore reads from FASTQ files
+qcat-examples - demultiplexing Oxford Nanopore reads from FASTQ files (examples)
+quantum-espresso - Electronic-Structure and Ab-Initio Molecular Dynamics Suite
+quantum-espresso-data - Electronic-Structure and Ab-Initio Molecular Dynamics Suite (Documentation)
+r-bioc-ioniser - Quality Assessment Tools for Oxford Nanopore MinION data
+r-bioc-nanostringqcpro - processing and QA for NanoString mRNA expression data
+r-cran-nanotime - GNU R package for nanosecond-resolution time support
+r6rs-nanopass-dev - embedded DSL for writing compilers in Scheme
+racon - consensus module for raw de novo DNA assembly of long uncorrected reads
+readucks - Nanopore read de-multiplexer (read demux -> readux -> readucks, innit)
+ruby-adsf - tiny static file server
+ruby-adsf-live - live reload support for ruby-adsf tiny static file server
+ruby-nanoc-checking - static site generator written in Ruby - checker
+ruby-nanoc-cli - static site generator written in Ruby - command line interface
+ruby-nanoc-core - static site generator written in Ruby - core package
+ruby-nanoc-deploying - static site generator written in Ruby - deployer
+ruby-nanoc-external - static site generator written in Ruby - external filter
+ruby-nanoc-live - static site generator written in Ruby - live support
+ruby-nanotest - Exteremely minimal test framework
+science-config - Debian Science Project config package
+science-nanoscale-physics - Debian Science Nanoscale Physics packages
+science-nanoscale-physics-dev - Debian Science Nanoscale Physics development packages
+scrappie - basecaller for Nanopore sequencer
+shasta - nanopore whole genome assembly (binaries and scripts)
+sniffles - structural variation caller using third-generation sequencing
+sockperf - Network benchmarking utility for testing latency and throughput
+texlive-publishers - TeX Live: Publisher styles, theses, etc.
+tombo - identification of modified nucleotides from raw nanopore sequencing data
+tombo-doc - identification of modified nucleotides from raw nanopore sequencing data (doc)
+uncalled - Utility for Nanopore Current Alignment to Large Expanses of DNA
+unicycler - hybrid assembly pipeline for bacterial genomes
+unicycler-data - hybrid assembly pipeline for bacterial genomes (data package)
+wtdbg2 - de novo sequence assembler for long noisy reads
+wtdbg2-examples - Examples for wtdbg - de novo sequence assembler
+xpore - Nanopore analysis of differential RNA modifications
+yanagiba - filter low quality Oxford Nanopore reads basecalled with Albacore
+yanosim - read simulator nanopore DRS datasets
+--------21:39:09-------- $ sudo apt-get install nano
+Чтение списков пакетов…
+Построение дерева зависимостей…
+Чтение информации о состоянии…
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  gconf-service gconf-service-backend gconf2-common i965-va-driver:i386
+  intel-media-va-driver:i386 libc++1 libc++1-14 libc++abi1-14
+  libegl-mesa0:i386 libegl1:i386 libgconf-2-4 libigdgmm12:i386 libunwind-14
+  libva2:i386 mesa-va-drivers:i386 steam-devices va-driver-all:i386
+Для их удаления используйте «sudo apt autoremove».
+Предлагаемые пакеты:
+  hunspell
+Следующие НОВЫЕ пакеты будут установлены:
+  nano
+Обновлено 0 пакетов, установлено 1 новых пакетов, для удаления отмечено 0 пакетов, и 536 пакетов не обновлено.
+Необходимо скачать 280 kB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 881 kB.
+Пол:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 nano amd64 6.2-1 [280 kB]
+Получено 280 kB за 0с (579 kB/s)
+Выбор ранее не выбранного пакета nano.
+(Чтение базы данных … 
+(Чтение базы данных … 5%
+(Чтение базы данных … 10%
+(Чтение базы данных … 15%
+(Чтение базы данных … 20%
+(Чтение базы данных … 25%
+(Чтение базы данных … 30%
+(Чтение базы данных … 35%
+(Чтение базы данных … 40%
+(Чтение базы данных … 45%
+(Чтение базы данных … 50%
+(Чтение базы данных … 55%
+(Чтение базы данных … 60%
+(Чтение базы данных … 65%
+(Чтение базы данных … 70%
+(Чтение базы данных … 75%
+(Чтение базы данных … 80%
+(Чтение базы данных … 85%
+(Чтение базы данных … 90%
+(Чтение базы данных … 95%
+(Чтение базы данных … 100%
+(Чтение базы данных … на данный момент установлено 610995 файлов и каталогов.)
+Подготовка к распаковке …/archives/nano_6.2-1_amd64.deb …
+Распаковывается nano (6.2-1) …
+Настраивается пакет nano (6.2-1) …
+update-alternatives: используется /bin/nano для предоставления /usr/bin/editor (editor) в автоматическом режиме
+update-alternatives: используется /bin/nano для предоставления /usr/bin/pico (pico) в автоматическом режиме
+Обрабатываются триггеры для doc-base (0.11.1) …
+Обработка 2 добавленных файла doc-base...
+Обрабатываются триггеры для man-db (2.10.2-1) …
+Обрабатываются триггеры для install-info (6.8-4build1) …
+--------21:39:25-------- $ apt-cache policy nano
+nano:
+  Установлен: 6.2-1
+  Кандидат:   6.2-1
+  Таблица версий:
+ *** 6.2-1 500
+        500 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages
+        100 /var/lib/dpkg/status
+--------21:40:02-------- $ ls -l /tmp
+итого 68
+drwxr-xr-x 2 egor egor 4096 фев 24 18:43 {81B37AE5-94A6-48AE-A4F5-8B30E3C3D833}
+drwxr-xr-x 2 egor egor 4096 фев 24 16:01 {9E095A22-52FD-4276-8C2D-25C2242A5316}
+drwxr-xr-x 2 egor egor 4096 фев 24 12:10 {B558964A-A0B3-4890-9FD7-A7FE7FB656E0}
+-rw------- 1 egor egor    0 фев 24 10:58 config-err-tIajSO
+srwxrwxr-x 1 egor egor    0 фев 24 14:41 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-17387
+srwxrwxr-x 1 egor egor    0 фев 24 16:58 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-28693
+drwxr-xr-x 2 egor egor 4096 фев 24 16:28 {E1B99CE4-02C4-4EC9-A048-A67329D3B509}
+drwxr-xr-x 2 egor egor 4096 фев 24 21:36 hsperfdata_egor
+srwx------ 1 egor egor    0 фев 24 12:05 imv154fgnPqZFr9V3kmzMzJg07i4vOeQFGWTpBeZxmk=
+drwx------ 2 egor egor 4096 фев 24 21:36 lu50746mt5h1.tmp
+drwxrwxrwx 2 egor egor 4096 фев 24 10:58 mintUpdate
+srwxrwxr-x 1 egor egor    0 фев 24 21:36 OSL_PIPE_1000_SingleOfficeIPC_76b988cf95a8e0a2f29753ddaad62
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_sharedmemory_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_systemsem_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+-rw-rw-r-- 1 egor egor    0 фев 24 14:39 qtsingleapp-Viber-0-3e8-lockfile
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-bluetooth.service-aUnsVD
+drwx------ 3 root root 4096 фев 24 10:58 systemd-private-3465a44f02ec4297a078e02154718aec-colord.service-LLm3tA
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-ModemManager.service-p5a2K2
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-logind.service-BidOjF
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-resolved.service-sbRRYb
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-timesyncd.service-n0Lh5S
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-upower.service-TRHdvk
+srwxrwxr-x 1 egor egor    0 фев 24 14:39 Viber-0-3e8
+drwxrwxr-x 2 egor egor 4096 фев 24 18:43 vscode-typescript1000
+-rw------- 1 egor egor 5656 фев 24 10:58 yandex_browser_updater.log
+--------21:40:43-------- $ ls -l /tmp | grep 'dr'
+drwxr-xr-x 2 egor egor 4096 фев 24 18:43 {81B37AE5-94A6-48AE-A4F5-8B30E3C3D833}
+drwxr-xr-x 2 egor egor 4096 фев 24 16:01 {9E095A22-52FD-4276-8C2D-25C2242A5316}
+drwxr-xr-x 2 egor egor 4096 фев 24 12:10 {B558964A-A0B3-4890-9FD7-A7FE7FB656E0}
+drwxr-xr-x 2 egor egor 4096 фев 24 16:28 {E1B99CE4-02C4-4EC9-A048-A67329D3B509}
+drwxr-xr-x 2 egor egor 4096 фев 24 21:36 hsperfdata_egor
+drwx------ 2 egor egor 4096 фев 24 21:36 lu50746mt5h1.tmp
+drwxrwxrwx 2 egor egor 4096 фев 24 10:58 mintUpdate
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-bluetooth.service-aUnsVD
+drwx------ 3 root root 4096 фев 24 10:58 systemd-private-3465a44f02ec4297a078e02154718aec-colord.service-LLm3tA
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-ModemManager.service-p5a2K2
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-logind.service-BidOjF
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-resolved.service-sbRRYb
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-timesyncd.service-n0Lh5S
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-upower.service-TRHdvk
+drwxrwxr-x 2 egor egor 4096 фев 24 18:43 vscode-typescript1000
+--------21:41:23-------- $ ls -l /tmp | grep 'x'
+drwxr-xr-x 2 egor egor 4096 фев 24 18:43 {81B37AE5-94A6-48AE-A4F5-8B30E3C3D833}
+drwxr-xr-x 2 egor egor 4096 фев 24 16:01 {9E095A22-52FD-4276-8C2D-25C2242A5316}
+drwxr-xr-x 2 egor egor 4096 фев 24 12:10 {B558964A-A0B3-4890-9FD7-A7FE7FB656E0}
+srwxrwxr-x 1 egor egor    0 фев 24 14:41 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-17387
+srwxrwxr-x 1 egor egor    0 фев 24 16:58 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-28693
+drwxr-xr-x 2 egor egor 4096 фев 24 16:28 {E1B99CE4-02C4-4EC9-A048-A67329D3B509}
+drwxr-xr-x 2 egor egor 4096 фев 24 21:36 hsperfdata_egor
+srwx------ 1 egor egor    0 фев 24 12:05 imv154fgnPqZFr9V3kmzMzJg07i4vOeQFGWTpBeZxmk=
+drwx------ 2 egor egor 4096 фев 24 21:36 lu50746mt5h1.tmp
+drwxrwxrwx 2 egor egor 4096 фев 24 10:58 mintUpdate
+srwxrwxr-x 1 egor egor    0 фев 24 21:36 OSL_PIPE_1000_SingleOfficeIPC_76b988cf95a8e0a2f29753ddaad62
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_sharedmemory_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_systemsem_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-bluetooth.service-aUnsVD
+drwx------ 3 root root 4096 фев 24 10:58 systemd-private-3465a44f02ec4297a078e02154718aec-colord.service-LLm3tA
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-ModemManager.service-p5a2K2
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-logind.service-BidOjF
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-resolved.service-sbRRYb
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-timesyncd.service-n0Lh5S
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-upower.service-TRHdvk
+srwxrwxr-x 1 egor egor    0 фев 24 14:39 Viber-0-3e8
+drwxrwxr-x 2 egor egor 4096 фев 24 18:43 vscode-typescript1000
+-rw------- 1 egor egor 5656 фев 24 10:58 yandex_browser_updater.log
+--------21:42:01-------- $ ls -l /tmp | grep "root"
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-bluetooth.service-aUnsVD
+drwx------ 3 root root 4096 фев 24 10:58 systemd-private-3465a44f02ec4297a078e02154718aec-colord.service-LLm3tA
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-ModemManager.service-p5a2K2
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-logind.service-BidOjF
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-resolved.service-sbRRYb
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-timesyncd.service-n0Lh5S
+drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-upower.service-TRHdvk
+--------21:42:21-------- $ ls -l /tmp | grep -v "root"
+итого 68
+drwxr-xr-x 2 egor egor 4096 фев 24 18:43 {81B37AE5-94A6-48AE-A4F5-8B30E3C3D833}
+drwxr-xr-x 2 egor egor 4096 фев 24 16:01 {9E095A22-52FD-4276-8C2D-25C2242A5316}
+drwxr-xr-x 2 egor egor 4096 фев 24 12:10 {B558964A-A0B3-4890-9FD7-A7FE7FB656E0}
+-rw------- 1 egor egor    0 фев 24 10:58 config-err-tIajSO
+srwxrwxr-x 1 egor egor    0 фев 24 14:41 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-17387
+srwxrwxr-x 1 egor egor    0 фев 24 16:58 dd24e73043fcd5bcab585f1bc5b9cb0e-TelegramDesktop-webview-28693
+drwxr-xr-x 2 egor egor 4096 фев 24 16:28 {E1B99CE4-02C4-4EC9-A048-A67329D3B509}
+drwxr-xr-x 2 egor egor 4096 фев 24 21:36 hsperfdata_egor
+srwx------ 1 egor egor    0 фев 24 12:05 imv154fgnPqZFr9V3kmzMzJg07i4vOeQFGWTpBeZxmk=
+drwx------ 2 egor egor 4096 фев 24 21:36 lu50746mt5h1.tmp
+drwxrwxrwx 2 egor egor 4096 фев 24 10:58 mintUpdate
+srwxrwxr-x 1 egor egor    0 фев 24 21:36 OSL_PIPE_1000_SingleOfficeIPC_76b988cf95a8e0a2f29753ddaad62
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_sharedmemory_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+-rw-r----- 1 egor egor    0 фев 24 12:05 qipc_systemsem_imvfgnPqZFrVkmzMzJgivOeQFGWTpBeZxmk2b533506ef0e656c6498da48ad470b0103e41983
+-rw-rw-r-- 1 egor egor    0 фев 24 14:39 qtsingleapp-Viber-0-3e8-lockfile
+srwxrwxr-x 1 egor egor    0 фев 24 14:39 Viber-0-3e8
+drwxrwxr-x 2 egor egor 4096 фев 24 18:43 vscode-typescript1000
+-rw------- 1 egor egor 5656 фев 24 10:58 yandex_browser_updater.log
+--------21:43:26-------- $ ls -l /tmp | grep -n -i "root"
+17:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-bluetooth.service-aUnsVD
+18:drwx------ 3 root root 4096 фев 24 10:58 systemd-private-3465a44f02ec4297a078e02154718aec-colord.service-LLm3tA
+19:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-ModemManager.service-p5a2K2
+20:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-logind.service-BidOjF
+21:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-resolved.service-sbRRYb
+22:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-systemd-timesyncd.service-n0Lh5S
+23:drwx------ 3 root root 4096 фев 24 10:57 systemd-private-3465a44f02ec4297a078e02154718aec-upower.service-TRHdvk
+--------21:44:04-------- $ ps
+    PID TTY          TIME CMD
+  43008 pts/0    00:00:00 bash
+  49681 pts/0    00:00:00 myscript.sh
+  51432 pts/0    00:00:00 ps
+  51433 pts/0    00:00:00 tee
+--------21:44:14-------- $ ps | cut -b 2-5
+   P
+ 430
+ 496
+ 514
+ 514
+ 514
+--------21:44:35-------- $ who
+egor     tty7         2024-02-24 10:58 (:0)
+--------21:44:46-------- $ who | cut -c 1-9
+egor     
+--------21:44:54-------- $ ls
+file
+func1.c
+func2.c
+test1.h
+test2.h
+--------21:45:01-------- $ ls | tr a-z A-Z
+FILE
+FUNC1.C
+FUNC2.C
+TEST1.H
+TEST2.H
+--------21:45:20-------- $ ls -l | sort -k 9
+итого 32
+-rwxrwxr-x 1 egor egor 16024 фев 24 21:23 file
+-rw-rw-r-- 1 egor egor   104 фев 16 19:21 func1.c
+-rw-rw-r-- 1 egor egor    80 фев 16 19:21 func2.c
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test1.h
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test2.h
+--------21:45:23-------- $ ls -l
+итого 32
+-rwxrwxr-x 1 egor egor 16024 фев 24 21:23 file
+-rw-rw-r-- 1 egor egor   104 фев 16 19:21 func1.c
+-rw-rw-r-- 1 egor egor    80 фев 16 19:21 func2.c
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test1.h
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test2.h
+--------21:45:50-------- $ ls -l | sort -nk 5
+итого 32
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test1.h
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test2.h
+-rw-rw-r-- 1 egor egor    80 фев 16 19:21 func2.c
+-rw-rw-r-- 1 egor egor   104 фев 16 19:21 func1.c
+-rwxrwxr-x 1 egor egor 16024 фев 24 21:23 file
+--------21:46:08-------- $ ls -l | sort -rnk 5
+-rwxrwxr-x 1 egor egor 16024 фев 24 21:23 file
+-rw-rw-r-- 1 egor egor   104 фев 16 19:21 func1.c
+-rw-rw-r-- 1 egor egor    80 фев 16 19:21 func2.c
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test2.h
+-rw-rw-r-- 1 egor egor    18 фев 16 19:19 test1.h
+итого 32
+
+--------21:47:20-------- $ ls -l | cut -c 29-36 | sort -n | uniq -d
+ фев 
+--------21:47:32-------- $ ls
+file
+func1.c
+func2.c
+test1.h
+test2.h
+--------21:47:43-------- $ cmp test1.h test2.h
+test1.h test2.h различаются: байт 10, строка 1
+--------21:48:10-------- $ diff -e func1.c func2.c > eqv
+--------21:48:12-------- $ ls
+eqv
+file
+func1.c
+func2.c
+test1.h
+test2.h
+--------21:48:16-------- $ cat eqv
+6,8c
+    printf("Hello2!\n");
+.
+4c
+void func2()
+.
+diff: func1.c: В конце файла нет новой строки
+
+diff: func2.c: В конце файла нет новой строки
+
+--------21:52:49-------- $ cd ..
+--------21:52:49-------- $ ls
+file_name.c
+logs1.log
+logs.log
+myscript.sh
+prog.c
+test1
+--------21:53:10-------- $ gcc file_name.c -o file_name.out
+file_name.c: In function ‘main’:
+file_name.c:11:16: warning: too many arguments for format [-Wformat-extra-args]
+   11 |         printf("try.txt", argv[0]);
+      |                ^~~~~~~~~
+--------21:53:44-------- $ gcc file_name.c -o file_name.out
+file_name.c: In function ‘main’:
+file_name.c:11:26: warning: format ‘%c’ expects argument of type ‘int’, but argument 2 has type ‘char *’ [-Wformat=]
+   11 |         printf("try.txt %c", argv[0]);
+      |                         ~^   ~~~~~~~
+      |                          |       |
+      |                          int     char *
+      |                         %s
+--------21:54:21-------- $ gcc file_name.c -o file_name.out
+--------21:56:54-------- $ ./file_name || ./a.out
+Hello world!--------21:57:10-------- $ ./file_name.out || ./a.out
+--------21:57:22-------- $ ./file_name.out | ./a.out
+Hello world!--------22:00:09-------- $ ./file_name.out | ./a.out
+открываемый файл не указан
+--------22:01:10-------- $ ./file_name.out || xargs ./a.out
+--------22:01:57-------- $ ./file_name.out | xargs ./a.out
+./a.out: файл try.txt открыт
+--------22:02:32-------- $ ls
+a.out
+file_name.c
+file_name.out
+logs1.log
+logs.log
+my_prog.c
+myscript.sh
+prog.c
+test1
+try.txt
+--------22:02:44-------- $ gcc my_prog.c && ./a.out
+открываемый файл не указан
+--------22:06:25-------- $ ./one || ./two
+--------22:06:33-------- $ ./two || ./one
+One
+--------22:06:41-------- $ ./one && ./two
+Two
+--------22:06:51-------- $ ./two && ./one
+--------22:07:00-------- $ ./one | ./two
+Two
+--------22:07:10-------- $ ./one & ./two
+Two
+--------22:07:23-------- $ ./one ; ./two
+Two
+--------22:07:59-------- $ script termlog.log
+Script started, output log file is 'termlog.log'.
+[?2004h]0;egor@egor-Katana-GF76-12UC: ~/OC[01;32megor@egor-Katana-GF76-12UC[00m:[01;34m~/OC[00m$ date
+[?2004l
+Сб 24 фев 2024 22:08:06 MSK
+[?2004h]0;egor@egor-Katana-GF76-12UC: ~/OC[01;32megor@egor-Katana-GF76-12UC[00m:[01;34m~/OC[00m$ exit
+[?2004l
+exit
+Script done.
+--------22:08:22-------- $ ls
+a.out
+file_name.c
+file_name.out
+logs1.log
+logs.log
+my_prog.c
+myscript.sh
+one
+one.c
+prog.c
+termlog.log
+test1
+try.txt
+two
+two.c
+--------22:08:27-------- $ cat termlog.log
+Script started on 2024-02-24 22:07:59+03:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="-1" LINES="-1"]
+[?2004h]0;egor@egor-Katana-GF76-12UC: ~/OC[01;32megor@egor-Katana-GF76-12UC[00m:[01;34m~/OC[00m$ date
+[?2004l
+Сб 24 фев 2024 22:08:06 MSK
+[?2004h]0;egor@egor-Katana-GF76-12UC: ~/OC[01;32megor@egor-Katana-GF76-12UC[00m:[01;34m~/OC[00m$ exit
+[?2004l
+exit
+
+Script done on 2024-02-24 22:08:14+03:00 [COMMAND_EXIT_CODE="0"]
+Work is finished: Сб 24 фев 2024 22:09:00 MSK
+Started work: Пн 26 фев 2024 19:19:38 MSK
+--------19:20:12-------- $ gcc -g main.c
+--------19:20:19-------- $ gdb ./a.out
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from ./a.out...
+[?2004h(gdb) break main
+[?2004l
+Breakpoint 1 at 0x1173: file main.c, line 12.
+[?2004h(gdb) run
+[?2004l
+Starting program: /home/egor/OC/a.out 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at main.c:12
+12	    int a = 10;
+[?2004h[?2004l
+[?2004h(gdb) step
+[?2004l
+13	    int b = 2;
+[?2004h[?2004l
+[?2004h(gdb) print [K[K[K[K[K[Kster[Kp
+[?2004l
+14	    int c = foo(a,b);
+[?2004h[?2004l
+[?2004h(gdb) next
+[?2004l
+15	    printf("result sum: %i\n", c);
+[?2004h[?2004l
+[?2004h(gdb) print c
+[?2004l
+$1 = 12
+[?2004h(gdb) nexte[K
+[?2004l
+17	    return 0;
+[?2004h[?2004l
+[?2004h(gdb) quit
+[?2004l
+[?2004hA debugging session is active.
+
+	Inferior 1 [process 25180] will be killed.
+
+Quit anyway? (y or n) y
+[?2004l
+Work is finished: Пн 26 фев 2024 19:20:48 MSK
