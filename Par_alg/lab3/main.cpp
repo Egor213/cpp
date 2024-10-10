@@ -4,7 +4,11 @@
 #include <random>
 #include <algorithm>
 #include <numeric> 
+#include <cstring>
 #define TEXT_SIZE 10
+#define COMMUTATOR 0
+#define TAG_SEND 0
+#define TAG_RECV 1
 
 struct Package
 {
@@ -105,7 +109,7 @@ int main(int argc, char **argv) {
 
     // for (auto order : order_process)
     // {
-        if (rank == order_process[0])
+        if (rank == 1)
         {
             // создаем пакет и заполняем его данными
             Package package;
@@ -123,6 +127,8 @@ int main(int argc, char **argv) {
             std::vector<char> recv_buf(sizeof(package));
 
             // принятие и отправка данных
+            // MPI_Send(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, TAG_SEND, MPI_COMM_WORLD);
+            // MPI_Recv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, TAG_RECV, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Sendrecv(buf.data(), buf_size, MPI_BYTE, 0, 0, recv_buf.data(), sizeof(recv_buf), MPI_BYTE, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             // распаковка данных
@@ -136,43 +142,37 @@ int main(int argc, char **argv) {
         }
         else if (rank == 0)
         {   
-            // буфер для принятия пакета
-            Package package;
-            int recv_buf_size = 0;
-            std::vector<char> recv_buf(sizeof(package));
-            MPI_Status recv_status;
+            // for (int j = 0; j < 2; j++)
+            // {
+                // буфер для принятия пакета
+                Package package;
+                int recv_buf_size = 0;
+                std::vector<char> recv_buf(sizeof(package));
+                MPI_Status recv_status;
 
-            // принятие пакета
-            MPI_Recv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recv_status);
+                // принятие пакета
+                MPI_Recv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recv_status);
 
-            // распаковка пакета
-            Package recv_package = unpack_data(recv_buf, recv_buf_size);
+                // распаковка пакета
+                Package recv_package = unpack_data(recv_buf, recv_buf_size);
 
-            std::cout << "Process 0:"
-                      << " recv FROM: " << recv_package.from_process
-                      << " TO: " << recv_package.to_process 
-                      << " DATA: " << recv_package.data 
-                      << '\n';
+                std::cout << "Process 0:"
+                        << " recv FROM: " << recv_package.from_process
+                        << " TO: " << recv_package.to_process 
+                        << " DATA: " << recv_package.data 
+                        << '\n';
 
+                        
+                // отправка пакета адресату
+                auto temp = pack_data(recv_package);
+                recv_buf = temp.first;
+                recv_buf_size = temp.second;
 
-            MPI_Send(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, recv_package.to_process, 0, MPI_COMM_WORLD);
-            
-
-            // package.from_process = rank;
-            // package.to_process = order_process[0];
-            // for (int i = 0; i < 9; i++)
-            //     package.data[i] = 'A';
-
-            // int send_buf_size = 0;
-            // char send_buf[sizeof(package)];
-            // MPI_Pack(&package.from_process, 1, MPI_INT, send_buf, sizeof(send_buf), &send_buf_size, MPI_COMM_WORLD);
-            // MPI_Pack(&package.to_process, 1, MPI_INT, send_buf, sizeof(send_buf), &send_buf_size, MPI_COMM_WORLD);
-            // MPI_Pack(package.data, TEXT_SIZE, MPI_CHAR, send_buf, sizeof(send_buf), &send_buf_size, MPI_COMM_WORLD); 
-            
-
-
+                MPI_Send(recv_buf.data(), recv_buf_size, MPI_BYTE, recv_package.to_process, TAG_SEND, MPI_COMM_WORLD);
+                MPI_Send(recv_buf.data(), recv_buf_size, MPI_BYTE, 1, TAG_RECV, MPI_COMM_WORLD);
+            // }
         }
-        else
+        else if (rank == 2)
         {
             Package package;
             int recv_buf_size = 0;
@@ -190,7 +190,14 @@ int main(int argc, char **argv) {
                       << " TO: " << recv_package.to_process 
                       << " DATA: " << recv_package.data 
                       << '\n';
-            
+            // package.to_process = recv_package.from_process;
+            // package.from_process = rank;
+            // std::strncpy(package.data, "Recv OK!", TEXT_SIZE - 1);
+
+            // auto temp = pack_data(package);
+            // std::vector<char> buf = temp.first;
+            // int buf_size = temp.second;
+            // MPI_Send(buf.data(), buf_size, MPI_BYTE, 0, 1, MPI_COMM_WORLD);
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
