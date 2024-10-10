@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <numeric> 
 #include <cstring>
+#include <thread>
 #define TEXT_SIZE 10
 #define COMMUTATOR 0
 #define SEND_FL true
@@ -92,6 +93,16 @@ void print_info(Package &package, int rank, bool stage)
               << '\n';
 }
 
+void print_order_proc(std::vector<int>& order_process)
+{
+    std::cout << "ORDER PROC: ";
+    for (auto per : order_process)
+    {
+        std::cout << per << ' ';
+    }
+    std::cout << '\n';
+}
+
 Package create_start_package(int rank, int size)
 {
     Package package;
@@ -100,6 +111,7 @@ Package create_start_package(int rank, int size)
     fill_random_chars(package.data);
     return package;
 }
+
 
 int main(int argc, char **argv) {
     MPI_Init(&argc, &argv); 
@@ -118,17 +130,14 @@ int main(int argc, char **argv) {
 
     MPI_Bcast(order_process.data(), order_process.size(), MPI_INT, 0, MPI_COMM_WORLD);
 
+    if (rank == 0)
+    {
+        print_order_proc(order_process);
+    }
 
-    // std::cout << "Process " << rank << " received order: ";
-    // for (auto per : order_process)
-    // {
-    //     std::cout << per << ' ';
-    // }
-    // std::cout << '\n';
-
-    // for (auto order : order_process)
-    // {
-        if (rank == 1)
+    for (auto order : order_process)
+    {
+        if (rank == order)
         {
             // создаем пакет и заполняем его данными
             Package package = create_start_package(rank, size);
@@ -144,7 +153,7 @@ int main(int argc, char **argv) {
         
             // принятие и отправка данных
             print_info(package, rank, SEND_FL);
-            MPI_Sendrecv(buf.data(), buf_size, MPI_BYTE, 0, 0, recv_buf.data(), sizeof(recv_buf), MPI_BYTE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Sendrecv(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, 0, recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             // распаковка данных
             Package recv_package = unpack_data(recv_buf, recv_buf_size);
@@ -178,22 +187,37 @@ int main(int argc, char **argv) {
                 MPI_Send(recv_buf.data(), recv_buf_size, MPI_BYTE, recv_package.to_process, 0, MPI_COMM_WORLD);
             }
         }
-        else if (rank == 2)
+        else 
         {
             Package package;
             int recv_buf_size = 0;
             std::vector<char> recv_buf(sizeof(package));
-            MPI_Status recv_status;
+            MPI_Request request;
+            MPI_Status status;
+            int flag = false;
 
             // принятие пакета
-            MPI_Recv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, &recv_status);
+            MPI_Irecv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, &request);
 
+            // ожидание Test
+            for (int k = 0; k < 100; k++)
+            {
+                MPI_Test(&request, &flag, MPI_STATUS_IGNORE);
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                if (flag)
+                {
+                    break;
+                }
+                    
+            }
+            if (flag) {
+            
             // распаковка пакета
             Package recv_package = unpack_data(recv_buf, recv_buf_size);
             print_info(recv_package, rank, RECV_FL);
             
             // заполнение пакета
-            package.to_process = recv_package.from_process;
+            package.to_process = order;
             package.from_process = rank;
             std::strncpy(package.data, "Recv OK!", TEXT_SIZE - 1);
 
@@ -205,12 +229,16 @@ int main(int argc, char **argv) {
 
             // отправка пакета
             print_info(package, rank, SEND_FL);
-            MPI_Send(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD);
+            MPI_Send(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD);       
+            }
+            else
+            {
+                MPI_Cancel(&request);
+            }
         }
 
         MPI_Barrier(MPI_COMM_WORLD);
-    // }
-
+    }
     MPI_Finalize(); 
     return 0;
 }
