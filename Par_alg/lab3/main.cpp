@@ -114,8 +114,9 @@ Package create_start_package(int rank, int size)
 
 
 int main(int argc, char **argv) {
+    double t1, t2;
     MPI_Init(&argc, &argv); 
-
+    t1 = MPI_Wtime();
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -153,7 +154,7 @@ int main(int argc, char **argv) {
         
             // принятие и отправка данных
             print_info(package, rank, SEND_FL);
-            MPI_Sendrecv(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, 0, recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Sendrecv(buf.data(), buf_size, MPI_BYTE, COMMUTATOR, 0, recv_buf.data(), recv_buf.size(), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             // распаковка данных
             Package recv_package = unpack_data(recv_buf, recv_buf_size);
@@ -171,7 +172,7 @@ int main(int argc, char **argv) {
                 MPI_Status recv_status;
 
                 // принятие пакета
-                MPI_Recv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recv_status);
+                MPI_Recv(recv_buf.data(), recv_buf.size(), MPI_BYTE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &recv_status);
 
                 // распаковка пакета
                 Package recv_package = unpack_data(recv_buf, recv_buf_size);
@@ -193,14 +194,13 @@ int main(int argc, char **argv) {
             int recv_buf_size = 0;
             std::vector<char> recv_buf(sizeof(package));
             MPI_Request request;
-            MPI_Status status;
             int flag = false;
 
             // принятие пакета
-            MPI_Irecv(recv_buf.data(), sizeof(recv_buf), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, &request);
+            MPI_Irecv(recv_buf.data(), recv_buf.size(), MPI_BYTE, COMMUTATOR, 0, MPI_COMM_WORLD, &request);
 
             // ожидание Test
-            for (int k = 0; k < 100; k++)
+            for (int k = 0; k < 10; k++)
             {
                 MPI_Test(&request, &flag, MPI_STATUS_IGNORE);
                 std::this_thread::sleep_for(std::chrono::milliseconds(5));
@@ -239,6 +239,8 @@ int main(int argc, char **argv) {
 
         MPI_Barrier(MPI_COMM_WORLD);
     }
+    if (rank == 0)
+        std::cout << "TIME: " << MPI_Wtime() - t1 << '\n';
     MPI_Finalize(); 
     return 0;
 }
