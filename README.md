@@ -721,3 +721,129 @@
     /* Hint: our VMs are little endian */
     cr_assert_eq(*(unsigned short *)ip, TODO, "What bytes were preserved now?");
     ```
+
+
+
+
+
+
+
+
+## Файл `about_arrays.c`
+
+### **Test what_is_an_array**
+---
++ **Тест 1-5**
+
+    **Описание:**
+    Знакомство с массивом. Необходимо определить первое значение массива, определить индекс, который соответствует заданной арифметике указателей, определить размер массива.
+    
+    **Рандомизация:**
+    Рандомизация начального массива `array` и арифметический сдвиг.
+    
+    **Участок кода:**
+    
+    ```c
+    void func(int *array)
+    {
+        cr_assert_eq(sizeof(array), TODO,
+            "That same array gives a different size "
+            "when passed into this function");
+    }
+    int array[5];
+    array[0] = 1;
+    array[1] = 2;
+    array[2] = 3;
+    array[3] = 4;
+    array[4] = 5;
+    /* Change this to: 'cr_assert_not_null' */
+    cr_assert_null(array,
+        "An array declared in this way is a label meaning "
+        "it has an address %p",
+        array);
+    cr_assert_eq(*array, TODO,
+        "Dereferencing this label's address gives us the "
+        "value at that point");
+
+    cr_assert_eq(*(array + 2), array[TODO],
+        "Dereferencing with an offset is the same as using the bracket notation"
+        " to access");
+    cr_assert_eq(sizeof(array), TODO,
+        "sizeof an array can be tricky is it size "
+        "of a pointer or sum of all memory the "
+        "array takes up?");
+    func(array);
+    ```
+
++ **Тест 6**
+
+    **Описание:**
+    Новый способ задания массива. Необходимо опеределить значение по индексу.
+    
+    **Рандомизация:**
+    Начальный массив.
+    
+    **Участок кода:**
+    
+    ```c
+    int another_array[5] = { 1, 2, 3, 4, 5 };
+    cr_assert_eq(another_array[3], TODO,
+        "We should be seeing the some element's value.");
+    ```
++ **Тест 7**
+
+    **Описание:**
+    Задание динамического массива. Необходимо определить его значения.
+    
+    **Рандомизация:**
+    Рандомизация данных, которыми заполняется массив, но тогда надо быть аккуратным с тестом внутри цикла.
+    
+    **Участок кода:**
+    
+    ```c
+    const size_t INIT_ARR_SIZE = 5;
+    int *yet_another_array = calloc(INIT_ARR_SIZE, sizeof(int));
+    unsigned i;
+    for (i = 0; i < INIT_ARR_SIZE; i++) {
+        /*
+            You can loop on arrays, as long as you handle the indexing logic
+            correctly.
+        */
+        yet_another_array[i] = i + 1;
+    }
+    yet_another_array[INIT_ARR_SIZE] = 6;
+    unsigned where = 0;
+    for (i = 0; i < INIT_ARR_SIZE + 1; i++) {
+        if (yet_another_array[i] == INIT_ARR_SIZE + 1) {
+            where = i;
+        }
+
+        cr_assert_eq(yet_another_array[i], TODO,
+            "Although we started with an "
+            "array of 5 elements, we "
+            "should be able to find a "
+            "sixth element as well.");
+    }
+    cr_assert_eq(where, TODO,
+        "We should be seeing a certain value, given the "
+        "way we set these elements' values.");
+    ```
+
++ **Тест 8-9**
+
+    **Описание:**
+    Строка в СИ - массив. Необходимо определить символ по заданному индексу.
+
+    **Рандомизация:**
+    Рандомизация входной строки и индекса.
+    
+    **Участок кода:**
+    
+    ```c
+    const char a_string[13] = "hello world!"; /* This is a 'string' in C. */
+     /* In C, a string is simply an array of characters. */
+    cr_assert_eq(a_string[3], TODO,
+        "We may be interested in a particular "
+        "character of strings.");
+    cr_assert_eq(a_string[12], TODO_NZ, "Null terminators are essential!");
+    ```
