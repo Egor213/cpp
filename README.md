@@ -20,17 +20,17 @@
 
 1. [`about_basics.c`](#файл-about_basicsc)
 2. [`about_control_statements.c`](#файл-about_control_statementsc)
-3. `about_functions.c`(#файл-about_functionsс)
-4. `about_pointers.c`(#файл-about_pointersс)
-5. `about_malloc.c`(#файл-about_mallocс)
-6. `about_arrays.c`(#файл-about_arrays)
-7. `about_strings.c`(#файл-about_stringsс)
-8. `about_structs.c`(#файл-about_structsс)
-9. `about_dataclasses.c`(#файл-about_dataclassesс)
-10. `about_printing.c`(#файл-about_printingс)
-11. `about_io.c`(#файл-about_ioс)
-12. `about_linked_lists.c`(#файл-about_linked_listsс)
-13. `about_preprocessor.c`(#файл-about_preprocessorс)
+3. [`about_functions.c`](#файл-about_functionsc)
+4. [`about_pointers.c`](#файл-about_pointersc)
+5. [`about_malloc.c`](#файл-about_mallocc)
+6. [`about_arrays.c`](#файл-about_arraysc)
+7. [`about_strings.c`](#файл-about_stringsc)
+8. [`about_structs.c`](#файл-about_structsc)
+9. [`about_dataclasses.c`](#файл-about_dataclassesc)
+10. [`about_printing.c`](#файл-about_printingс)
+11. [`about_io.c`](#файл-about_ioc)
+12. [`about_linked_lists.c`](#файл-about_linked_listsc)
+13. [`about_preprocessor.c`](#файл-about_preprocessorc)
 
 ## Файл `about_basics.c`
 
@@ -259,4 +259,135 @@
     label:
         cr_assert_eq(
             var, TODO, "Determine the result of the flow of the function.");
+    ```
+
+
+## Файл `about_functions.c`
+
+### **Test function_basics**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Знакомство с функциями. Необходимо определить, что вернет заданая функция. Код функции представлен.
+    
+    **Рандомизация:**
+    Возможно, создать ряд функции и случайным образом их выдавать в тест.
+    
+    **Участок кода:**
+    
+    ```c
+    int return_5() { return 5; }
+
+    int fib(int n)
+    {
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return 1;
+        else
+            return fib(n - 1) + fib(n - 2);
+    }
+
+    cr_assert_eq(return_5(), TODO, "What does this function return?");
+
+    /* Of course, functions can be recursive */
+    cr_assert_eq(fib(5), TODO, "What is the 5th fibonacci number?");
+    ```
+### **Test function_prototypes**
+---
++ **Тест 1**
+
+    **Описание:**
+    В начале кода определн прототип функции, после теста описана реализации функции. Необходимо определить, что вернет функция.
+    
+    **Рандомизация:**
+    Случайные арифметические операции в функции прототипе.
+    
+    **Участок кода:**
+    
+    ```c
+    int function_prototype(int, int);
+
+    Test(about_functions, function_prototypes)
+    {
+        /* We will test if our function can be called since it has been declared */
+        cr_assert_eq(
+            function_prototype(1, 2), 3, "What does the function return?");
+    }
+
+    /* Here is the implementation for our prototype. */
+    int function_prototype(int i, int j) { return i + j; }
+    ```
+
+
+
+### **Test function_scope_and_vars**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Знакомство с областями видимости. В `c_koans_helpers.c` описаны функции для изменения глобальной, локальной и статической переменной. По ряду вызовов данных функции необходимо определить результат их работы.
+    
+    **Рандомизация:**
+    Значения, которые прибавляются к переменной в ходе вызова функции.
+    Возможно, рандомизация нескольких арифметических операции, не только сложения.
+    **Участок кода:**
+    
+    ```c
+    // c_koans_helpers.c
+    int global_var = 0;
+    int modify_global()
+    {
+        /*
+            We modify the global variable, located in the .data section,
+            visible to the entire program.
+        */
+        global_var++;
+        return global_var;
+    }
+    int modify_local()
+    {
+        /*
+            We modify the local variable, located and initialized on the stack.
+            every call, it will be initialized and modified in the same fashion.
+        */
+        int i = 0;
+        i++;
+        return i;
+    }
+    int modify_local_static()
+    {
+        /*
+            Local static variables will be initialized only once and be located
+            in the .data section. Local static variables can only be referenced
+            inside the function because the name will be known inside the function.
+            This causes the value of the variable to be preserved across function
+            calls.
+
+            The static qualifier has a double meaning depending on the scope it
+            appears in; the next function will show this
+        */
+        static int i = 0;
+        i++;
+        static_function(0); /* we are calling this to avoid a compiler warning */
+        return i;
+    }
+
+    // about_functions.c
+
+    modify_global();
+    modify_global();
+    cr_assert_eq(modify_global(), TODO,
+        "What is the value of global_var after the third call?");
+
+    modify_local();
+    modify_local();
+    cr_assert_eq(modify_local(), TODO,
+        "What is the value of the local variable after the third call?");
+
+    modify_local_static();
+    modify_local_static();
+    cr_assert_eq(modify_local_static(), TODO,
+        "What is the value of the local static variable after the third call?");
     ```
