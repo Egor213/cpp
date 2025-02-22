@@ -39,7 +39,7 @@
 
 ---
 
-### *Test variables*
++ ### **Test variables**
 
 **Тест 1.**
 
