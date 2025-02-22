@@ -27,7 +27,7 @@
 7. [`about_strings.c`](#файл-about_stringsc)
 8. [`about_structs.c`](#файл-about_structsc)
 9. [`about_dataclasses.c`](#файл-about_dataclassesc)
-10. [`about_printing.c`](#файл-about_printingс)
+10. [`about_printing.c`](#файл-about_printingc)
 11. [`about_io.c`](#файл-about_ioc)
 12. [`about_linked_lists.c`](#файл-about_linked_listsc)
 13. [`about_preprocessor.c`](#файл-about_preprocessorc)
