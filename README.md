@@ -1091,3 +1091,241 @@
         print it to string1");
     free(string1);
     ```
+
+
+
+
+## Файл `about_structs.c`
+
+### **Test struct_basics**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо определить заданные значения структуры и ее размер.
+    
+    **Рандомизация:**
+    Рандомизация начальной структуры.
+    
+    **Участок кода:**
+    
+    ```c
+    struct point2d {
+        int x;
+        int y;
+    };
+    struct point2d p1;
+
+    /* Their members are accessed very familiarly, with a '.' */
+    p1.x = 10;
+    p1.y = 2;
+    cr_assert_eq(p1.x, TODO, "What has the x value been initialized to?");
+    cr_assert_eq(sizeof p1, TODO, "What is the size of our two ints?");
+    struct point2d p2 = { 10, 20 };
+
+    cr_assert_eq(p2.y, TODO, "What has the y value been initialized to?");
+    ```
+
++ **Тест 4-5**
+
+    **Описание:**
+    Необходимо определить значения вложенных структур.
+    
+    **Рандомизация:**
+    Рандомизация новых полей во вложенных структурах.
+    
+    **Участок кода:**
+    
+    ```c
+    struct point3d {
+        struct point2d two_d;
+        int z;
+    } p3;
+
+    p3.two_d.x = 10;
+    p3.two_d.y = 20;
+    p3.z = 40;
+
+    cr_assert_eq(p3.two_d.y, TODO, "Member access is no different than usual");
+    typedef struct {
+        struct point3d three_d;
+        int w;
+    } point4d;
+
+    point4d p4;
+    p4.three_d.z = 2;
+    p4.three_d.two_d.x = 1;
+
+    cr_assert_eq(p4.three_d.two_d.x, TODO,
+        "What is the value of x, after all the struct access?");
+    ```
+
+
+
+
+### **Test structs_and_functions_and_pointers**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо разобраться с более сложной струтурой и определить значения ее полей.
+    
+    **Рандомизация:**
+    Рандомизация начальных полей структуры.
+    
+    **Участок кода:**
+    
+    ```c
+    typedef struct {
+        int month;
+        int day;
+        int year;
+    } birthday;
+
+    struct person {
+        char *name;
+        birthday bday;
+    };
+    struct person make_person(const char *name, int month, int day, int year)
+    {
+        struct person ret;
+
+        /* is this a problem? What is the lifetime of this heap allocated memory? */
+        ret.name = calloc(strlen(name), sizeof(char));
+        strcpy(ret.name, name);
+
+        ret.bday.month = month;
+        ret.bday.day = day;
+        ret.bday.year = year;
+
+        return ret;
+    }
+    ```
+
++ **Тест 2**
+
+    **Описание:**
+    Необходимо определить значение заданного поля структуры и код завершения функции `make_person_better`.
+    
+    **Рандомизация:**
+    Рандомизация входных данных для структуры.
+    
+    **Участок кода:**
+    
+    ```c
+    int make_person_better(
+    struct person *person, const char *name, int month, int day, int year)
+    {
+
+        /*
+            The access operator for a pointer to a struct is different that usual
+            Instead of having to type (*person).bday.month for accessing a pointer
+            to a struct's fields, the '->' operator is sugar for the last expression
+        */
+        person->bday.month = month;
+        person->bday.day = day;
+        person->bday.year = year;
+
+        /*
+            Errno is a global variable that is set
+            by library functions to indicate an
+            an error occurred in that function. When we call calloc, an error might
+            occur, such as the machine being out of memory.
+        */
+        errno = 0; /* we set it to zero because all error numbers are non zero. */
+
+        /* When is this freed? */
+        person->name = calloc(strlen(name), sizeof(char));
+
+        /* We check if an error occurred */
+        if (errno)
+            return EXIT_FAILURE;
+
+        return EXIT_SUCCESS;
+        /*
+            EXIT_SUCCESS and EXIT_FAILURE are predefined macros for typical success
+            or failure. On our VM they are 0 and 1 respectively.
+        */
+    }
+    struct person person2;
+
+    /* Examine this function in c_koans_helpers.c */
+    int success = make_person_better(&person2, "Bob", 10, 23, 1994);
+
+    cr_assert_eq(success, EXIT_SUCCESS,
+        "If the operation succeeded, what is the return value?");
+    cr_assert_eq(
+        person2.bday.month, 10, "What is the month for this person?");
+    ```
+
+
+
+### **Test arrays_of_structs**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Необходимо определить размер массива структур, самой структуры с выравниванием и без.
+    
+    **Рандомизация:**
+    Рандомизация длины массива структуры и наполнение структур.
+    
+    **Участок кода:**
+    
+    ```c
+    struct s1 {
+        int i;
+        int j;
+    };
+
+    struct s1 a1[5];
+
+    cr_assert_eq(sizeof a1, TODO, "What is the size of this array in bytes?");
+    struct s2 {
+        int i;
+        char c;
+    };
+
+    cr_assert_eq(
+        sizeof(struct s2), TODO, "What is the size of the padded struct?");
+
+    struct s3 {
+        int i;
+        char c;
+    } __attribute__((packed));
+
+    cr_assert_eq(
+        sizeof(struct s3), DOTO, "What is the size of the packed struct?");
+    ```
+
+
+### **Test self_referential_structs**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо определить значение поля структуры через указатели.
+    
+    **Рандомизация:**
+    Рандомизация полей структуры и значений полей структуры.
+    
+    **Участок кода:**
+    
+    ```c
+    struct s1 {
+        int i;
+        int j;
+        struct s1 *s;
+    };
+
+    struct s1 sv1;
+    struct s1 sv2;
+
+    sv1.s = &sv2;
+
+    sv1.s->i = 10;
+    sv1.s->j = 20;
+
+    cr_assert_eq(
+        sv1.s->i, TODO, "What is the value of the nested struct's value i?");
+    ```
