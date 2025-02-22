@@ -41,20 +41,20 @@
 
 ### **Test variables**
 ---
-+ **Тест 1.**
++ **Тест 1**
 
-**Описание:**
-Предлагает посмотреть в ASCII таблицу и выяснить код некоторого символа, после чего присвоить его заданной переменной.
-
-**Рандомизация:**
-В тесте можно задавать случайный символ из ASCII таблицы.
-
-**Участок кода:**
-
-```c
-char c = TODO;
-cr_assert_eq(c, 'C',
-    "All characters in C are interpreted from the ASCII "
-    "table, go to your terminal and enter 'man ascii' to "
-    "find this solution");
+    **Описание:**
+    Предлагает посмотреть в ASCII таблицу и выяснить код некоторого символа, после чего присвоить его заданной переменной.
+    
+    **Рандомизация:**
+    В тесте можно задавать случайный символ из ASCII таблицы.
+    
+    **Участок кода:**
+    
+    ```c
+    char c = TODO;
+    cr_assert_eq(c, 'C',
+        "All characters in C are interpreted from the ASCII "
+        "table, go to your terminal and enter 'man ascii' to "
+        "find this solution");
 
