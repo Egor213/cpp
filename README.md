@@ -19,7 +19,7 @@
 Автор рекомендует проходить тесты в следующем порядке:
 
 1. [`about_basics.c`](#файл-about_basicsc)
-2. `about_control_statements.c`(#файл-about_control_statementsс)
+2. [`about_control_statements.c`](#файл-about_control_statementsс)
 3. `about_functions.c`(#файл-about_functionsс)
 4. `about_pointers.c`(#файл-about_pointersс)
 5. `about_malloc.c`(#файл-about_mallocс)
@@ -198,7 +198,7 @@
 
 ### **Test loops**
 ---
-+ **Тест 1**
++ **Тест 1-3**
 
     **Описание:**
     Циклы `while`, `for`, `do ..while`. Дан цикл, на каждом цикле которого происходит увеличение переменной `var`. Необходимо определить финальное значение перменной.
