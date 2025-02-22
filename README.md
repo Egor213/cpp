@@ -1329,3 +1329,243 @@
     cr_assert_eq(
         sv1.s->i, TODO, "What is the value of the nested struct's value i?");
     ```
+
+
+
+
+## Файл `about_dataclasses.c`
+
+### **Test unions**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Знакомство с `union`. Необходимо указать значения полей указанных полей.
+    
+    **Рандомизация:**
+    Рандомизация различных типов `union` и чисел полей.
+    
+    **Участок кода:**
+    
+    ```c
+    union first_union {
+        double d;
+        int i;
+        short s;
+        char c;
+    } u; /* Here we initialize a union variable, just like a struct. */
+
+    u.d = 1.01;
+
+    cr_assert_float_eq(u.d, TODO, 0.01, "What is the value of d that we assigned?");
+    cr_assert_eq(sizeof u, TODO,
+        "What is the size of the largest data type in "
+        "the union?");
+
+    /*
+        Since a union holds its data in one place, it could be interpreted
+        differently depending on how it is accessed.
+    */
+
+    u.i = 0xDEADCAFE;
+
+    cr_assert_eq(u.s, TODO,
+        "What is the value stored inside the union, "
+        "interpreted as a short?");
+    ```
+
+
+### **Test enums**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Знакомство с `enum`. Необходимо определить значения заданных `enum` структурами переменных.
+    
+    **Рандомизация:**
+    Рандомизация полей и значении `enum`.
+    
+    **Участок кода:**
+    
+    ```c
+    enum boolean { TRUE, FALSE };
+
+    cr_assert_eq(FALSE, TODO, "What will the enum FALSE be?");
+
+    /* enum declarations follow a similar format as structs */
+    enum month {
+        JAN = 1,
+        FEB,
+        MAR,
+        AP,
+        MAY,
+        JUN,
+        JUL,
+        AUG,
+        SEP,
+        OCT,
+        NOV,
+        DEC
+    };
+
+    /* enums can be assigned variables in the same fashion as structs */
+    enum month current = AUG;
+
+    cr_assert_eq(current, TODO,
+        "What is the current month? (This was written "
+        "in August)");
+
+    /* enums may even be typedef'd */
+
+    typedef enum {
+        ONE = 0x1,
+        TWO = 0x2,
+        THREE = 0x4,
+        FOUR = 0x8,
+        FIVE = 0x10,
+        SIX = 0x20,
+        SEVEN = 0x40,
+        EIGHT = 0X80
+    } bit_mask;
+
+    bit_mask mask_four = FOUR;
+
+    cr_assert_eq(mask_four, TODO, "What is the value of FOUR in this enum?");
+    ```
+
+
+### **Test bit_fields**
+---
++ **Тест 1-4**
+
+    **Описание:**
+    Необходимо определить размер и значения битовых структур.
+    
+    **Рандомизация:**
+    Рандомизация полей структуры, размера байт и значений полей.
+    
+    **Участок кода:**
+    
+    ```c
+    struct course_number {
+        unsigned int n : 10;
+    } cnum;
+
+    cnum.n = 101;
+    cr_assert_eq(sizeof cnum, TODO, "What is the size of the struct?");
+
+    struct course {
+        unsigned int n : 10;
+        unsigned int c3 : 7;
+        unsigned int c2 : 7;
+        unsigned int c1 : 7;
+        unsigned int is_offered : 1;
+    };
+
+    struct course cse101 = { 101, 'E', 'S', 'C', 1 };
+
+    cr_assert_eq(*(unsigned int *)(&cse101), TODO,
+        "Determine the hex value of "
+        "the bit vector for cse101!");
+
+    cr_assert_eq(sizeof cse101, TODO, "What is the size of our variable?");
+    struct mmio_cell {
+        unsigned char background_color : 4;
+        unsigned char background_char : 4;
+        unsigned char foreground_color : 4;
+        unsigned char foreground_char : 4;
+    };
+    cr_assert_eq(sizeof(struct mmio_cell), TODO,
+        "What would the size of this "
+        "struct?");
+    ```
+
+
+
+### **Test about_const**
+---
++ **Тест 1-4**
+
+    **Описание:**
+    Необходимо определить значения констант, указателей и константных указателей.
+    
+    **Рандомизация:**
+    Рандомизация значений констант.
+    
+    **Участок кода:**
+    
+    ```c
+    const int i = 10;
+    /* i = 4; ERROR! */
+    cr_assert_eq(i, TODO,
+        "Attempting to reassign i will result in a compiler "
+        "error.");
+
+    /* A const pointer points to an unchangeable space of memory */
+    int j = 100;
+    const int *jp = &j;
+
+    /* *jp = 10; ERROR! */
+    cr_assert_eq(*jp, TODO,
+        "Attemping to change the value jp pointer to will "
+        "result in a compiler error.");
+
+    /*
+        A const after the '*' in a pointer declaration defines a pointer that
+        can not point anywhere else.
+    */
+    int *const kp = &j;
+
+    /* jp2 = &i; ERROR! */
+
+    cr_assert_eq(kp, TODO,
+        "Attempting to point kp elsewhere will result in a "
+        "compiler error.");
+
+    /* Using both instances of const will result in a const pointer to const! */
+    const int l = 400;
+    const int *const lp = &l;
+
+    cr_assert_eq(*lp, TODO,
+        "Attempting to do any of the previous options to "
+        "lp will result in a compiler error.");
+    ```
+
+
+
+
+
+
+
+## Файл `about_printing.c`
+
+### **Test basic_printing, printf**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Знакомство с базовым выводом. Необходимо вывести заданные строки в `stdout`.
+    
+    **Рандомизация:**
+    Рандомизация строк, которые необходимо вывести.
+    
+    **Участок кода:**
+    
+    ```c
+    putchar(TODO);
+
+    cr_assert_file_contents_eq_str(stdout, "A");
+    puts(TODO_S);
+
+    cr_assert_file_contents_eq_str(stdout, "Foo\n\n");
+    char *string = TODO_S;
+    printf("Hello %s\n", string);
+
+    cr_assert_file_contents_eq_str(stdout, "Hello World\n");
+    cr_assert_file_contents_eq_str(stdout,
+        "char: J\nint: -1\nunsigned int: 4294967295\nhexadecimal unsigned int: "
+        "ffffffff\nfloat: 3.140000\nlong: 3735928559\npointer: 0x400\n");
+    ```
+
+
+
