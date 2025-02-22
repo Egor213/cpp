@@ -41,11 +41,10 @@
 
 ### **Test variables**
 ---
-___
 + **Тест 1**
 
     **Описание:**
-    Предлагает посмотреть в ASCII таблицу и выяснить код некоторого символа, после чего присвоить его заданной переменной.
+    Предлагает посмотреть в ASCII таблицу и познакомится с представлением различных символов в виде ASCII-кода
     
     **Рандомизация:**
     В тесте можно задавать случайный символ из ASCII таблицы.
@@ -58,4 +57,75 @@ ___
         "All characters in C are interpreted from the ASCII "
         "table, go to your terminal and enter 'man ascii' to "
         "find this solution");
+    ```
 
++ **Тест 2-5**
+
+    **Описание:**
+    Знакомство с некоторыми типами данных.
+    
+    **Рандомизация:**
+    Нечего.
+    
+    **Участок кода:**
+    
+    ```c
+    char c = TODO;
+    short s = TODO;
+    cr_assert_eq(s, 0xBEE, "A short is 2 bytes");
+
+    int i = TODO;
+    cr_assert_eq(i, 0xBADBEEF, "A int is 4 bytes");
+
+    long long l = TODO;
+    cr_assert_eq(l, 0xDEBA7AB1E,
+        "A long is a larger integer type than int (supports unsigned).");
+
+    unsigned int ui = TODO;
+    cr_assert_gt(ui, 0xDEADBEEF,
+        "The unsigned modifier can be used on a "
+        "primitive data type to increase the upper "
+        "limit by only storing positive values");
+    ```
+
++ **Тест 6**
+
+    **Описание:**
+    Знакомство с некоторыми обозначениями, указывающие на различные системы счисление.
+    
+    **Рандомизация:**
+    Нечего.
+    
+    **Участок кода:**
+    
+    ```c
+    long long ll = TODO;
+
+    cr_assert_eq(ll, 0xFF,
+        "A number literal starting with 0x will be interpreted as hexadecimal");
+    cr_assert_eq(ll, 0b11111111,
+        "A number literal starting with 0b will be interpreted as binary");
+    cr_assert_eq(ll, 0377,
+        "A number literal starting with 0 will be interpreted as octal");
+    ```
+
++ **Тест 7-8**
+
+    **Описание:**
+    Представление целочисленного деления чисел.
+    
+    **Рандомизация:**
+    Числа при делении.
+    
+    **Участок кода:**
+    
+    ```c
+    double d = TODO;
+    cr_assert_float_eq(d, (7 / 2), 0.000001,
+        "Just like Java, C does integer division for 7/2");
+
+    double d2 = TODO;
+    cr_assert_float_eq(d2, 3 + (1 / 2), 0.000001,
+        "Addition also effects whether a number literal is "
+        "interpreted as IEEE or 2's Comp");
+    ```
