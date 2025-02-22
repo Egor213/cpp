@@ -313,7 +313,7 @@
     {
         /* We will test if our function can be called since it has been declared */
         cr_assert_eq(
-            function_prototype(1, 2), 3, "What does the function return?");
+            function_prototype(1, 2), TODO, "What does the function return?");
     }
 
     /* Here is the implementation for our prototype. */
@@ -390,4 +390,203 @@
     modify_local_static();
     cr_assert_eq(modify_local_static(), TODO,
         "What is the value of the local static variable after the third call?");
+    ```
+
+
+
+
+## Файл `about_pointers.c`
+
+### **Test pointers_and_addresses**
+---
++ **Тест 1-4**
+
+    **Описание:**
+    Знакомство с указателями. Пользователю необходимо узнать, сколько байт занимает тип переменной int, int*, познакомиться с разыменованием указателей.
+    
+    **Рандомизация:**
+    Значение, которое имеет переменная при разыменовании.
+    
+    **Участок кода:**
+    
+    ```c
+    int i = 10;
+    int j = 20;
+
+    /* This is the syntax of the pointer declaration. It is a type name
+     * followed by a '*' somewhere between the type name and the variable name.
+     *
+     * The '&' operator gives the address of a variable.
+    */
+    int *iptr = &i;
+    int *jptr = &j;
+
+    cr_assert_eq(
+        sizeof(i), TODO, "What is the size of an int on a 64 bit machine?");
+    cr_assert_eq(sizeof(iptr), TODO,
+        "What is the size of an address on a 64 bit machine?");
+
+    /* The '*' operator has another meaning when used not in a declaration to
+     * 'dereference' a pointer, and give the value at that address.
+    */
+
+    cr_assert_eq(*jptr,TODO, "What is the value that jptr 'points' to?");
+    
+    /*
+     * Multi-variable declarations mixing pointers and the type it points to
+     * can be hard to interpret depending on your choice of position for the
+     * '*'.
+    */
+
+    /* DON'T DELETE THE CLANG-FORMAT LINES */
+    /* clang-format off */
+    int k, *l;
+    int* m, n;
+    /* clang-format on */
+
+    cr_assert_eq(sizeof(k), TODO, "What type is k?");
+    cr_assert_eq(sizeof(l), TODO, "What type is l?");
+    cr_assert_eq(sizeof(m), TODO, "What type is m?");
+    cr_assert_eq(sizeof(n), TODO, "What type is n?");
+    ```
+
+
+### **Test pointers_as_function_arguments**
+---
++ **Тест 1**
+
+    **Описание:**
+    Передача переменной в функцию по указателю. Необходимо определить, какое значение примет переменная `i`
+    
+    **Рандомизация:**
+    Начальное значение переменной `i`, арифметическое действие по ее изменению в функции.
+    
+    **Участок кода:**
+    
+    ```c
+    // c_koans_helpers.c
+    void double_an_int(int *i)
+    {
+        /*
+            The '*' operator for dereference has a higher precedence than the other
+            arithmetic operators, therefore it will be multiplying and assigning the
+            int that is pointer to by i.
+        */
+        *i *= 2;
+    }
+
+    // about_pointers.c
+
+    int i = 10;
+
+    double_an_int(&i);
+
+    cr_assert_eq(i, TODO, "What is the new value of i?");
+    ```
+
+
+
+### **Test pointers_arrays_and_arithmetic**
+---
++ **Тест 1-3**
+
+    **Описание:**
+    Знакомство с указателями на массив данных. Необходимо определить, какие значения принимают переменные при разыменовании.
+    
+    **Рандомизация:**
+    Рандомизация массива данных, случайные индексы в указателях.
+    
+    **Участок кода:**
+    
+    ```c
+    int a[5] = { 1, 2, 3, 4, 5 };
+    int *p1 = &a[0];
+    int *p2 = &a[1];
+
+    cr_assert_eq(*a, TODO, "Remember what the ");
+    cr_assert_eq(*p1, TODO, "What does p1 point to?");
+    cr_assert_eq(*p2, TODO, "What does p2 point to?");
+    ```
+
++ **Тест 4-5**
+
+    **Описание:**
+    Знакомство с арифметикой указателей. Необходимо определить, какие значения вернут разыменованные указатели, при увеличении их на некоторое число.
+    
+    **Рандомизация:**
+    Рандомизация сдвигов при арифметике указателей.
+    
+    **Участок кода:**
+    
+    ```c
+    cr_assert_eq(*(p1 + 1), TODO, "What is the value at this address?");
+
+    cr_assert_eq(p1[1], TODO,
+        "Bracket notation is just syntactic sugar for pointer arithmetic.");
+    ```
+
++ **Тест 6-7**
+
+    **Описание:**
+    Необходимо определить, какое количество байт между двумя указателями.
+    
+    **Рандомизация:**
+    Рандомизация индексов в указателях.
+    
+    **Участок кода:**
+    
+    ```c
+    cr_assert_eq((long)((long)p2 - (long)p1), TODO,
+        "What is the number of bytes difference?");
+
+    cr_assert_eq(
+        (int)(p2 - p1), TODO, "What is the number of ints difference?");
+    ```
+
+### **Test function_pointers**
+---
++ **Тест 1**
+
+    **Описание:**
+    Необходимо с помощью qsort отсортировать массив `names`.
+    
+    **Рандомизация:**
+    Можно массив `names`, но действие сортировки всегда одно, так что особого смысла от разного `names` нет.
+    
+    **Участок кода:**
+    
+    ```c
+    // c_koans_helpers.c
+    int string_compare(const void *s1, const void *s2)
+    {
+        /*
+            The comparison function must match the declaration in the prototype
+            exactly. This is why, even though we are comparing 2 strings, the
+            arguments must be void pointers.
+
+            The actual arguments passed into this function is the address of each
+            element in the array, which in this case is a char **, this is why we
+            must cast the argument to a char ** and dereference it once for strcmp
+            to work.
+        */
+        return strcmp(*(char **)s1, *(char **)s2);
+    }
+
+
+    // about_pointer.c
+
+    const size_t array_size = 5;
+    char *names[] = { "Spike", "Ein", "Jet", "Ed", "Faye" };
+    char *sorted_names[] = { "Ed", "Ein", "Faye", "Jet", "Spike" };
+    (void)array_size; /* to avoid a compiler error */
+        /*
+        Write the line of code to sort names here.
+        the comparison function to use can be found found in c_koans_helpers.c,
+        named string_compare
+    */
+
+    /* qsort(); */
+
+    cr_assert_arr_eq_cmp(sorted_names, names, array_size, string_compare,
+        "The names are not sorted.");
     ```
