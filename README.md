@@ -590,3 +590,134 @@
     cr_assert_arr_eq_cmp(sorted_names, names, array_size, string_compare,
         "The names are not sorted.");
     ```
+
+
+
+
+
+
+## Файл `about_malloc.c`
+
+### **Test malloc_intro**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Знакомство с `malloc`. Необходимо определить, какое значение хранится в разыменованной переменной.
+    
+    **Рандомизация:**
+    Рандомизация записываемых в переменные значений.
+    
+    **Участок кода:**
+    
+    ```c
+    int *malloc_func()
+    {
+        int *return_ptr = malloc(sizeof(int));
+        *return_ptr = 15;
+        return return_ptr;
+    }
+    int *i = malloc(sizeof(int));
+    *i = 5;
+    cr_assert_eq(*i, TODO, "What is the value of i on the heap?");
+
+    /*
+        If you allocate space for a variable on the stack in a function call,
+        it'll be allocated in the function's stack frame. This means the space
+        won't be valid after the function returns.
+
+        Space that was malloc'ed, however, is valid after functions return
+        because it is allocated on the heap. Therefore, functions that need
+        to return new pointers should allocate space for them using malloc.
+    */
+    int *return_ptr = malloc_func(); /* goto line 6 */
+    cr_assert_eq(*return_ptr, TODO, "What is the value of return_ptr on the heap?");
+    ```
+
+
+
+### **Test free**
+---
++ **Тест 1**
+
+    **Описание:**
+    Пользователю необходимо определить, что будет храниться в переменной `ip` после очистки функцией `free`.
+    
+    **Рандомизация:**
+    Нечего.
+    
+    **Участок кода:**
+    
+    ```c
+    int *ip = malloc(sizeof(int));
+
+    *ip = 10;
+    free(ip);
+    ip = NULL;
+
+    cr_assert_eq(
+        ip, (void *)TODO_NZ, "What is ip now? What would happen if we \
+        dereference ip?");
+    ```
+
+
+
+
+### **Test calloc**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Необходимо определить длину строки, которая была создана с помощью `calloc`, затем длину строку после копирования туда другой строки.
+    
+    **Рандомизация:**
+    Строка, которая копируется в массив и сама длина массива.
+    
+    **Участок кода:**
+    
+    ```c
+     char *s = calloc(10, sizeof(char));
+
+    /*
+        Calloc is very useful for initializing strings, since the initalized
+        memory will be a valid C-string of length 0.
+    */
+
+    cr_assert_eq(strlen(s), TODO_NZ, "What is the length of an empty string?");
+    strcpy(s, "foo");
+
+    cr_assert_eq(strlen(s), TODO, "What is the new length?");
+    ```
+
+
+
+
+
+
+### **Test realloc**
+---
++ **Тест 1-2**
+
+    **Описание:**
+    Знакомство с функцией `realloc`. Необходимо определить, какое значение будет находится в переменной `ip`.
+    
+    **Рандомизация:**
+    Начальное значение `ip`.
+    
+    **Участок кода:**
+    
+    ```c
+    void *ip = malloc(sizeof(int));
+    *(int *)ip = 0xDEADBEEF;
+
+    ip = realloc(ip, sizeof(long));
+
+    cr_assert_eq(
+        *(unsigned long *)ip, TODO, "What bytes of ip were preserved \
+        when it is increased in size?");
+
+    ip = realloc(ip, sizeof(short));
+
+    /* Hint: our VMs are little endian */
+    cr_assert_eq(*(unsigned short *)ip, TODO, "What bytes were preserved now?");
+    ```
