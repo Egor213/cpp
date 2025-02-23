@@ -32,6 +32,8 @@
 12. [`about_linked_lists.c`](#файл-about_linked_listsc)
 13. [`about_preprocessor.c`](#файл-about_preprocessorc)
 
+[Итог](#итог)
+
 ## Файл `about_basics.c`
 
 ### **Test intro**
