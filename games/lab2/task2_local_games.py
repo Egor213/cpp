@@ -22,7 +22,6 @@ def local_game_results(total_cards=51, hand_size=6, open_card=1, cards_played_by
     results = []
     remaining_cards_initial = total_cards - hand_size - open_card
     H0_A = H0_B = entropy(remaining_cards_initial, hand_size)
-
     for k in range(0, cards_played_by_A + 1):
         if k < cards_played_by_A:
             take_count = cards_played_by_A
@@ -30,6 +29,9 @@ def local_game_results(total_cards=51, hand_size=6, open_card=1, cards_played_by
 
             H_A = entropy(new_remaining, hand_size - k)
             H_B = entropy(new_remaining + k, hand_size)
+            print("K = ", k)
+            print("A, ", H_A,  new_remaining, hand_size - k)
+            print("B, ", H_B,  new_remaining + k, hand_size)
             
         else:
             take_count = 0
@@ -37,6 +39,9 @@ def local_game_results(total_cards=51, hand_size=6, open_card=1, cards_played_by
 
             H_A = entropy(new_remaining, hand_size)
             H_B = entropy(new_remaining, hand_size)
+            print("K = ", k)
+            print("A, ", H_A,  new_remaining, hand_size)
+            print("B, ", H_B,  new_remaining, hand_size)
 
         A_gain = info_gain(H0_A, H_A)
         B_gain = info_gain(H0_B, H_B)
@@ -56,7 +61,8 @@ def local_game_results(total_cards=51, hand_size=6, open_card=1, cards_played_by
 
 if __name__ == "__main__":
     all_results = []
-    for n in range(1, 5):  # от 1 до 4 карт
-        all_results.extend(local_game_results(cards_played_by_A=n))
+    # for n in range(1, 5):  # от 1 до 4 карт
+    #     all_results.extend(local_game_results(cards_played_by_A=n))
+    all_results.extend(local_game_results(cards_played_by_A=2))
     df = pd.DataFrame(all_results)
     print(df.to_string(index=False))

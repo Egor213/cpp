@@ -1,8 +1,8 @@
 from math import comb
 
 # Параметры
-N = 51      # всего карт
-K = 21      # плохие карты
+N = 50      # всего карт - 1!!!
+K = 18      # плохие карты
 n = 6       # размер расклада
 
 # Функция для вычисления количества комбинаций и вероятности
@@ -41,3 +41,6 @@ for k in range(0, n+1):
 for key, probs in classification.items():
     total_prob = sum(probs)
     print(f"{key} расклад: вероятность = {total_prob:.5f} ({total_prob*100:.2f}%)")
+
+
+
